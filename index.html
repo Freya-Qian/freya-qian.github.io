@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Freya Qian（钱皓）— AI 多模态评测 / 数据运营 / 项目管理">
+  <title>钱皓 · 个人网站 — 模型评测 / 数据运营</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-obsidian-shell: #101820;
+      --color-pure-white: #F7FAFC;
+      --color-mint-frost: #172434;
+      --color-deep-abyss: #172434;
+      --color-charcoal: #0a1219;
+      --color-fog-border: #23384A;
+      --color-stone-border: #23384A;
+      --color-slate-text: #8b98a5;
+      --color-graphite-fill: #23384A;
+      --color-pure-black: #000000;
+      --color-neon-pulse: #7EF7C8;
+      --color-mint-whisper: #7EF7C8;
+      --color-signal-yellow: #FFE66D;
+
+      --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace;
+
+      --radius-buttons: 56px;
+      --radius-tabs: 56px;
+      --radius-cards: 20px;
+      --radius-largecards: 60px;
+      --radius-smallelements: 10px;
+
+      --shadow-md: rgba(0, 0, 0, 0.04) 1px 0px 9px 2px;
+      --page-max-width: 1200px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      background: var(--color-obsidian-shell);
+      color: var(--color-pure-white);
+      line-height: 1.5;
+      letter-spacing: -0.08px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== 交互背景 & 光晕 ===== */
+    #rays {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #page {
+      position: relative;
+      z-index: 1;
+    }
+
+    #cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 560px;
+      height: 560px;
+      margin: -280px 0 0 -280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(126, 247, 200, .10) 0%, rgba(126, 247, 200, .04) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: screen;
+      transform: translate3d(-1000px, -1000px, 0);
+    }
+
+    .container { max-width: var(--page-max-width); margin: 0 auto; padding: 0 32px; }
+
+    /* ===== 公告横幅 ===== */
+    .announcement {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: var(--color-neon-pulse);
+      color: var(--color-obsidian-shell);
+      font-size: 14px;
+      padding: 10px 48px;
+      position: relative;
+      text-align: center;
+    }
+    .announcement .banner-close {
+      position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--color-obsidian-shell);
+      font-size: 18px; cursor: pointer; line-height: 1; padding: 4px;
+    }
+
+    /* ===== 导航 ===== */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--color-obsidian-shell);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .navbar-inner {
+      max-width: var(--page-max-width); margin: 0 auto; padding: 16px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono); font-weight: 500; font-size: 17px;
+      color: var(--color-pure-white); text-decoration: none;
+    }
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 8px; background: var(--color-neon-pulse);
+      display: flex; align-items: center; justify-content: center; color: var(--color-obsidian-shell);
+    }
+    .logo-mark svg { width: 15px; height: 15px; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--color-pure-white); text-decoration: none; font-size: 15px; transition: color .2s; }
+    .nav-links a:hover { color: var(--color-neon-pulse); }
+    .nav-cta { display: flex; align-items: center; gap: 16px; }
+    .nav-cta .signin { color: var(--color-pure-white); text-decoration: none; font-size: 15px; }
+    .nav-cta .signin:hover { color: var(--color-neon-pulse); }
+
+    /* ===== 按钮 ===== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: var(--font-sans); font-size: 16px; font-weight: 400;
+      padding: 14px 28px; border-radius: var(--radius-buttons);
+      cursor: pointer; text-decoration: none; transition: all .2s ease;
+      border: none; white-space: nowrap;
+    }
+    .btn-primary { background: var(--color-neon-pulse); color: var(--color-obsidian-shell); }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-ghost { background: transparent; color: var(--color-pure-white); border: 1.5px solid var(--color-pure-white); }
+    .btn-ghost:hover { border-color: var(--color-neon-pulse); color: var(--color-neon-pulse); }
+
+    /* ===== Hero ===== */
+    .hero { padding: 96px 0 80px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
+    .eyebrow {
+      display: inline-block; font-family: var(--font-mono); font-size: 9px; font-weight: 400;
+      letter-spacing: 0.45px; text-transform: uppercase; color: var(--color-neon-pulse); margin-bottom: 24px;
+    }
+    .hero h1 { font-family: var(--font-mono); font-size: 64px; font-weight: 500; line-height: 1.1; color: var(--color-pure-white); margin-bottom: 24px; }
+    .hero h1 .accent { color: var(--color-neon-pulse); }
+    .hero .subtitle { font-size: 18px; line-height: 1.45; color: rgba(255,255,255,.72); max-width: 440px; margin-bottom: 24px; }
+    .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+    .hero-meta span {
+      font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: 7px 14px; letter-spacing: .02em;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ===== 评测控制台卡片 ===== */
+    .illustration { position: relative; min-height: 400px; display: flex; align-items: center; justify-content: center; }
+    .hero-glow {
+      position: absolute; top: 50%; left: 50%; width: 440px; height: 440px; margin: -220px 0 0 -220px;
+      border-radius: 50%; background: radial-gradient(circle, rgba(126,247,200,.16) 0%, rgba(126,247,200,.05) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .mini-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 450px;
+      z-index: 1;
+      animation: gridIn 0.7s ease both;
+    }
+
+    @keyframes gridIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .mini-card {
+      background: var(--color-deep-abyss);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .25s ease, box-shadow .25s ease;
+      animation: cardFloat 4s ease-in-out infinite;
+      animation-delay: var(--d, 0s);
+    }
+
+    .mini-card:nth-child(1) { --d: 0s; border-color: rgba(126, 247, 200, .42); background: rgba(126, 247, 200, .07); }
+    .mini-card:nth-child(2) { --d: .5s; border-color: rgba(255, 230, 109, .42); background: rgba(255, 230, 109, .07); }
+    .mini-card:nth-child(3) { --d: 1s; border-color: rgba(244, 169, 43, .42); background: rgba(244, 169, 43, .07); }
+    .mini-card:nth-child(4) { --d: 1.5s; border-color: rgba(233, 68, 54, .42); background: rgba(233, 68, 54, .07); }
+
+    .mini-card:nth-child(1):hover { border-color: #7EF7C8; box-shadow: 0 0 0 1px rgba(126, 247, 200, .45), 0 14px 32px rgba(126, 247, 200, .18); }
+    .mini-card:nth-child(2):hover { border-color: #FFE66D; box-shadow: 0 0 0 1px rgba(255, 230, 109, .45), 0 14px 32px rgba(255, 230, 109, .18); }
+    .mini-card:nth-child(3):hover { border-color: #F4A92B; box-shadow: 0 0 0 1px rgba(244, 169, 43, .45), 0 14px 32px rgba(244, 169, 43, .18); }
+    .mini-card:nth-child(4):hover { border-color: #E94436; box-shadow: 0 0 0 1px rgba(233, 68, 54, .45), 0 14px 32px rgba(233, 68, 54, .18); }
+
+    .mini-card .mi {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+      box-shadow: 3px 3px 0 rgba(0,0,0,.35);
+      transition: transform .2s ease;
+    }
+
+    .mini-card:hover .mi { transform: scale(1.18) rotate(-4deg); }
+
+    .mini-card h4 { font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: var(--color-pure-white); margin-bottom: 4px; }
+    .mini-card .val { font-family: var(--font-mono); font-size: 15px; color: var(--color-neon-pulse); }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* ===== 游戏像素元素 ===== */
+    .game-ground {
+      position: absolute;
+      bottom: -92px;
+      left: -20px;
+      right: -20px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(126, 247, 200, .2);
+      z-index: 1;
+    }
+
+    .game-char { position: absolute; bottom: -84px; left: 6%; z-index: 2; animation: gameJump 1.35s cubic-bezier(.34,.05,.2,1) infinite; }
+    .game-block { position: absolute; top: -20px; right: -8px; z-index: 2; animation: gameBlock 1.35s ease-in-out infinite; }
+    .game-coin { position: absolute; z-index: 2; }
+    .game-coin.c1 { top: -12px; left: 8%; animation: gameCoin 1.35s ease-in-out infinite; }
+    .game-coin.c2 { top: 46%; right: -22px; animation: gameCoin 1.35s ease-in-out .3s infinite; }
+    .game-coin.c3 { bottom: -22px; left: 34%; animation: gameCoin 1.35s ease-in-out .6s infinite; }
+
+    @keyframes gameJump { 0%,100% { transform: translateY(0); } 38% { transform: translateY(-20px); } 56% { transform: translateY(-17px); } }
+    @keyframes gameCoin { 0%,100% { transform: translateY(0); opacity: .95; } 42% { transform: translateY(-12px); opacity: 1; } }
+    @keyframes gameBlock { 0%,35%,100% { transform: translateY(0); } 44%,58% { transform: translateY(-6px); } }
+
+    /* ===== 统计块 ===== */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; padding: 56px 0 0; border-top: 1px solid rgba(255,255,255,.08); margin-top: 56px; }
+    .stat .num { font-family: var(--font-mono); font-size: 48px; font-weight: 500; line-height: 1; color: var(--color-neon-pulse); margin-bottom: 12px; }
+    .stat .lbl { font-family: var(--font-mono); font-size: 9px; font-weight: 400; letter-spacing: .45px; text-transform: uppercase; color: rgba(255,255,255,.5); }
+
+    /* ===== Logo Bar ===== */
+    .logo-bar { padding: 24px 0 80px; }
+    .logo-bar .bar-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .45px; text-transform: uppercase; color: rgba(255,255,255,.5); text-align: center; margin-bottom: 28px; }
+    .logo-tiles { display: grid; grid-template-columns: repeat(5,1fr); gap: 24px; }
+    .logo-tile { background: var(--color-deep-abyss); border-radius: var(--radius-largecards); height: 120px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.75); font-family: var(--font-mono); font-size: 15px; font-weight: 500; text-align: center; padding: 16px; }
+
+    /* ===== Section 通用 ===== */
+    section { padding: 40px 0; }
+    .light-card { background: var(--color-deep-abyss); border: 1px solid var(--color-stone-border); border-radius: var(--radius-largecards); padding: 48px; color: var(--color-pure-white); }
+    .light-card .eyebrow { color: var(--color-neon-pulse); }
+    .light-card h2 { font-family: var(--font-mono); font-size: 40px; font-weight: 500; line-height: 1.2; color: var(--color-pure-white); margin-bottom: 16px; }
+    .light-card .lead { font-size: 17px; line-height: 1.55; color: rgba(247, 250, 252, 0.65); max-width: 560px; }
+
+    /* ===== 关于我 ===== */
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 48px; margin-top: 40px; align-items: center; }
+    .about-copy p { font-size: 16px; line-height: 1.6; color: rgba(247, 250, 252, 0.85); margin-bottom: 16px; }
+    .about-copy .muted { color: rgba(247, 250, 252, 0.6); }
+    .about-visual { background: var(--color-charcoal); border: 1px solid var(--color-stone-border); border-radius: var(--radius-cards); padding: 32px; text-align: center; }
+    .portrait { width: 96px; height: 96px; border-radius: 50%; background: var(--color-neon-pulse); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--color-obsidian-shell); }
+    .portrait svg { width: 44px; height: 44px; }
+    .about-visual h4 { font-family: var(--font-mono); font-size: 20px; font-weight: 500; color: var(--color-pure-white); margin-bottom: 6px; }
+    .about-visual p { font-size: 14px; color: rgba(247, 250, 252, 0.6); }
+    .edu-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+    .edu-item { background: var(--color-charcoal); border: 1px solid var(--color-stone-border); border-radius: var(--radius-smallelements); padding: 20px 24px; }
+    .edu-years { display: block; font-family: var(--font-mono); font-size: 13px; color: var(--color-neon-pulse); margin-bottom: 6px; }
+    .edu-item strong { display: block; font-size: 17px; font-weight: 500; color: var(--color-pure-white); margin-bottom: 2px; }
+    .edu-item .edu-major { font-size: 14px; color: rgba(247, 250, 252, 0.6); }
+
+    /* ===== 技能 ===== */
+    .skills-head { text-align: center; margin-bottom: 40px; }
+    .skills-head h2 { font-family: var(--font-mono); font-size: 40px; font-weight: 500; line-height: 1.2; color: var(--color-pure-white); margin-bottom: 12px; }
+    .skills-head p { font-size: 17px; color: rgba(255,255,255,.6); }
+    .tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+    .tab { font-family: var(--font-sans); font-size: 16px; padding: 12px 24px; border-radius: var(--radius-tabs); background: transparent; border: none; color: var(--color-slate-text); cursor: pointer; transition: all .2s; }
+    .tab:hover { color: var(--color-pure-white); }
+    .tab.active { background: var(--color-neon-pulse); color: var(--color-obsidian-shell); }
+    .skill-panel { display: none; }
+    .skill-panel.active { display: block; }
+    .skill-panel-inner { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: center; }
+    .skill-panel .icon { width: 56px; height: 56px; color: var(--color-neon-pulse); margin-bottom: 20px; }
+    .skill-panel h3 { font-family: var(--font-mono); font-size: 24px; font-weight: 500; color: var(--color-pure-white); margin-bottom: 12px; }
+    .skill-panel p { font-size: 16px; line-height: 1.6; color: rgba(247, 250, 252, 0.65); }
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .skill-list li { display: flex; align-items: center; gap: 12px; font-size: 16px; color: var(--color-pure-white); background: var(--color-charcoal); border: 1px solid var(--color-stone-border); border-radius: var(--radius-smallelements); padding: 14px 18px; }
+    .skill-list li .check { width: 20px; height: 20px; border-radius: 50%; background: var(--color-neon-pulse); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--color-obsidian-shell); }
+    .skill-list li .check svg { width: 12px; height: 12px; }
+
+    /* ===== 工作经历 ===== */
+    .experience-head { text-align: center; margin-bottom: 48px; }
+    .experience-head h2 { font-family: var(--font-mono); font-size: 40px; font-weight: 500; line-height: 1.2; color: var(--color-pure-white); margin-bottom: 12px; }
+    .experience-head p { font-size: 17px; color: rgba(255,255,255,.6); }
+    .timeline { position: relative; max-width: 960px; margin: 0 auto; padding-left: 36px; }
+    .timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: rgba(255,255,255,.12); }
+    .timeline-item { position: relative; background: var(--color-deep-abyss); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius-cards); padding: 28px 32px; margin-bottom: 24px; transition: transform .2s; }
+    .timeline-item:hover { transform: translateY(-2px); border-color: rgba(126,247,200,.3); }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: -32px; top: 30px; width: 14px; height: 14px; border-radius: 50%; background: var(--color-neon-pulse); box-shadow: 0 0 0 4px rgba(126,247,200,.18); }
+    .timeline-date { display: inline-block; font-family: var(--font-mono); font-size: 13px; color: var(--color-neon-pulse); letter-spacing: .04em; margin-bottom: 10px; }
+    .timeline-role { font-family: var(--font-mono); font-size: 22px; font-weight: 500; color: var(--color-pure-white); margin-bottom: 4px; }
+    .timeline-company { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 18px; }
+    .timeline-company .accent { color: var(--color-mint-whisper); }
+    .timeline-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .timeline-list li { display: flex; gap: 10px; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.82); }
+    .timeline-list li::before { content: ''; flex-shrink: 0; width: 7px; height: 7px; border-radius: 50%; background: var(--color-neon-pulse); margin-top: 8px; }
+
+    /* ===== 联系 ===== */
+    .contact { padding: 80px 0 96px; text-align: center; }
+    .contact h2 { font-family: var(--font-mono); font-size: 48px; font-weight: 500; line-height: 1.12; color: var(--color-pure-white); margin-bottom: 20px; }
+    .contact .contact-desc { font-size: 18px; color: rgba(255,255,255,.6); max-width: 480px; margin: 0 auto 40px; }
+    .contact .cta-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    .contact-meta {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: rgba(247, 250, 252, 0.55);
+    }
+
+    .contact-meta a { color: rgba(247, 250, 252, 0.7); text-decoration: none; transition: color .2s; }
+    .contact-meta a:hover { color: var(--color-neon-pulse); }
+    .contact-meta .sep { color: rgba(247, 250, 252, 0.25); }
+
+    /* ===== 页脚 ===== */
+    footer { border-top: 1px solid rgba(255,255,255,.08); padding: 32px 0; }
+    .footer-inner { max-width: var(--page-max-width); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .footer-inner p { font-size: 14px; color: rgba(255,255,255,.5); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,.6); text-decoration: none; }
+    .footer-links a:hover { color: var(--color-neon-pulse); }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 900px) {
+      .hero { padding: 64px 0; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 44px; }
+      .illustration { min-height: auto; margin-top: 24px; }
+      .stats-row { grid-template-columns: repeat(2,1fr); }
+      .logo-tiles { grid-template-columns: repeat(3,1fr); }
+      .about-grid { grid-template-columns: 1fr; }
+      .edu-row { grid-template-columns: 1fr; }
+      .skill-panel-inner { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .light-card { padding: 32px 24px; }
+      .light-card h2, .skills-head h2, .experience-head h2 { font-size: 32px; }
+      .contact h2 { font-size: 36px; }
+      .timeline { padding-left: 28px; }
+      .timeline::before { left: 8px; }
+      .timeline-item::before { left: -26px; width: 12px; height: 12px; }
+    }
+    @media (max-width: 560px) {
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 36px; }
+      .mini-grid { width: 100%; max-width: 340px; }
+      .game-char, .game-block, .game-coin { display: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .logo-tiles { grid-template-columns: repeat(2,1fr); }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .announcement { padding: 10px 40px 10px 16px; font-size: 13px; }
+      .timeline-item { padding: 24px 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .game-char, .game-block, .game-coin, .mini-card, .mini-grid { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="rays" aria-hidden="true"></canvas>
+  <div id="cursor-glow" aria-hidden="true"></div>
+  <div id="page">
+
+  <div class="announcement" id="banner">
+    <span>✦ 欢迎来到我的个人网站 — AI 评测 · 数据运营 · 项目管理</span>
+    <button class="banner-close" onclick="document.getElementById('banner').style.display='none'">×</button>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 13 L11 3"></path><path d="M6 3 L11 3 L11 8"></path></svg>
+        </span>
+        钱皓
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">关于</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#experience">经历</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#contact" class="signin">联系我</a>
+        <a href="#contact" class="btn btn-primary">开始合作</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">AI Evaluation · Data Operations · PMP</span>
+          <h1>你好，我是<br><span class="accent">钱皓</span></h1>
+          <p class="subtitle">专注 AI 多模态评测与数据运营，9 年从业经验，擅长 Rubric 评测体系搭建与项目全流程管理。</p>
+          <div class="hero-meta">
+            <span>上海</span>
+            <span>东华大学</span>
+            <span>PMP 认证</span>
+          </div>
+          <div class="hero-ctas">
+            <a href="#experience" class="btn btn-primary">查看我的经历 →</a>
+            <a href="#contact" class="btn btn-ghost">联系我</a>
+          </div>
+        </div>
+
+        <div class="illustration">
+          <div class="hero-glow"></div>
+
+          <div class="mini-grid">
+            <a class="mini-card" href="#skills" data-skill="panel-ai">
+              <div class="mi" style="background:#7EF7C8"></div>
+              <div><h4>AI 多模态评测</h4><span class="val">VLM</span></div>
+            </a>
+            <a class="mini-card" href="#skills" data-skill="panel-edu">
+              <div class="mi" style="background:#FFE66D"></div>
+              <div><h4>教育评测</h4><span class="val">K12</span></div>
+            </a>
+            <a class="mini-card" href="#skills" data-skill="panel-pm">
+              <div class="mi" style="background:#F4A92B"></div>
+              <div><h4>项目管理</h4><span class="val">PMP</span></div>
+            </a>
+            <a class="mini-card" href="#skills" data-skill="panel-design">
+              <div class="mi" style="background:#E94436"></div>
+              <div><h4>设计能力</h4><span class="val">UI/UX</span></div>
+            </a>
+
+            <div class="game-ground"></div>
+
+            <!-- GitHub 游戏像素元素 -->
+            <svg class="game-char" width="90" height="78" viewBox="128 168 104 90" aria-hidden="true">
+              <rect x="134" y="202" width="72" height="22" fill="#E94436"/>
+              <rect x="150" y="180" width="48" height="24" fill="#FFD58A"/>
+              <rect x="142" y="166" width="62" height="16" fill="#E94436"/>
+              <rect x="158" y="204" width="18" height="36" fill="#2D6CDF"/>
+              <rect x="184" y="204" width="18" height="36" fill="#2D6CDF"/>
+              <rect x="148" y="240" width="28" height="12" fill="#683B1D"/>
+              <rect x="184" y="240" width="28" height="12" fill="#683B1D"/>
+              <rect x="130" y="206" width="16" height="28" fill="#FFD58A"/>
+              <rect x="206" y="190" width="16" height="38" fill="#FFD58A"/>
+              <rect x="164" y="188" width="8" height="8" fill="#111820"/>
+              <rect x="188" y="188" width="8" height="8" fill="#111820"/>
+              <rect x="174" y="198" width="18" height="5" fill="#8A4024"/>
+            </svg>
+
+            <svg class="game-block" width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">
+              <rect width="44" height="44" fill="#F4A92B"/>
+              <rect x="6" y="6" width="32" height="32" fill="#FFD45A"/>
+              <text x="14" y="31" font-family="monospace" font-size="28" font-weight="800" fill="#8B4B13">?</text>
+            </svg>
+
+            <svg class="game-coin c1" width="26" height="34" viewBox="0 0 28 36" aria-hidden="true"><ellipse cx="14" cy="18" rx="12" ry="16" fill="#FFE66D" stroke="#C68B17" stroke-width="4"/><rect x="12" y="7" width="4" height="22" fill="#FFF4A3"/></svg>
+            <svg class="game-coin c2" width="26" height="34" viewBox="0 0 28 36" aria-hidden="true"><ellipse cx="14" cy="18" rx="12" ry="16" fill="#FFE66D" stroke="#C68B17" stroke-width="4"/><rect x="12" y="7" width="4" height="22" fill="#FFF4A3"/></svg>
+            <svg class="game-coin c3" width="26" height="34" viewBox="0 0 28 36" aria-hidden="true"><ellipse cx="14" cy="18" rx="12" ry="16" fill="#FFE66D" stroke="#C68B17" stroke-width="4"/><rect x="12" y="7" width="4" height="22" fill="#FFF4A3"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat"><div class="num">9+</div><div class="lbl">年从业经验 · Years</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">家服务企业 · Companies</div></div>
+        <div class="stat"><div class="num">95%</div><div class="lbl">标注一致性 · Consistency</div></div>
+        <div class="stat"><div class="num">100%</div><div class="lbl">热情投入 · Passion</div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="logo-bar">
+    <div class="container">
+      <div class="bar-label">工作与教育经历 · Experience &amp; Education</div>
+      <div class="logo-tiles">
+        <div class="logo-tile">腾讯</div>
+        <div class="logo-tile">宝信软件</div>
+        <div class="logo-tile">圣融科技</div>
+        <div class="logo-tile">云泰网络</div>
+        <div class="logo-tile">东华大学</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="container">
+      <div class="light-card">
+        <span class="eyebrow">About Me</span>
+        <h2>关于我</h2>
+        <p class="lead">一名兼具教育、设计、AI 评测复合背景的从业者。</p>
+        <div class="about-grid">
+          <div class="about-copy">
+            <p>你好，我是钱皓，目前专注于 AI 多模态评测与数据运营。我拥有数字媒体艺术与英语教育背景，从 UI 设计起步，一路走到 AI 模型训练与大模型评测，形成了「设计 × 教育 × AI」的复合能力。</p>
+            <p class="muted">我持有 PMP 项目管理认证，擅长从需求梳理、方案规划到进度管控、落地验收的全流程管理。工作中我始终追求严谨与高效，善于用标准化流程与质量抽检机制，稳定输出高质量成果。</p>
+          </div>
+          <div class="about-visual">
+            <div class="portrait">
+              <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="15" r="7"></circle><path d="M8 40 C8 30 14 25 22 25 C30 25 36 30 36 40"></path></svg>
+            </div>
+            <h4>钱皓</h4>
+            <p>AI 评测 · 数据运营</p>
+          </div>
+        </div>
+        <div class="edu-row">
+          <div class="edu-item"><span class="edu-years">2022.03 — 2024.07</span><strong>东华大学</strong><span class="edu-major">数字媒体艺术 · 本科</span></div>
+          <div class="edu-item"><span class="edu-years">2013.09 — 2016.06</span><strong>哈尔滨幼儿师范高等专科学校</strong><span class="edu-major">英语教育 · 大专</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="skills-head">
+        <span class="eyebrow">Skills</span>
+        <h2>我的技能</h2>
+        <p>我擅长和正在使用的技术与能力，持续精进中。</p>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-target="panel-ai">AI 多模态评测</button>
+        <button class="tab" data-target="panel-edu">教育评测</button>
+        <button class="tab" data-target="panel-pm">项目管理</button>
+        <button class="tab" data-target="panel-design">设计能力</button>
+      </div>
+      <div class="light-card">
+        <div class="skill-panel active" id="panel-ai">
+          <div class="skill-panel-inner">
+            <div>
+              <div class="icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10 20 28 8 46 20"></polyline><polyline points="10 36 28 48 46 36"></polyline><line x1="28" y1="8" x2="28" y2="48"></line><line x1="10" y1="20" x2="46" y2="36"></line><line x1="10" y1="36" x2="46" y2="20"></line></svg></div>
+              <h3>AI 多模态评测</h3>
+              <p>精通 VLM 视觉大模型评测，构建标准化质量评估体系，保障机评与人工评分一致性。</p>
+            </div>
+            <ul class="skill-list">
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>VLM 图生文 / 文生图 / 图文理解评测</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>Rubric 评测标准撰写</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>主需 / 延展 / 陷阱三维度评分体系</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>GSB 主观质量评估</li>
+            </ul>
+          </div>
+        </div>
+        <div class="skill-panel" id="panel-edu">
+          <div class="skill-panel-inner">
+            <div>
+              <div class="icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 6 L50 18 L28 30 L6 18 Z"></path><path d="M6 18 L6 38 L28 48 L50 38 L50 18"></path><path d="M28 30 L28 48"></path></svg></div>
+              <h3>教育评测</h3>
+              <p>落地 K12 / 非 K12 教育评测流程，推动题库质量与大模型解题能力提升。</p>
+            </div>
+            <ul class="skill-list">
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>题库正确率评估与校验</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>多模型投票与竞品对比</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>开卷式答案锁定</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>Badcase 复盘与优化</li>
+            </ul>
+          </div>
+        </div>
+        <div class="skill-panel" id="panel-pm">
+          <div class="skill-panel-inner">
+            <div>
+              <div class="icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"></circle><path d="M28 20 L28 28 L36 32"></path><path d="M20 8 L22 4 L26 4 L28 8"></path></svg></div>
+              <h3>项目管理</h3>
+              <p>持有 PMP 认证，统筹需求分发、进度管控与跨团队协同，保障项目高效落地。</p>
+            </div>
+            <ul class="skill-list">
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>PMP 项目管理专业认证</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>需求梳理与方案规划</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>进度管控与资源协调</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>跨团队协同沟通</li>
+            </ul>
+          </div>
+        </div>
+        <div class="skill-panel" id="panel-design">
+          <div class="skill-panel-inner">
+            <div>
+              <div class="icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 4 L46 14 L28 24 L10 14 Z"></path><path d="M10 14 L10 34 L28 44 L46 34 L46 14"></path><path d="M28 24 L28 44"></path></svg></div>
+              <h3>设计能力</h3>
+              <p>多年 UI / UX 与电商视觉设计经验，建立视觉规范与交互标准库，提升研发与视觉一致性。</p>
+            </div>
+            <ul class="skill-list">
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>UI / UX 设计</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>交互优化与 A/B 测试</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>视觉规范与组件库</li>
+              <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6 L5 9 L10 3"/></svg></span>电商视觉设计</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <div class="experience-head">
+        <span class="eyebrow">Experience</span>
+        <h2>工作经历</h2>
+        <p>从设计到 AI 评测，一路走来的一些足迹。</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-date">2025.03 — 2026.04</span>
+          <h3 class="timeline-role">数据运营</h3>
+          <p class="timeline-company">成都腾讯 · <span class="accent">腾讯元宝</span></p>
+          <ul class="timeline-list">
+            <li>负责 VLM 视觉大模型评测，覆盖图生文、文生图混合任务集，统筹需求分发、任务复测、执行验收全流程。</li>
+            <li>撰写 Rubric 原子化评测标准，搭建主需 / 延展 / 陷阱三维度 Checklist，制定 0-4 分打分规则与降级逻辑。</li>
+            <li>落地 K12 / 非 K12 教育场景效果评估，通过多模型投票、竞品对比等策略提升题库质量与模型解题能力。</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2023.11 — 2025.02</span>
+          <h3 class="timeline-role">AI 模型训练</h3>
+          <p class="timeline-company">上海宝信软件 · <span class="accent">宝武智约</span></p>
+          <ul class="timeline-list">
+            <li>构建多维度标签体系，主导合同类数据采集、清洗、脱敏、结构化解析与标注，搭建高质量训练数据集。</li>
+            <li>制定《合同标注操作手册》并培训标注团队，标注效率提升 5 倍，一致性达 95%、错误率降低 40%。</li>
+            <li>实施 10% 交叉审核 + 5% 专家抽检的多阶段质量管控，遵循 GDPR、PIPL 法规保障信息安全合规。</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2020.12 — 2023.10</span>
+          <h3 class="timeline-role">UI 设计</h3>
+          <p class="timeline-company">上海宝信软件 · <span class="accent">宝武 OA 4.0</span></p>
+          <ul class="timeline-list">
+            <li>分析千余条用户行为数据，完成系统界面整体优化，通过 A/B 测试验证方案有效性。</li>
+            <li>推动智能审批模块上线，操作效率提升 35%；建立完整 UI 视觉规范与交互标准库。</li>
+            <li>推动 OA 流程智能化升级，流程自动化率提升 50%、用户操作步骤减少 40%。</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2018.10 — 2020.10</span>
+          <h3 class="timeline-role">UI 设计</h3>
+          <p class="timeline-company">哈尔滨圣融科技 · <span class="accent">APP 设计</span></p>
+          <ul class="timeline-list">
+            <li>负责 PC 端与移动端 UI 设计与用户体验，包括界面视觉设计、整体版式与风格设计。</li>
+            <li>制定 APP 手机界面实现标准，输出设计规范，设计识别性高的 ICON 图标。</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">2017.05 — 2018.08</span>
+          <h3 class="timeline-role">电商设计</h3>
+          <p class="timeline-company">云泰网络科技 · <span class="accent">天猫平台</span></p>
+          <ul class="timeline-list">
+            <li>负责店铺在天猫平台的全部视觉风格创意与设计，包括店铺设计、活动页与主图设计。</li>
+            <li>配合策划促销活动，设计促销页面与活动宣传广告插图，把控产品图片处理。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <span class="eyebrow">Contact</span>
+      <h2>让我们一起做点什么</h2>
+      <p class="contact-desc">如果你对 AI 评测、数据运营有合作想法，或只是想聊聊，欢迎联系我。</p>
+      <div class="cta-row">
+        <a href="mailto:925023907@qq.com" class="btn btn-primary">发送邮件 →</a>
+        <a href="https://github.com/Freya-Qian" target="_blank" class="btn btn-ghost">GitHub</a>
+        <a href="https://www.xiaohongshu.com/user/profile/5bcaaa97bb750a0001177fc1" target="_blank" class="btn btn-ghost">小红书</a>
+      </div>
+      <p class="contact-meta">
+        <a href="mailto:925023907@qq.com">925023907@qq.com</a>
+        <span class="sep">·</span>
+        <a href="tel:16645023762">166 4502 3762</a>
+        <span class="sep">·</span>
+        <span>上海</span>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <p>© 2025 钱皓 · 用心创造</p>
+      <div class="footer-links">
+        <a href="#about">关于</a>
+        <a href="#skills">技能</a>
+        <a href="#experience">经历</a>
+        <a href="#contact">联系</a>
+      </div>
+    </div>
+  </footer>
+
+  </div><!-- /page -->
+
+  <script>
+    // Tab 切换
+    var tabs = document.querySelectorAll('.tab');
+    var panels = document.querySelectorAll('.skill-panel');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('active'); });
+        panels.forEach(function (p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+      });
+    });
+
+    // 小卡片点击跳转并激活对应技能 Tab
+    document.querySelectorAll('.mini-card[data-skill]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var target = card.dataset.skill;
+        var tab = document.querySelector('.tab[data-target="' + target + '"]');
+        if (!tab) return;
+        tabs.forEach(function (t) { t.classList.remove('active'); });
+        panels.forEach(function (p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // ===== 交互背景射线 =====
+    (function () {
+      var canvas = document.getElementById('rays');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var w = 0, h = 0;
+      var mx = 0.5, my = 0.5, tmx = 0.5, tmy = 0.5;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      window.addEventListener('mousemove', function (e) {
+        tmx = e.clientX / w;
+        tmy = e.clientY / h;
+      });
+
+      function draw(time) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1.3;
+        var n = 16;
+        var base = 0.72;
+        var span = h + base * w;
+        for (var i = 0; i < n; i++) {
+          var off = (i / (n - 1)) * span - h;
+          var amp = 9 + (i % 3) * 6;
+          var speed = 0.5 + (i % 4) * 0.16;
+          var alpha = 0.026 + (i % 5) * 0.005;
+          ctx.strokeStyle = 'rgba(126, 247, 200, ' + alpha.toFixed(3) + ')';
+          ctx.beginPath();
+          for (var x = -140; x <= w + 140; x += 10) {
+            var wave = Math.sin(x * 0.006 + time * speed + i * 0.8 + mx * 5.0) * amp;
+            var y = -base * x + off + wave + (my - 0.5) * 50;
+            if (x === -140) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      if (reduced) { draw(0); return; }
+
+      var t0 = performance.now();
+      (function loop(now) {
+        var time = (now - t0) * 0.001;
+        mx += (tmx - mx) * 0.06;
+        my += (tmy - my) * 0.06;
+        draw(time);
+        requestAnimationFrame(loop);
+      })(t0);
+    })();
+
+    // ===== 光标光晕 =====
+    (function () {
+      var glow = document.getElementById('cursor-glow');
+      if (!glow) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var gx = -1000, gy = -1000, cx = -1000, cy = -1000;
+      window.addEventListener('mousemove', function (e) { gx = e.clientX; gy = e.clientY; });
+      (function loop() {
+        cx += (gx - cx) * 0.14;
+        cy += (gy - cy) * 0.14;
+        glow.style.transform = 'translate3d(' + cx + 'px, ' + cy + 'px, 0)';
+        requestAnimationFrame(loop);
+      })();
+    })();
+
+    // ===== 首屏插画随鼠标轻微倾斜 =====
+    (function () {
+      var illustration = document.querySelector('.illustration');
+      if (!illustration) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!window.matchMedia('(min-width: 901px)').matches) return;
+      var trx = 0, trY = 0, crx = 0, crY = 0;
+      illustration.addEventListener('mousemove', function (e) {
+        var r = illustration.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        trY = px * 8;
+        trx = -py * 6;
+      });
+      illustration.addEventListener('mouseleave', function () { trx = 0; trY = 0; });
+      (function loop() {
+        crx += (trx - crx) * 0.09;
+        crY += (trY - crY) * 0.09;
+        illustration.style.transform = 'perspective(900px) rotateX(' + crx.toFixed(2) + 'deg) rotateY(' + crY.toFixed(2) + 'deg)';
+        requestAnimationFrame(loop);
+      })();
+    })();
+  </script>
+</body>
+</html>
