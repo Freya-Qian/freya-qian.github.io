@@ -39,7 +39,7 @@
     width:0%;z-index:100;box-shadow:0 0 10px var(--accent)}
 
   /* preloader */
-  #loader{position:fixed;inset:-30px;background:#050507;z-index:10000;
+  #loader{position:fixed;inset:0;isolation:isolate;background:#050507;z-index:10000;
     display:flex;align-items:center;justify-content:center;
     transition:opacity .4s;
     overflow:hidden}
@@ -73,23 +73,15 @@
   .side-label{color:var(--accent);letter-spacing:.15em;margin-bottom:8px;opacity:.7}
   .side-row span{color:var(--ink-2)}
   @media (max-width:900px){.loader-side{display:none}}
-  #loader.glitch{animation:glitch .18s steps(2) 2;}
-  @keyframes glitch{
-    0%{filter:brightness(1)}
-    25%{filter:brightness(1.4) saturate(.6)}
-    50%{filter:brightness(.6)}
-    75%{filter:brightness(1.2)}
-    100%{filter:brightness(1)}
-  }
-  #loader.glitch::before{content:"";position:absolute;inset:0;pointer-events:none;
-    background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(126,247,200,.06) 3px 4px);
-    animation:glitchSlice .08s steps(2) infinite;mix-blend-mode:screen}
+  /* Keep the opaque viewport shield stationary; glitch only its content. */
+  #loader.glitch .loader-inner{animation:bootContentGlitch .18s steps(2) 2}
+  #loader.glitch .loader-scan{animation:glitchSlice .08s steps(2) infinite}
   @keyframes glitchSlice{
     0%{transform:translateX(-8px)}
     50%{transform:translateX(6px)}
     100%{transform:translateX(-3px)}
   }
-  @keyframes glitch{
+  @keyframes bootContentGlitch{
     0%{transform:translate(0);filter:none}
     20%{transform:translate(-10px,4px);clip-path:inset(20% 0 55% 0);
       filter:drop-shadow(2px 0 0 #ff3b6b) drop-shadow(-2px 0 0 #00e5ff)}
