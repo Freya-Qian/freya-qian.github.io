@@ -39,11 +39,11 @@
     width:0%;z-index:100;box-shadow:0 0 10px var(--accent)}
 
   /* preloader */
-  #loader{position:fixed;inset:0;background:#050507;z-index:10000;
+  #loader{position:fixed;inset:-30px;background:#050507;z-index:10000;
     display:flex;align-items:center;justify-content:center;
     transition:opacity .4s;
     overflow:hidden}
-  #loader.done{transform:translateY(-100%);opacity:0;transition:transform .9s cubic-bezier(.7,0,.3,1), opacity .4s}
+  #loader.done{opacity:0;transition:opacity .6s ease .2s;pointer-events:none}
   .loader-scan{position:absolute;inset:0;pointer-events:none;
     background:repeating-linear-gradient(0deg, rgba(126,247,200,.04) 0 1px, transparent 1px 3px);
     mix-blend-mode:screen;animation:flicker 4s infinite}
@@ -600,6 +600,7 @@
     }
   }
   document.body.style.overflow='hidden';
+  window.scrollTo(0,0);
   setTimeout(nextLine,300);
 
   // clock
