@@ -15,6 +15,9 @@
     --line-2:#2a2a30;
     --accent:#7EF7C8;
     --accent-2:#FFE66D;
+    --section-muted:#A8B0AC;
+    --section-emphasis:#D4EEE2;
+    --section-label:#8FA39C;
     --warn:#FF8A65;
     --blue:#60a5fa;
     --mono: ui-monospace, "SF Mono", Menlo, monospace;
@@ -257,10 +260,10 @@
   .sec-num::before{content:"[";color:var(--ink-3)}
   .sec-num::after{content:"]";color:var(--ink-3)}
   .sec-title{font-size:13px;letter-spacing:.15em;text-transform:uppercase;
-    color:var(--ink-2);font-family:var(--mono)}
-  .sec-lead{font-family:var(--serif);font-size:22px;color:var(--ink-2);
+    color:var(--section-label);font-family:var(--mono)}
+  .sec-lead{font-family:var(--serif);font-size:22px;color:var(--section-muted);
     max-width:640px;margin-bottom:64px;font-weight:400;line-height:1.6}
-  .sec-lead b{color:var(--ink);font-style:normal;font-weight:600}
+  .sec-lead b{color:var(--section-emphasis);font-style:normal;font-weight:600}
 
   .row{display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:center;
     padding:32px 24px;border-top:1px solid var(--line);
@@ -449,7 +452,7 @@
 <div class="wrap">
   <section id="work" class="reveal">
     <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Selected Work</span></div>
-    <p class="sec-lead">做出来，<b>比写出来重要。</b></p>
+    <p class="sec-lead">项目实践，<b>把想法做成产品。</b></p>
 
     <a class="row magnetic" href="#">
       <div class="idx">/01</div>
@@ -495,7 +498,7 @@
 
   <section class="reveal">
     <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Experience</span></div>
-    <p class="sec-lead">从交互设计到 AI 产品，<b>七年一直在做能用起来的东西。</b></p>
+    <p class="sec-lead">职业经历，<b>从设计走向交付。</b></p>
     <div class="exp"><div class="when">2025.03 — 至今</div><div class="what"><b>腾讯 · AI 产品经理</b><br/><span>元宝拍题答疑 0-1，从产品定位、分类路由到评测迭代全链路。</span></div></div>
     <div class="exp"><div class="when">2020.12 — 2025.02</div><div class="what"><b>宝信科技 · 产品经理</b><br/><span>宝武 HR/OA 等 B 端系统，服务数万名员工；中铝、传化外部项目交付。</span></div></div>
     <div class="exp"><div class="when">2017.05 — 2020.10</div><div class="what"><b>圣融科技 · 交互设计师</b><br/><span>To B / To C 产品交互设计与需求对接。</span></div></div>
@@ -503,7 +506,7 @@
 
   <section class="reveal">
     <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Field Notes</span></div>
-    <p class="sec-lead">写出来的思考，<b>关于 AI 产品和落地的缝隙。</b></p>
+    <p class="sec-lead">文章随笔，<b>把思考写成观点。</b></p>
     <a class="post" href="#"><div class="n">/01</div><h3>一个 Agent 能不能用，不看它有多聪明，要看它犯错后谁倒霉</h3><div class="tag">AI PRODUCT →</div></a>
     <a class="post" href="#"><div class="n">/02</div><h3>AI 提高效率以后，轻松为什么没有分到你手里</h3><div class="tag">WORK →</div></a>
   </section>
