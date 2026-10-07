@@ -372,6 +372,28 @@
   }
 
   a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+
+  /* Compact WeChat card on the portrait reverse. */
+  .hero-photo{perspective:1100px}
+  .hero-photo .frame{overflow:visible}
+  .hero-photo .frame::after{display:none}
+  .photo-flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.22,.8,.25,1)}
+  .hero-photo.is-flipped .photo-flip{transform:rotateY(180deg)}
+  .photo-face{position:absolute;inset:0;border-radius:16px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .photo-front::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(10,10,12,.4));pointer-events:none}
+  .photo-back{transform:rotateY(180deg);background:#101b17;border:1px solid rgba(126,247,200,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:var(--ink)}
+  .photo-back .qr-kicker{font:10px var(--mono);letter-spacing:.18em;color:var(--accent);margin-bottom:18px}
+  .photo-back .qr-caption{font-size:14px;margin-top:18px}
+  .photo-back .qr-hint{font-size:11px;color:var(--ink-2);margin-top:8px}
+  .hero-photo .wechat-toggle{z-index:4;cursor:pointer;min-height:40px;font:12px var(--mono);transition:border-color .2s,background .2s}
+  .wechat-toggle:hover,.wechat-toggle:focus-visible{border-color:var(--accent);background:#11241c}
+  .hero-photo.is-flipped .tag{animation-play-state:paused}
+  @media(max-width:720px){.photo-back{padding:20px}.qr-hint.desktop-hint{display:none}}
+  @media(prefers-reduced-motion:reduce){.photo-flip{transition:none}}
+
+  .qr-crop{position:relative;width:200px;max-width:100%;aspect-ratio:1;overflow:hidden;flex:none;background:#fff;border-radius:8px}
+  .hero-photo .frame .qr-crop .wechat-qr{position:absolute;width:122.086%;max-width:none;height:auto;left:-11.043%;top:-35.583%;object-fit:initial;filter:none}
+  @media(max-width:720px){.qr-crop{width:180px}}
 </style>
 </head>
 <body>
@@ -437,9 +459,17 @@
     <div class="hero-photo">
       <div class="corner"></div>
       <div class="frame" id="photo-frame">
-        <img src="freya-portrait.jpg" alt="Freya Qian" />
+        <div class="photo-flip">
+          <div class="photo-face photo-front"><img src="freya-portrait.jpg" alt="Freya Qian" /></div>
+          <div class="photo-face photo-back" id="wechat-card" aria-hidden="true">
+            <div class="qr-kicker">LET’S CONNECT / WECHAT</div>
+            <div class="qr-crop"><img class="wechat-qr" src="wechat-qr.jpg" alt="微信添加好友二维码" /></div>
+            <div class="qr-caption">扫码添加微信</div>
+            <div class="qr-hint desktop-hint">鼠标移出照片，即可翻回</div>
+          </div>
+        </div>
       </div>
-      <div class="tag">AI PM · Builder</div>
+      <button class="tag wechat-toggle" type="button" aria-expanded="false" aria-controls="wechat-card">WeChat ↗</button>
     </div>
   </header>
 </div>
@@ -701,9 +731,38 @@
     });
   });
 
-  // photo 3D tilt
+
+  // Hover WeChat on desktop; tap on touch screens; pointer leave restores portrait.
+  const portrait=document.querySelector('.hero-photo');
+  const wechatToggle=portrait.querySelector('.wechat-toggle');
+  const wechatBack=document.getElementById('wechat-card');
+  const portraitFront=portrait.querySelector('.photo-front');
+  function setWechat(open){
+    portrait.classList.toggle('is-flipped',open);
+    wechatToggle.setAttribute('aria-expanded',String(open));
+    wechatToggle.textContent=open?'返回照片 ↶':'WeChat ↗';
+    wechatBack.setAttribute('aria-hidden',String(!open));
+    portraitFront.setAttribute('aria-hidden',String(open));
+    document.getElementById('photo-frame').style.transform='';
+  }
+  wechatToggle.addEventListener('pointerenter',e=>{
+    if(e.pointerType==='mouse'||e.pointerType==='pen')setWechat(true);
+  });
+  wechatToggle.addEventListener('focus',()=>{
+    if(wechatToggle.matches(':focus-visible'))setWechat(true);
+  });
+  wechatToggle.addEventListener('click',e=>{
+    if(e.detail===0||window.matchMedia('(hover: none)').matches)setWechat(!portrait.classList.contains('is-flipped'));
+    else setWechat(true);
+  });
+  portrait.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')setWechat(false)});
+  document.addEventListener('pointerdown',e=>{if(!portrait.contains(e.target))setWechat(false)});
+  portrait.addEventListener('focusout',e=>{if(e.relatedTarget&&!portrait.contains(e.relatedTarget))setWechat(false)});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&portrait.classList.contains('is-flipped')){setWechat(false);wechatToggle.focus()}});
+
+  // Shared portrait / QR card 3D tilt; flip stays on the inner layer.
   const frame=document.getElementById('photo-frame');
-  if(frame && window.matchMedia('(min-width:721px)').matches){
+  if(frame && window.matchMedia('(min-width:721px) and (hover:hover) and (prefers-reduced-motion:no-preference)').matches){
     frame.parentElement.addEventListener('mousemove',e=>{
       const r=frame.getBoundingClientRect();
       const x=(e.clientX-r.left)/r.width-0.5;
