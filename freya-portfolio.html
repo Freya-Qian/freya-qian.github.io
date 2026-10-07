@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Freya Qian 的 AI 产品经理作品集：元宝拍题答疑、评测与错误归因，以及 AIGC 与个人项目实践。">
+<title>拍题答疑 · 系统设计全景 | Freya · AI Product Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0c'/><text x='50' y='68' text-anchor='middle' font-size='52' fill='%237EF7C8' font-family='monospace'>F</text></svg>">
+<style>
+:root{
+  --bg:#0a0a0c;
+  --bg-2:#111114;
+  --card:#141418;
+  --card-2:#1a1a20;
+  --line:#1f1f24;
+  --line-2:#2a2a30;
+  --ink:#f0ece4;
+  --ink-2:#9a958c;
+  --ink-3:#5c5850;
+  --accent:#7EF7C8;
+  --accent-2:#FFE66D;
+  --warn:#FF8A65;
+  --blue:#60a5fa;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --serif: "Songti SC", "Noto Serif SC", Georgia, serif;
+  --sans: -apple-system, "PingFang SC", "Noto Sans SC", "Helvetica Neue", sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.6;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.mono{font-family:var(--mono)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;position:relative;z-index:3}
+
+/* ===== HERO ===== */
+.hero{padding:80px 0 48px;position:relative}
+.hero::before{
+  content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;
+  background:radial-gradient(circle, rgba(126,247,200,.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.25em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:24px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-tag::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 8px var(--accent);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-family:var(--serif);
+  font-size:46px;font-weight:900;
+  line-height:1.2;letter-spacing:-.01em;
+  margin-bottom:20px;color:var(--ink);
+}
+.hero-sub{
+  font-size:16px;color:var(--ink-2);
+  max-width:780px;margin-bottom:28px;line-height:1.8;
+}
+.hero-sub b{color:var(--accent);font-weight:500}
+.hero-meta{
+  font-family:var(--mono);font-size:12px;color:var(--ink-3);
+  margin-bottom:40px;line-height:2;
+}
+.hero-meta b{color:var(--accent);font-weight:400}
+
+/* 数据卡 */
+.metrics{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:8px;
+}
+.metric{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:20px 16px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.metric:hover{border-color:var(--accent)}
+.metric .num{
+  font-family:var(--mono);font-size:24px;font-weight:700;
+  color:var(--ink);line-height:1.1;margin-bottom:8px;
+}
+.metric .num .arrow{color:var(--accent);font-size:16px;margin:0 2px}
+.metric .num .up{color:var(--accent)}
+.metric .label{font-size:11px;color:var(--ink-2);line-height:1.5}
+
+/* ===== TAB NAV ===== */
+.tabnav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,10,12,.9);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  margin:20px 0 48px;
+}
+.tabnav-inner{
+  display:flex;gap:0;overflow-x:auto;
+  max-width:1180px;margin:0 auto;padding:0 32px;
+  scrollbar-width:none;
+}
+.tabnav-inner::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;background:transparent;border:none;
+  color:var(--ink-3);font-family:var(--mono);font-size:12px;
+  padding:18px 18px;cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;letter-spacing:.05em;
+}
+.tab-btn:hover{color:var(--ink-2)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn .tn{color:var(--ink-3);margin-right:8px;font-size:10px}
+.tab-btn.active .tn{color:var(--accent)}
+
+/* ===== PANELS ===== */
+.panel{display:none;padding-bottom:100px;animation:fadeIn .3s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.panel-head{margin-bottom:40px;padding-top:20px}
+.panel-head .kicker{
+  font-family:var(--mono);font-size:11px;color:var(--accent);
+  letter-spacing:.2em;margin-bottom:12px;
+}
+.panel-head h2{
+  font-family:var(--serif);
+  font-size:32px;font-weight:700;margin-bottom:14px;
+  letter-spacing:-.01em;color:var(--ink);
+}
+.panel-head p{color:var(--ink-2);max-width:760px;font-size:15px;line-height:1.8}
+
+h3.sec{
+  font-family:var(--serif);
+  font-size:18px;font-weight:600;margin:36px 0 16px;
+  color:var(--ink);
+  display:flex;align-items:center;gap:12px;
+}
+h3.sec::before{
+  content:'';width:20px;height:1px;background:var(--accent);
+}
+
+/* 通用卡片 */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:22px;
+}
+.card h4{
+  font-size:14px;font-weight:600;margin-bottom:10px;color:var(--ink);
+}
+.card p{font-size:13px;color:var(--ink-2);line-height:1.7}
+.card .tag{
+  display:inline-block;font-family:var(--mono);font-size:10px;
+  padding:3px 8px;border-radius:4px;
+  background:rgba(126,247,200,.08);color:var(--accent);
+  margin-bottom:12px;letter-spacing:.1em;
+}
+
+/* 架构图 */
+.arch{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:32px;margin-bottom:20px;
+}
+.arch-row{
+  display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:16px;margin-bottom:16px;
+  align-items:stretch;
+}
+.arch-row:last-child{margin-bottom:0}
+.arch-col{display:flex;flex-direction:column}
+.arch-col-label{
+  font-family:var(--mono);font-size:10px;color:var(--ink-3);
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;
+}
+.node{
+  background:var(--card-2);border:1px solid var(--line);
+  border-radius:8px;padding:14px;font-size:13px;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  margin-bottom:10px;
+}
+.node:last-child{margin-bottom:0}
+.node .nt{font-weight:600;color:var(--ink);margin-bottom:4px}
+.node .nd{font-size:11px;color:var(--ink-2);line-height:1.6}
+.node.hl{
+  border-color:var(--accent);
+  background:linear-gradient(135deg,rgba(126,247,200,.08),rgba(126,247,200,.02));
+}
+
+/* 决策卡 */
+.decision{
+  background:var(--card);border:1px solid var(--line);
+  border-left:2px solid var(--accent);
+  border-radius:10px;padding:22px 24px;
+  transition:border-color .2s;
+}
+.decision:hover{border-left-color:var(--accent-2)}
+.decision .dq{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.decision .da{font-size:13px;color:var(--ink-2);line-height:1.75}
+.decision .da b{color:var(--accent);font-weight:500}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  text-align:left;color:var(--ink-3);font-weight:500;
+  padding:12px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;
+}
+td{
+  padding:14px 12px;border-bottom:1px solid var(--line);
+  color:var(--ink-2);vertical-align:top;line-height:1.6;
+}
+td:first-child{color:var(--ink);font-weight:500}
+
+/* 项目卡片 */
+.proj{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:26px;
+  transition:border-color .2s,transform .2s;
+}
+.proj:hover{border-color:var(--accent);transform:translateY(-2px)}
+.proj .ptag{
+  font-family:var(--mono);font-size:10px;
+  color:var(--accent);letter-spacing:.15em;margin-bottom:12px;
+}
+.proj h4{font-family:var(--serif);font-size:19px;font-weight:700;margin-bottom:10px;color:var(--ink)}
+.proj .pdesc{font-size:13px;color:var(--ink-2);line-height:1.75;margin-bottom:18px}
+.proj .pmeta{display:flex;flex-wrap:wrap;gap:6px}
+.proj .pmeta span{
+  font-family:var(--mono);font-size:10px;
+  padding:4px 9px;border-radius:4px;
+  background:var(--bg-2);color:var(--ink-2);
+  border:1px solid var(--line);
+}
+
+/* 方法论层 */
+.method-layer{
+  display:flex;align-items:flex-start;gap:18px;
+  padding:20px 0;border-bottom:1px solid var(--line);
+}
+.method-layer:last-child{border-bottom:none}
+.method-num{
+  flex-shrink:0;width:36px;height:36px;border-radius:8px;
+  background:transparent;border:1px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-weight:700;font-size:13px;color:var(--accent);
+}
+.method-body h5{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.method-body p{font-size:13px;color:var(--ink-2);line-height:1.75}
+
+/* footer */
+footer{
+  border-top:1px solid var(--line);
+  padding:48px 0;text-align:center;
+}
+footer .f-links{
+  display:flex;justify-content:center;gap:28px;
+  margin-bottom:18px;flex-wrap:wrap;
+}
+footer a{
+  color:var(--ink-2);text-decoration:none;font-size:13px;
+  font-family:var(--mono);transition:color .2s;
+}
+footer a:hover{color:var(--accent)}
+footer .f-copy{font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.05em}
+
+/* 响应式 */
+@media(max-width:900px){
+  .metrics{grid-template-columns:repeat(3,1fr)}
+  .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+  .grid-2{grid-template-columns:1fr}
+  .arch-row{grid-template-columns:1fr}
+  .hero h1{font-size:32px}
+  .panel-head h2{font-size:26px}
+  .wrap{padding:0 20px}
+  .tabnav-inner{padding:0 20px}
+}
+@media(max-width:600px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .grid-3,.grid-4{grid-template-columns:1fr}
+  .metric .num{font-size:19px}
+  .hero{padding:48px 0 28px}
+  .hero h1{font-size:26px}
+}
+
+/* Shared identity with the personal site; an editorial case file. */
+.hero::before{display:none}
+:root{--ink-3:#858078}
+body{overflow-wrap:break-word}
+a{color:inherit}a:hover{color:var(--accent)}
+.accent-text{color:var(--accent)}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:28px;padding-bottom:24px;border-bottom:1px solid var(--line-2);font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+.masthead a{text-decoration:none}.masthead span{color:var(--ink-2);margin-left:10px}.masthead>div{display:flex;gap:24px;align-items:center}
+.masthead button{color:var(--ink-2);font:inherit;cursor:pointer;background:none;border:0}
+.hero{padding:64px 0 26px;position:relative}.hero h1{font-size:clamp(36px,4.5vw,62px);line-height:1.18;max-width:900px;font-weight:700;letter-spacing:.025em}.hero-tag{font-size:11px}.hero-meta{margin-bottom:26px;color:var(--ink-2);max-width:940px}.hero-sub{max-width:800px;font-size:17px}
+.hero-actions{display:flex;align-items:center;gap:28px;margin:0 0 44px}.portfolio-btn{background:var(--accent);color:var(--bg);padding:13px 22px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;transition:transform .2s}.portfolio-btn:hover{color:var(--bg);transform:translateY(-2px)}.text-link{font-size:12px;color:var(--accent-2);text-underline-offset:5px}.metric-note{font-size:11px;color:var(--ink-2);line-height:1.7;max-width:900px;margin-top:16px}
+.metrics{gap:0;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}.metric{background:transparent;border:0;border-radius:0;border-right:1px solid var(--line-2);padding:22px 18px}.metric:first-child{padding-left:0}.metric:last-child{border-right:0}.metric .num{font-size:23px}.metric .num.up{color:var(--accent)}
+.tabnav{margin-top:20px;margin-bottom:28px}.tab-btn{padding:20px 15px;min-height:56px;color:var(--ink-2);font-family:var(--sans);font-size:13px}.tab-btn .tn{font-family:var(--mono)}
+.panel{scroll-margin-top:84px;padding-bottom:76px}.panel-head{max-width:850px;margin-bottom:30px}.panel-head h2{font-size:30px;line-height:1.4}.panel-head p{font-size:14px}
+.card,.decision,.proj{border-color:var(--line-2);border-radius:8px}.card p,.decision .da,.proj .pdesc{font-size:14px;line-height:1.9}.card h4{font-size:15px}.arch{padding:26px;border-color:var(--line-2);border-radius:10px;background:var(--bg-2)}.arch-col-label{color:var(--ink-2);font-size:11px}.node{background:var(--card);border-color:var(--line-2);padding:17px}.node .nd{font-size:12px;line-height:1.8}.node .nt{font-size:14px}.node.hl{background:rgba(126,247,200,.04)}
+.attribution-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.attribution-grid .node{margin-bottom:0}
+.decision-id{font:11px var(--mono);letter-spacing:.12em;color:var(--accent);margin-bottom:15px}.decision .dq{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.6}.decision{padding:26px}.decision details{margin-top:20px}
+details{margin-top:16px;border-top:1px solid var(--line-2);padding-top:12px}summary{cursor:pointer;color:var(--accent);font-size:12px;line-height:1.8;min-height:28px}details p{font-size:13px;color:var(--ink-2);line-height:1.9;margin-top:12px}.node details p{font-size:12px}.scope-note{padding:22px 24px;background:var(--bg-2);border-left:2px solid var(--accent-2);margin-bottom:30px}.scope-note b{font-size:14px;color:var(--accent-2)}.scope-note p{font-size:13px;color:var(--ink-2);line-height:1.9;margin-top:10px}
+.demo-case{border:1px solid var(--line-2);background:var(--bg-2);padding:28px;border-radius:10px}.demo-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}.demo-header .tag{font-size:11px;color:var(--accent-2)}.demo-caption{font:10px var(--mono);color:var(--ink-2)}.demo-controls{display:flex;gap:10px;margin:22px 0}.case-btn{background:transparent;color:var(--ink-2);border:1px solid var(--line-2);padding:10px 14px;border-radius:5px;cursor:pointer;font:12px var(--sans)}.case-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(126,247,200,.04)}.case-layout{display:grid;grid-template-columns:.85fr 1.3fr;gap:24px}.question-sheet{background:#eeeadf;color:#292a28;border-radius:6px;padding:26px}.sheet-label{font:10px var(--mono);letter-spacing:.1em;color:var(--ink-2)}.question-sheet .sheet-label{color:#666658}.question-sheet h4{font-family:var(--serif);font-size:23px;margin:22px 0 14px}.question-sheet p{font-size:14px;line-height:1.8}.rectangle-diagram{height:100px;border:2px solid #646d62;margin:35px 16px 32px;position:relative}.rectangle-diagram span:first-child{position:absolute;top:-25px;left:43%;font:12px var(--mono)}.rectangle-diagram span:last-child{position:absolute;bottom:7px;right:8px;font:12px var(--mono)}.question-sheet .reference{border-top:1px solid #c9c6bb;padding-top:16px}.case-output{padding:8px 0}.case-output>p{font-size:15px;line-height:1.9;margin:16px 0}.verdict{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:15px 0;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);font-size:12px;color:var(--ink-2)}.verdict b{color:var(--warn)}.verdict span:last-child{margin-left:auto;color:var(--accent-2)}.case-steps>div{margin-top:18px}.case-steps b{font-size:12px;color:var(--ink)}.case-steps p{font-size:13px;color:var(--ink-2);line-height:1.8;margin-top:6px}
+.proj img,.proj video{width:100%;display:block;border:1px solid var(--line-2);border-radius:5px;margin-top:16px}.proj video{max-height:380px;background:#080809}.asset-caption{font-size:11px!important;line-height:1.8!important}.proj details .text-link{display:inline-block;margin-top:14px}
+.card:has(table){overflow-x:auto}table{min-width:460px}td,th{padding-left:8px;padding-right:10px}td{font-size:13px}
+.panel:focus{outline:none}
+:where(a,button,summary,input,select,textarea,[role="tab"]):focus-visible{outline:2px solid var(--accent-2);outline-offset:5px}.skip-link{position:absolute;left:20px;top:-100px;z-index:200;background:var(--accent);color:var(--bg);padding:10px}.skip-link:focus{top:12px}
+@media(max-width:900px){.attribution-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.metric:nth-child(3){border-right:0}.metric:nth-child(-n+3){border-bottom:1px solid var(--line-2)}.metric:nth-child(4){padding-left:0}.tabnav-inner{padding:0 16px}}
+@media(max-width:600px){.masthead{margin:0 20px;padding-left:0;padding-right:0;font-size:10px;padding-top:20px;align-items:flex-start}.masthead span{display:block;margin:6px 0 0}.masthead>div{gap:12px;flex-direction:column;align-items:flex-end}.hero{padding-top:38px}.hero h1{font-size:36px}.hero-sub{font-size:14px}.desktop-break{display:none}.hero-actions{gap:16px;align-items:flex-start;flex-direction:column;margin-bottom:30px}.hero-meta{font-size:10px}.metric{padding:18px 10px}.metric .num{font-size:20px}.metric:nth-child(n){border-right:0;padding-left:12px;border-bottom:1px solid var(--line-2)}.metric:nth-child(odd){border-right:1px solid var(--line-2);padding-left:0}.metric:nth-last-child(-n+2){border-bottom:0}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric-note{font-size:10px}.panel-head h2{font-size:25px}.arch{padding:18px}.card,.decision,.proj{padding:20px}.attribution-grid{grid-template-columns:1fr}.case-layout{grid-template-columns:1fr}.demo-case{padding:18px}.demo-header{gap:8px}.case-btn{padding:10px 12px}.question-sheet{padding:22px}.tab-btn{font-size:12px;padding:18px 12px}.scope-note{padding:18px}.panel{padding-bottom:50px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+@media print{body{background:white;color:#222}.masthead,.hero-actions,.tabnav,.demo-controls,video,.skip-link{display:none}.wrap{max-width:none;padding:0}.hero{padding:10px 0}.hero h1{font-size:30px}.panel{display:block!important;break-before:page;padding:0}.panel-head{padding-top:0}details{display:block}details>p{display:block}.card,.proj,.decision,.arch,.scope-note,.demo-case{background:white;border-color:#bbb;break-inside:avoid}.metrics{grid-template-columns:repeat(3,1fr)}.grid-2,.grid-3,.grid-4,.arch-row,.case-layout{grid-template-columns:1fr 1fr}p,.hero-sub,.hero-meta,.metric-note,.card p,.proj .pdesc,.node .nd,.case-steps p,td,.method-body p,details p{color:#444!important}h1,h2,h3,h4,h5,.nt{color:#222!important}a,.accent-text,.tag,.kicker,.decision-id{color:#24634d!important}.node{background:white;border-color:#bbb}.asset-caption{color:#444!important}}
+
+
+/* Motion shares the personal site's reveal, magnetic and spotlight language. */
+#reading-progress{position:fixed;top:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:150;pointer-events:none;box-shadow:0 0 8px rgba(126,247,200,.3)}
+body.motion-enabled .intro-item{animation:portfolio-arrive .75s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--arrival-delay,0ms)}
+body.motion-enabled .revealed{animation:portfolio-arrive .65s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--reveal-delay,0ms)}
+@keyframes portfolio-arrive{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+body.motion-enabled .panel{animation:portfolio-panel .4s ease both}
+@keyframes portfolio-panel{from{opacity:.3;translate:0 8px}to{opacity:1;translate:0 0}}
+.card,.proj,.decision,.node,.metric{position:relative}
+.card::before,.proj::before,.decision::before,.node::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(240px circle at var(--pointer-x,50%) var(--pointer-y,50%),rgba(126,247,200,.065),transparent 72%);pointer-events:none;opacity:0;transition:opacity .25s}
+body.motion-enabled .card:hover::before,body.motion-enabled .proj:hover::before,body.motion-enabled .decision:hover::before,body.motion-enabled .node:hover::before{opacity:1}
+body.motion-enabled .card,body.motion-enabled .decision,body.motion-enabled .node{transition:border-color .25s,box-shadow .25s}
+body.motion-enabled .card:hover,body.motion-enabled .decision:hover,body.motion-enabled .node:hover{border-color:#426754;box-shadow:0 6px 24px rgba(0,0,0,.16)}
+body.motion-enabled .portfolio-btn{transform:translate(var(--magnet-x,0px),var(--magnet-y,0px));transition:transform .18s ease,box-shadow .25s}
+body.motion-enabled .portfolio-btn:hover{box-shadow:0 0 22px rgba(126,247,200,.12)}
+body.motion-enabled details[open]>p,body.motion-enabled details[open]>img,body.motion-enabled details[open]>video{animation:portfolio-arrive .3s ease both}
+body:not(.motion-enabled) *,body:not(.motion-enabled) *::before,body:not(.motion-enabled) *::after{animation:none!important;transition:none!important}
+body:not(.motion-enabled) .proj:hover,body:not(.motion-enabled) .portfolio-btn:hover{transform:none}
+@media(hover:none),(pointer:coarse){.card::before,.proj::before,.decision::before,.node::before{display:none}.proj:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){body.motion-enabled .portfolio-btn,body.motion-enabled .proj:hover{transform:none!important}body.motion-enabled .card::before,body.motion-enabled .proj::before,body.motion-enabled .decision::before,body.motion-enabled .node::before{display:none}}
+@media print{#reading-progress,#motion-toggle{display:none}*,*::before,*::after{animation:none!important;translate:none!important;transform:none!important;box-shadow:none!important}}
+
+
+/* Same six-pixel hover shift as the personal site's Live Signals. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ body.motion-enabled .metric .num,body.motion-enabled .metric .label{transform:translateX(0);transition:transform .3s ease,text-shadow .3s ease}
+ body.motion-enabled .metric:hover .num,body.motion-enabled .metric:hover .label{transform:translateX(6px)}
+ body.motion-enabled .metric:hover .num{text-shadow:0 0 20px rgba(126,247,200,.3)}
+}
+
+
+/* Highlight individual methodology rows, matching the site's Selected Work. */
+body.motion-enabled .card.method-list:hover{border-color:var(--line-2);box-shadow:none}
+.card.method-list::before{display:none}
+.method-list .method-layer{position:relative;margin:0 -12px;padding:20px 12px}
+.method-list .method-layer::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:center;box-shadow:0 0 12px rgba(126,247,200,.45);pointer-events:none}
+.method-list .method-body{min-width:0}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ body.motion-enabled .method-list .method-layer{transition:background .25s ease}
+ body.motion-enabled .method-list .method-layer::before{transition:transform .25s ease}
+ body.motion-enabled .method-list .method-body{transition:transform .25s ease}
+ body.motion-enabled .method-list h5{transition:color .2s ease}
+ body.motion-enabled .method-list .method-num{transition:background .25s ease,box-shadow .25s ease}
+ body.motion-enabled .method-list .method-layer:hover{background:var(--bg-2)}
+ body.motion-enabled .method-list .method-layer:hover::before{transform:scaleY(1)}
+ body.motion-enabled .method-list .method-layer:hover .method-body{transform:translateX(6px)}
+ body.motion-enabled .method-list .method-layer:hover h5{color:var(--accent)}
+ body.motion-enabled .method-list .method-layer:hover .method-num{background:rgba(126,247,200,.04);box-shadow:0 0 14px rgba(126,247,200,.08)}
+}
+@media print{.method-list .method-layer::before{display:none}}
+
+
+/* Native disclosure cards: the entire preview is the click target. */
+details.expand-card{margin:0;padding:0;border-top:1px solid var(--line-2)}
+.expand-card>.card-summary{display:block;list-style:none;cursor:pointer;padding:26px;color:inherit;font:inherit;min-height:0}
+.expand-card>.card-summary::-webkit-details-marker{display:none}
+.expand-hint{display:block;border-top:1px solid var(--line-2);padding-top:12px;margin-top:18px;color:var(--accent);font-size:12px;line-height:1.8}
+.expand-hint::before{content:'▸';display:inline-block;margin-right:7px;transition:transform .2s}
+.expand-card[open]>.card-summary .expand-hint::before{transform:rotate(90deg)}
+.expand-card>.card-details{padding:0 26px 26px;cursor:auto}
+.expand-card .card-summary p{margin-top:0}
+.expand-card:not([open])>.card-summary{height:100%}
+.expand-card .card-details img{height:auto}
+.expand-card>.card-details p{margin-top:0;font-size:13px;color:var(--ink-2);line-height:1.9}
+.expand-card .card-details .text-link{display:inline-block;margin-top:14px}
+body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive .3s ease both}
+@media(max-width:600px){.expand-card>.card-summary{padding:20px}.expand-card>.card-details{padding:0 20px 20px}}
+
+
+/* Keep Chinese and Latin units in the same caption type style. */
+.metric .label,.metric-note{font-family:"PingFang SC","Noto Sans SC",-apple-system,"Helvetica Neue",sans-serif;font-size:11px;font-weight:400;font-style:normal;letter-spacing:normal}
+
+
+/* Architecture nodes use the same native whole-preview disclosure. */
+.node.expand-card{display:block;padding:0}
+.node.hl.expand-card{border-color:var(--accent)}
+.node.expand-card>.card-summary{display:flex;flex-direction:column;justify-content:center;padding:17px;font-size:13px}
+.node.expand-card>.card-details{padding:0 17px 17px}
+.node.expand-card .card-details p{font-size:12px;line-height:1.8}
+.node.expand-card .expand-hint{margin-top:16px}
+
+</style>
+</head>
+<body>
+<div id="reading-progress" aria-hidden="true"></div>
+<a class="skip-link" href="#content">跳到案例内容</a>
+<div class="wrap masthead"><a href="index.html">FREYA QIAN <span>/ AI PM · BUILDER</span></a><div><a href="index.html">返回个站 ↗</a><button id="motion-toggle" type="button" aria-label="动态效果" aria-pressed="true">动效：开</button><button id="print-page" type="button">打印作品集 ↗</button></div></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag">AI PRODUCT PORTFOLIO / 2026</div>
+    <h1>让一道题，<br>得到<span class="accent-text">可靠的解答。</span></h1>
+    <p class="hero-sub">
+      腾讯元宝 · 拍题答疑。围绕识别、路由、解题与质量评测，<br class="desktop-break">把模型能力组织成可用的产品，把错误变成下一轮改进的依据。
+    </p>
+    <div class="hero-meta">
+      Owner · <b>Freya（AI PM）</b> · 产品负责人 · 产品边界定义 / 多 Agent 架构 / 分类路由 / 评测体系 / Badcase 归因<br>
+      Stack · 多 Agent 编排 · Embedding 题库检索 · VLM 多模态识别 · 五层 Rubric 评测 · 灰度对比
+    </div>
+
+    <div class="hero-actions"><a class="portfolio-btn" href="#t1">看项目全景 ↓</a><a class="text-link" href="#t5">查看错误归因案例 ↗</a></div>
+    <div class="metrics">
+      <div class="metric">
+        <div class="num">72%<span class="arrow">→</span>90%</div>
+        <div class="label">解题准确率<br>提升 18 个 pp</div>
+      </div>
+      <div class="metric">
+        <div class="num up">5 层</div>
+        <div class="label">Rubric 质量标准<br>安全/意图/正确/完整/体验</div>
+      </div>
+      <div class="metric">
+        <div class="num up">4 层</div>
+        <div class="label">Badcase 归因框架<br>识别→理解→生成→最终答案</div>
+      </div>
+      <div class="metric">
+        <div class="num up">7 维</div>
+        <div class="label">题目分类路由<br>分发至不同解题策略</div>
+      </div>
+      <div class="metric">
+        <div class="num up">4 个</div>
+        <div class="label">协作 Agent<br>识别/理解/推理/质检</div>
+      </div>
+      <div class="metric">
+        <div class="num">1k-2k<span style="font-size:14px;color:var(--ink-3)">题</span></div>
+        <div class="label">后期单轮评测规模<br>各轮题目不同</div>
+      </div>
+    </div>
+    <p class="metric-note">72% → 90%：项目阶段评测记录，提升 18 个 pp。各轮题目不同，不作为同一固定题集的配对实验，也不拆算单项机制贡献。</p>
+  </div>
+</header>
+
+<!-- ============ TAB NAV ============ -->
+<nav class="tabnav">
+  <div class="tabnav-inner">
+    <button class="tab-btn active" data-tab="t1"><span class="tn">01</span>全景总览</button>
+    <button class="tab-btn" data-tab="t2"><span class="tn">02</span>架构设计</button>
+    <button class="tab-btn" data-tab="t3"><span class="tn">03</span>关键决策</button>
+    <button class="tab-btn" data-tab="t4"><span class="tn">04</span>评测体系</button>
+    <button class="tab-btn" data-tab="t5"><span class="tn">05</span>归因飞轮</button>
+    <button class="tab-btn" data-tab="t6"><span class="tn">06</span>项目实践</button>
+    <button class="tab-btn" data-tab="t7"><span class="tn">07</span>AI 方法论</button>
+    <button class="tab-btn" data-tab="t8"><span class="tn">08</span>关于我</button>
+  </div>
+</nav>
+
+<main class="wrap" id="content">
+
+<!-- ============ 01 全景总览 ============ -->
+<section class="panel active" id="t1">
+  <div class="panel-head">
+    <div class="kicker">01 / SYSTEM OVERVIEW</div>
+    <h2>拍题答疑产品与系统全景</h2>
+    <p>用户拍一道题进来，系统不是直接把图丢给大模型，而是先过「识别 → 路由 → 解题 → 质检」四道关，再把解题过程返回；错题自动沉淀进错题本，按学科分类、按遗忘曲线复习。</p>
+  </div>
+
+  <div class="arch">
+    <div class="arch-row">
+      <div class="arch-col">
+        <div class="arch-col-label">用户输入 · Input</div>
+        <div class="node">
+          <div class="nt">拍照上传</div>
+          <div class="nd">单题 / 整页试卷多题批量识别</div>
+        </div>
+        <details class="node expand-card"><summary class="card-summary" aria-label="题干完整度预检">
+          <div class="nt">题干完整度预检</div>
+          <div class="nd">模糊 / 倾斜 / 残缺 → 提示重拍，不硬答</div><span class="expand-hint">设计细节</span></summary><div class="card-details"><p>缺条件时提示重拍或补全。需要同时观察拦截准确性与误拒答，避免通过少答难题虚高准确率。</p></div></details>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">多 Agent 引擎 · Engine</div>
+        <details class="node hl expand-card"><summary class="card-summary" aria-label="7 维分类路由">
+          <div class="nt">7 维分类路由</div>
+          <div class="nd">是否为题 · 题干完整度 · K12/非K12 · 题目数量 · 答案唯一性 · 图表 · 题型</div><span class="expand-hint">设计细节</span></summary><div class="card-details"><p>这些是输入路由维度，和评测用的学科 / 学段 / 题型标签分别管理。评测路由准确性，再评测各路径的解答表现。</p></div></details>
+        <details class="node expand-card"><summary class="card-summary" aria-label="双路径解题">
+          <div class="nt">双路径解题</div>
+          <div class="nd">常见题 → LLM 直解（速度）<br>长尾难题 → RAG 题库检索（准确率）</div><span class="expand-hint">设计细节</span></summary><div class="card-details"><p>检索并不保证答案正确。召回后核对原题与条件，匹配不足时重新求解或兜底，并记录时延与错误类型。</p></div></details>
+        <details class="node expand-card"><summary class="card-summary" aria-label="答案质检 Agent">
+          <div class="nt">答案质检 Agent</div>
+          <div class="nd">安全 / 正确性 / 完整性 / 体验四层校验</div><span class="expand-hint">设计细节</span></summary><div class="card-details"><p>质检是一项职责，不能当成 Badcase 第四层。归因需要追到识别、理解、生成或最终答案；质检漏检可作为附加标签。</p></div></details>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">输出与沉淀 · Output</div>
+        <div class="node">
+          <div class="nt">解题过程 + 答案</div>
+          <div class="nd">识别 → 理解 → 分步解答 → 答案</div>
+        </div>
+        <div class="node">
+          <div class="nt">AI 精讲</div>
+          <div class="nd">动态板书 + 语音 + 双向语音互动 + 互动测验</div>
+        </div>
+        <div class="node">
+          <div class="nt">错题本</div>
+          <div class="nd">自动收录 · 按学科分类 · 遗忘曲线复习</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag">北极星</span>
+      <h4>周有效解题数</h4>
+      <p>获得解答或批改、且查看了解题过程的用户行为次数。比「拍题次数」更能代表产品真实价值——反映解答被查看与使用；是否学会仍需测验或后续行为验证。</p>
+    </div>
+    <div class="card">
+      <span class="tag">核心漏斗</span>
+      <h4>拍题 → 识别 → 解答 → 查看 → 讲解</h4>
+      <p>每 2-3 周跑一次分层分析（学段 × 学科 × 题型），定位瓶颈环节。结合识别成功率、解答覆盖和查看率定位瓶颈，避免只盯总准确率。</p>
+    </div>
+    <div class="card">
+      <span class="tag">互证原则</span>
+      <h4>离线质量评测与线上反馈互证</h4>
+      <p>离线提升后，继续观察线上投诉、应答率和时延。变化不一致时，排查题目分布、采样与体验因素，再判断是否存在评测盲区。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 架构设计 ============ -->
+<section class="panel" id="t2">
+  <div class="panel-head">
+    <div class="kicker">02 / AGENT ARCHITECTURE</div>
+    <h2>多 Agent 协作 + 分类路由 + 工具调用</h2>
+    <p>把一个「拍照→解题」的模糊需求，拆成识别、理解、推理、质检四个分工明确的 Agent；再用 7 维分类路由决定走哪条解题路径，用置信度判断决定什么时候触发检索、什么时候降级兜底。</p>
+  </div>
+
+  <h3 class="sec">Agent 职责与协作机制</h3>
+  <div class="grid-4">
+    <div class="card">
+      <span class="tag">Agent 01</span>
+      <h4>题目识别</h4>
+      <p>OCR + 题目检测，处理模糊、倾斜、整页多题；识别不完整直接提示重拍，不进入下游。</p>
+    </div>
+    <div class="card">
+      <span class="tag">Agent 02</span>
+      <h4>题目理解</h4>
+      <p>拆解题意、学科分类、难度判定；输出结构化题干给下游，并决定路由方向。</p>
+    </div>
+    <div class="card">
+      <span class="tag">Agent 03</span>
+      <h4>解题推理</h4>
+      <p>按学科解题 Skill 输出分步过程；常见题直解，长尾题先 Embedding 召回题库原题和标准答案。</p>
+    </div>
+    <div class="card">
+      <span class="tag">Agent 04</span>
+      <h4>答案质检</h4>
+      <p>安全合规、答案正确性、步骤完整性、讲解体验四层校验；不通过自动重生成或降级。</p>
+    </div>
+  </div>
+
+  <h3 class="sec">双路径解题策略与适用边界</h3>
+  <div class="grid-2">
+    <div class="card">
+      <span class="tag">路径 A · 速度优先</span>
+      <h4>常见题 → LLM 直解</h4>
+      <p>基础题、高频题、答案明确的题，直接让大模型生成解题过程。延迟低、体验流畅，覆盖大部分日常使用场景。</p>
+    </div>
+    <div class="card">
+      <span class="tag">路径 B · 准确率优先</span>
+      <h4>长尾难题 → RAG 题库检索</h4>
+      <p>对长尾难题尝试题库召回，核对题干、条件和解析的匹配程度；检索质量与解题正确性分别评测，避免相似题误用。</p>
+    </div>
+  </div>
+
+  <h3 class="sec">工具调用与降级兜底</h3>
+  <div class="card">
+    <table>
+      <colgroup><col style="width:22%"><col style="width:38%"><col style="width:40%"></colgroup>
+      <thead><tr><th>机制</th><th>怎么做</th><th>解决什么问题</th></tr></thead>
+      <tbody>
+        <tr><td>检索条件触发</td><td>不是所有题都检索，按难度路由结果决定</td><td>控制延迟和成本，避免每道题都查库</td></tr>
+        <tr><td>置信度判断</td><td>结合输出一致性、检索匹配与质检信号触发兜底；模型自报置信度需校准</td><td>避免「一本正经地胡说」直接给用户</td></tr>
+        <tr><td>失败自动降级</td><td>检索失败 → 回退 LLM 直解；直解失败 → 提示用户换问法</td><td>保持服务可用；仍需对最终答案做质量校验</td></tr>
+        <tr><td>长期记忆 · 错题本</td><td>自动收录错题、按学科沉淀；结合用户历史做个性化讲解</td><td>从「一次性答疑」变成「学习闭环」</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 03 关键决策 ============ -->
+<section class="panel" id="t3">
+  <div class="panel-head">
+    <div class="kicker">03 / KEY DECISIONS</div>
+    <h2>关键产品决策与取舍</h2>
+    <p>从产品目标出发，说明为什么选择这条路径，以及如何检查它有没有解决问题。展开查看决策边界与取舍。</p>
+  </div>
+
+<div class="grid-2 decision-grid"><details class="decision expand-card"><summary class="card-summary" aria-label="分阶段处理与质量控制"><div class="decision-id">D01</div><h3 class="dq">分阶段处理与质量控制</h3><p class="da">识别、理解和求解的错误会叠加。先检查题干完整性，再按题目特征选择路径，减少下游在错误条件上继续推理。</p><span class="expand-hint">决策边界与取舍</span></summary><div class="card-details"><p>先确定模型能力边界，再做产品承诺。质量验证与时延预算需要一起考虑。</p></div></details><details class="decision expand-card"><summary class="card-summary" aria-label="七维分类与解题策略路由"><div class="decision-id">D02</div><h3 class="dq">七维分类与解题策略路由</h3><p class="da">同一路径难以兼顾简单题的速度与复杂题的可靠性。用输入特征组织策略，对直解、检索和兜底分别做分层评测。</p><span class="expand-hint">决策边界与取舍</span></summary><div class="card-details"><p>路由本身也会犯错。要核对输入分类准确性，不能只验下游模型。</p></div></details><details class="decision expand-card"><summary class="card-summary" aria-label="有效解题指标与价值衡量"><div class="decision-id">D03</div><h3 class="dq">有效解题指标与价值衡量</h3><p class="da">拍题量只说明用户发起请求。获得解答并查看过程，更接近产品被实际使用；同时观察应答覆盖、错误反馈和时延。</p><span class="expand-hint">决策边界与取舍</span></summary><div class="card-details"><p>查看不等于学会。学习效果需要测验、复习表现或后续行为证据。</p></div></details><details class="decision expand-card"><summary class="card-summary" aria-label="正确性判定与过程质量评价"><div class="decision-id">D04</div><h3 class="dq">正确性判定与过程质量评价</h3><p class="da">正确性回答「答案是否成立」，Rubric 回答「步骤是否完整、讲解是否好用」。两套口径分别统计，不能用体验高分掩盖错误答案。</p><span class="expand-hint">决策边界与取舍</span></summary><div class="card-details"><p>主观题按关键要点与允许解法判定正确 / 错误 / 待仲裁；待仲裁样本暂不进入正确率分母，并单报占比。</p></div></details><details class="decision expand-card"><summary class="card-summary" aria-label="试标校准与评测规模扩展"><div class="decision-id">D05</div><h3 class="dq">试标校准与评测规模扩展</h3><p class="da">先用小规模典型题检验规则是否可执行，校准标注分歧，再扩充学科与题型覆盖。后期单轮约 1,000–2,000 题，各轮题目不同。</p><span class="expand-hint">决策边界与取舍</span></summary><div class="card-details"><p>固定错题回归与阶段分层评测服务不同目的。跨批次比较需要说明组成差异，不只给一个总分。</p></div></details><details class="decision expand-card"><summary class="card-summary" aria-label="错误样本回流与定向回归"><div class="decision-id">D06</div><h3 class="dq">错误样本回流与定向回归</h3><p class="da">把线上问题按识别、理解、生成、最终答案分层，形成优化优先级，再用同类题做定向回归，检查是否修复及是否引入新退化。</p><span class="expand-hint">决策边界与取舍</span></summary><div class="card-details"><p>处理线上样本前先考虑授权和脱敏；回流数量本身不是效果，应观察重复错误与回归表现。</p></div></details></div>
+</section>
+
+<!-- ============ 04 评测体系 ============ -->
+<section class="panel" id="t4">
+  <div class="panel-head">
+    <div class="kicker">04 / EVALUATION SYSTEM</div>
+    <h2>解题质量标准与评测体系</h2>
+    <p>这是我在这个项目里做得最深入的一块。面对跨学科答案标准不一、全学科专家不够用、模型效果难客观判断的痛点，我搭建质量标准、标注规则、错误归因和版本对比流程。</p>
+  </div>
+
+  <div class="scope-note"><b>两套口径，分别使用</b><p>解题正确率 = 判定正确的样本 ÷（正确 + 错误的样本）。可解题误拒记为错误；缺条件、矛盾或不可解且被正确拒绝的题与待仲裁样本单列。开放作文与批改单独评价，应答率另计。0–4 分质量档位用于过程与体验评价，不能替代解题正确率。下表是作品集中的概括说明。</p></div>
+  <h3 class="sec">五层质量标准</h3>
+  <div class="grid-4">
+    <div class="card" style="border-top:2px solid var(--warn)">
+      <span class="tag" style="background:rgba(255,138,101,.1);color:var(--warn)">L1</span>
+      <h4>安全层</h4>
+      <p>内容安全、合规、敏感信息拦截。教育场景红线。</p>
+    </div>
+    <div class="card" style="border-top:2px solid var(--accent-2)">
+      <span class="tag" style="background:rgba(255,230,109,.1);color:var(--accent-2)">L2</span>
+      <h4>意图层</h4>
+      <p>有没有答非所问？是不是真的在解这道题，而不是自说自话。</p>
+    </div>
+    <div class="card" style="border-top:2px solid var(--accent)">
+      <span class="tag" style="background:rgba(126,247,200,.1);color:var(--accent)">L3</span>
+      <h4>正确性层</h4>
+      <p>客观题核验答案；主观题按关键要点与允许解法判定正确、错误或待仲裁。</p>
+    </div>
+    <div class="card" style="border-top:2px solid var(--blue)">
+      <span class="tag" style="background:rgba(96,165,250,.1);color:var(--blue)">L4</span>
+      <h4>完整性层</h4>
+      <p>解题步骤全不全？是不是只给了个答案跳步了？</p>
+    </div>
+  </div>
+  <div style="height:16px"></div>
+  <div class="card" style="border-top:2px solid var(--ink-2)">
+    <span class="tag">L5</span>
+    <h4 style="margin-bottom:6px">体验层</h4>
+    <p style="font-size:13px">讲解是否清晰易懂、格式是否规范、有没有引导到下一步。这一层影响阅读体验；复用意愿需用线上行为验证。</p>
+  </div>
+
+  <h3 class="sec">0–4 分质量档位与判定依据</h3>
+  <div class="card">
+    <table>
+      <colgroup><col style="width:14%"><col style="width:20%"><col style="width:66%"></colgroup>
+      <thead><tr><th>档位</th><th>等级</th><th>判定标准</th></tr></thead>
+      <tbody>
+        <tr><td>4 分</td><td>好用</td><td>主需全满足 + 延展全满足 + 未命中陷阱</td></tr>
+        <tr><td>3 分</td><td>可用</td><td>主需全满足 + 未命中陷阱（延展未满足或轻微错误）</td></tr>
+        <tr><td>2 分</td><td>部分可用</td><td>核心需求部分缺失，仍有可用内容；无严重错误</td></tr>
+        <tr><td>1 分</td><td>没用</td><td>核心需求严重缺失，或存在严重错误</td></tr>
+        <tr><td>0 分</td><td>完全没用</td><td>主需全部缺失或全部错误</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec">跨学科参考答案核验与争议处理</h3>
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag">方法 01</span>
+      <h4>原题与标准解析核验</h4>
+      <p>从题库、练习册、往年真题里找原题和标准答案，作为参考答案基线。</p>
+    </div>
+    <div class="card">
+      <span class="tag">方法 02</span>
+      <h4>多模型答案一致性参考</h4>
+      <p>用多个不同厂商的模型分别作答，一致性用作辅助线索，不能替代原题解析与人工仲裁；模型也可能共同犯错。</p>
+    </div>
+    <div class="card">
+      <span class="tag">方法 03</span>
+      <h4>竞品对比</h4>
+      <p>和作业帮、小猿等成熟产品的解答对比，不一致的题重点人工复核。</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;border-left:2px solid var(--accent)">
+    <p style="color:var(--ink);font-size:14px;line-height:1.75">
+      <b style="color:var(--accent)">核心思路：</b>评测体系不是一开始就完美的，是在迭代中不断完善的。先搭一个能跑起来的框架，先小规模试标，统一规则，再扩展到不同批次的评测题。版本对比同时检查分层表现与应答覆盖；保留典型错题作定向回归。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 归因飞轮 ============ -->
+<section class="panel" id="t5">
+  <div class="panel-head">
+    <div class="kicker">05 / ATTRIBUTION FLYWHEEL</div>
+    <h2>四层错误归因与迭代闭环</h2>
+    <p>模型解题不准，但问题根因不清——是识别错了？理解错了？还是生成错了？建立四层归因框架后，每 2-3 周输出一次效果报告，明确短板和优化优先级。</p>
+  </div>
+
+  <div class="arch">
+    <div class="attribution-grid">
+      <div class="node" style="text-align:center">
+        <div class="nt" style="color:var(--warn)">L1 图像识别错</div>
+        <div class="nd">模糊 / 倾斜 / OCR 错<br>→ 优化前置处理 + 重拍提示</div>
+      </div>
+      <div class="node" style="text-align:center">
+        <div class="nt" style="color:var(--accent-2)">L2 题目理解错</div>
+        <div class="nd">分类错 / 意图路由错<br>→ 优化分类规则与 Prompt</div>
+      </div>
+      <div class="node" style="text-align:center">
+        <div class="nt" style="color:var(--accent)">L3 解题生成错</div>
+        <div class="nd">推理链错误 / 运算错误 / 逻辑跳步<br>→ Prompt + RAG 策略优化</div>
+      </div>
+      <div class="node" style="text-align:center">
+        <div class="nt" style="color:var(--blue)">L4 最终答案错</div>
+        <div class="nd">过程正确但结论 / 选项 / 单位错<br>→ 检查过程与最终输出的一致性</div>
+      </div>
+    </div>
+    <div style="text-align:center;color:var(--ink-3);font-size:13px;margin:16px 0;font-family:var(--mono)">↓ 按根因归档，回流分层评测与定向回归 ↓</div>
+    <div class="node hl" style="text-align:center">
+      <div class="nt">数据飞轮：评测 → 归因 → 优化 → 回归 → 线上错题回流评测集</div>
+      <div class="nd">每 2–3 周输出阶段效果报告，定位短板与优化优先级</div>
+    </div>
+  </div>
+
+<h3 class="sec">错误诊断与优化策略</h3>
+<div class="grid-3"><article class="card"><span class="tag">检索策略</span><h4>检索触发与匹配质量</h4><p>按题目特征触发召回，核对原题与条件，重点评测相似题误召回；同时观察增加的时延。</p></article><article class="card"><span class="tag">输入质量</span><h4>输入质量预检与补充引导</h4><p>对模糊、倾斜、缺失条件提供重拍或补充信息入口；分开评测识别质量与下游解答。</p></article><article class="card"><span class="tag">标注校准</span><h4>标注分歧校准与规则完善</h4><p>关键要点、允许解法与错误类型明确后再扩充样本。争议题保留待仲裁，不强行计入正确率。</p></article></div>
+<h3 class="sec">错误归因案例：识别偏差与答案不一致</h3>
+<article class="demo-case" id="demo-case"><div class="demo-header"><span class="tag">合成演示 · 非线上样本</span><span class="demo-caption">假设输出 / 未运行模型测试</span></div>
+<div class="demo-controls" role="group" aria-label="选择演示案例"><button type="button" class="case-btn active" data-case="answer" aria-pressed="true">最终答案错误</button><button type="button" class="case-btn" data-case="ocr" aria-pressed="false">图像识别错误</button></div>
+<div class="case-layout"><div class="question-sheet"><span class="sheet-label">题面 / 合成文字输入</span><h4>长方形的面积</h4><p>长方形长 2 m，宽 30 cm。<br>面积是多少平方米？</p><div class="rectangle-diagram"><span>2 m</span><span>30 cm</span></div><p class="reference">参考解：30 cm = 0.3 m<br>2 × 0.3 = <b>0.6 m²</b></p></div>
+<div class="case-output" aria-live="polite"><span class="sheet-label">假设错误输出</span><p id="case-output">宽 30 cm = 0.3 m，面积为 2 × 0.3 = 0.6 m²。<br>因此，最终答案是 60 m²。</p><div class="verdict"><span>正确性判定</span><b>错误</b><span id="case-layer">L4 · 最终答案</span></div><div class="case-steps"><div><b>判分依据</b><p id="case-reason">中间计算成立，最终结论与计算结果不一致；不能因步骤正确就判整题正确。</p></div><div><b>迭代动作</b><p id="case-action">增加最终结论与推导结果、单位的一致性检查，保留同类错题作定向回归。</p></div><div><b>复核条件（待实际测试）</b><p id="case-check">同类单位换算题最终答案与过程一致；同时检查应答率和时延是否退化。</p></div></div></div></div>
+<details><summary>案例分析：判定、归因与验证</summary><p>根据题干、解题过程与最终答案定位错误，明确判分依据，再提出改进动作与回归验证条件。本例为合成演示，用于展示分析方法；不代表公司真实样本或已验证的改进效果。</p></details></article>
+</section>
+
+<!-- ============ 06 其他项目 ============ -->
+<section class="panel" id="t6">
+  <div class="panel-head">
+    <div class="kicker">06 / SELECTED PROJECTS</div>
+    <h2>AI 产品设计与项目实践</h2>
+    <p>围绕内容生产、交互叙事和产品工作流，展示四个项目中的产品设计与实践。点击展开，查看各自的重点。</p>
+  </div>
+
+  <div class="grid-2">
+    <details class="proj expand-card"><summary class="card-summary" aria-label="只言片语 · AI 短片创作工作台">
+      <div class="ptag">AIGC 内容生产 · 多 Agent 工作流</div>
+      <h4>只言片语 · AI 短片创作工作台</h4>
+      <p class="pdesc">围绕「一句创意」到短片的六阶段生产流程：剧本 → 角色/场景 → 分镜 → 参考图 → 视频 → 后期。Human-in-the-loop 每阶段停点确认，角色一致性以设定图为锚点贯穿全流程，VLM 自动质检参考图。</p>
+      <div class="pmeta">
+        <span>6 阶段 Pipeline</span><span>Human-in-the-loop</span><span>VLM 质检</span><span>模型可插拔</span><span>本地部署</span>
+      </div><span class="expand-hint">创作流程与产品取舍</span></summary><div class="card-details"><p>核心问题是让创作者保留控制权：剧本、角色设定、分镜逐阶段确认，局部不满意时只重做该阶段。设计重点包括角色锚点、确认停点与失败恢复。</p></div></details>
+
+    <details class="proj expand-card"><summary class="card-summary" aria-label="AI Avatar Twin · 数字人口播工作台">
+      <div class="ptag">AIGC 内容生产 · 数字人 POC → 工作台演进</div>
+      <h4>AI Avatar Twin · 数字人口播工作台</h4>
+      <p class="pdesc">从腾讯内部黑客松 48 小时 POC 起步，探索「文章链接 → 数字人口播视频」；后续工作台围绕：选题发现 → 脚本生成（带来源标注）→ 数字人视频 → 发布素材包。单条目标 ≤30 分钟、≤5 步操作。</p>
+      <div class="pmeta">
+        <span>48h POC</span><span>选题→脚本→视频</span><span>事实核查</span><span>设计目标 ≤30min/条</span><span>照片驱动</span>
+      </div><span class="expand-hint">数字人口播视觉样片</span></summary><div class="card-details"><video controls preload="none" playsinline src="assets/portfolio/avatar-visual-sample.mp4" aria-label="数字人口播视觉样片"></video><p class="asset-caption">独立生成的视觉样片，用于风格验证；不是工作台端到端生成的验收证据。30 分钟、5 步均为设计目标。</p><a class="text-link" href="https://github.com/Freya-Qian/AI-Avatar-Twin" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+
+    <details class="proj expand-card"><summary class="card-summary" aria-label="漫想 StoryForge · AI 交互叙事游戏">
+      <div class="ptag">个人项目 · AI Builder</div>
+      <h4>漫想 StoryForge · AI 交互叙事游戏</h4>
+      <p class="pdesc">基于大模型的发散思维互动故事游戏：用户输入一句话生成多幕剧情与配图，可选择选项或自由输入推进。多 Agent 协作（故事生成 / 角色一致性 / 配图 / 分支管理），独立完成产品设计与 MVP 开发，GitHub 开源。</p>
+      <div class="pmeta">
+        <span>多 Agent</span><span>Prompt Engineering</span><span>独立开发 MVP</span><span>GitHub 开源</span>
+      </div><span class="expand-hint">交互叙事产品界面</span></summary><div class="card-details"><a href="assets/portfolio/manxiang-play.png" target="_blank" rel="noopener"><img src="assets/portfolio/manxiang-play.png" alt="漫想实际游玩界面：第二幕故事、脑洞星图与六幕进度" loading="lazy" width="1440" height="900"></a><p class="asset-caption">项目本地留存的实际界面截图。核心设计：六幕节奏、世界观与伏笔记忆、选项或自由输入、分支回溯。点击可放大。</p></div></details>
+
+    <details class="proj expand-card"><summary class="card-summary" aria-label="ProdForge AI · AI 产品孵化工作台">
+      <div class="ptag">辅助项目 · AI 产品工具</div>
+      <h4>ProdForge AI · AI 产品孵化工作台</h4>
+      <p class="pdesc">面向 PM、独立开发者和 AI 学习者：把一个模糊想法逐步整理成可评审、可开发、可交接的项目资料包。核心链路：想法 → 需求澄清 → 竞品证据 → 定位差异 → PRD → MVP → 研发任务 → 资料包。每阶段带审核点和来源引用。</p>
+      <div class="pmeta">
+        <span>结构化流程</span><span>证据关联</span><span>MVP 边界</span><span>研发交接</span>
+      </div><span class="expand-hint">证据关联与阶段审核</span></summary><div class="card-details"><p>资料不足时保留待验证假设，区分证据与推断；阶段审核后再进入下一步。人工修改需要被保留，避免下一轮生成覆盖已确认决定。</p><a class="text-link" href="https://github.com/Freya-Qian/ProdForge-AI" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+  </div>
+</section>
+
+<!-- ============ 07 AI 方法论 ============ -->
+<section class="panel" id="t7">
+  <div class="panel-head">
+    <div class="kicker">07 / AI PM METHODOLOGY</div>
+    <h2>AI 产品设计与质量管理方法</h2>
+    <p>结合拍题答疑与个人项目实践，从数据、工作流、任务边界和评测四个角度组织产品设计与质量管理。</p>
+  </div>
+
+  <h3 class="sec">AI 产品的长期价值来源</h3>
+  <div class="card method-list" style="padding:8px 24px">
+    <div class="method-layer">
+      <div class="method-num">L1</div>
+      <div class="method-body">
+        <h5>数据飞轮</h5>
+        <p>把经授权、可复核的问题反馈转为评测样本，检查优化后重复错误是否减少。使用量增加不等于数据质量自动提高。</p>
+      </div>
+    </div>
+    <div class="method-layer">
+      <div class="method-num">L2</div>
+      <div class="method-body">
+        <h5>工作流嵌入</h5>
+        <p>先理解用户在什么任务节点需要帮助，再衔接输入、结果与后续动作。能否形成习惯，需要留存与重复使用证据。</p>
+      </div>
+    </div>
+    <div class="method-layer">
+      <div class="method-num">L3</div>
+      <div class="method-body">
+        <h5>垂直领域知识壁垒</h5>
+        <p>领域标准、错误分类与高质量参考答案需要持续校准。产品、算法和标注共同维护规则，让质量判断可解释、可复核。</p>
+      </div>
+    </div>
+    <div class="method-layer">
+      <div class="method-num">L4</div>
+      <div class="method-body">
+        <h5>社区与网络效应</h5>
+        <p>当用户之间的内容与协作带来额外价值时，才可能形成网络效应；不能仅凭用户规模推断护城河。</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">Agent 任务边界与可靠性</h3>
+  <div class="grid-2">
+    <div class="card">
+      <span class="tag">短期</span>
+      <h4>任务边界与自主性控制</h4>
+      <p>多步链路会增加失败入口，不能只验单个 Agent。先界定可可靠处理的任务，再评测端到端成功率、失败恢复、时延与成本。</p>
+    </div>
+    <div class="card">
+      <span class="tag">长期</span>
+      <h4>场景理解与持续质量评测</h4>
+      <p>模型与工具会持续变化。产品需要积累场景理解、质量标准和用户信任，并用评测验证换模型或改工作流之后是否仍然可靠。</p>
+    </div>
+  </div>
+
+  <h3 class="sec">质量管理与迭代方式的差异</h3>
+  <div class="card">
+    <table>
+      <colgroup><col style="width:25%"><col style="width:37.5%"><col style="width:37.5%"></colgroup>
+      <thead><tr><th>维度</th><th>传统产品</th><th>AI 产品</th></tr></thead>
+      <tbody>
+        <tr><td>输出确定性</td><td>核心业务规则通常可按明确逻辑验收</td><td>概率性输出，同样输入可能不同结果</td></tr>
+        <tr><td>「好」的标准</td><td>功能、体验与业务结果共同验收</td><td>除功能验收外，还需模型输出质量评测</td></tr>
+        <tr><td>不确定性管理</td><td>同样需要处理系统故障、需求与业务风险</td><td>降级兜底、置信度判断、人工介入机制</td></tr>
+        <tr><td>迭代方式</td><td>上线后持续看漏斗、体验与业务反馈</td><td>持续看 Badcase、归因、优化、回归</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 08 关于我 ============ -->
+<section class="panel" id="t8">
+  <div class="panel-head">
+    <div class="kicker">08 / ABOUT</div>
+    <h2>Freya · AI Product Manager</h2>
+    <p>6 年 B 端产品经验 + 1.5 年 AI 产品 0-1 全链路。既懂传统产品「需求-设计-交付」方法论，又经历了大模型产品从「能生成」到「可用可控」的落地全过程。</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag">核心能力</span>
+      <h4>核心能力方向</h4>
+      <p>· 大模型产品 0-1 全链路<br>· 评测体系与质量标准搭建<br>· AIGC 内容产品落地与 Agent 工作流编排</p>
+    </div>
+    <div class="card">
+      <span class="tag">实战履历</span>
+      <h4>职业经历</h4>
+      <p>· 某头部大厂 AI 助手 · 拍题答疑产品线 Owner<br>· 大型钢铁集团 B 端 · HR/OA 产品<br>· 乙方科技 · 交互设计</p>
+    </div>
+    <div class="card">
+      <span class="tag">AI Builder</span>
+      <h4>产品设计与开发实践</h4>
+      <p>· 独立完成 AI 交互叙事游戏 MVP 并开源<br>· GitHub: Freya-Qian<br>· 个人站: freya-qian.github.io</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;text-align:center;padding:32px">
+    <p style="font-size:15px;color:var(--ink-2);margin-bottom:18px;line-height:1.8">
+      想聊聊 AI 产品、评测体系、Agent 工作流，<br>或者任何一个项目的细节？
+    </p>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap">
+      <a href="https://github.com/Freya-Qian" target="_blank" style="color:var(--accent);text-decoration:none;font-size:13px;font-family:var(--mono)">GitHub ↗</a>
+      <a href="https://freya-qian.github.io" target="_blank" style="color:var(--accent-2);text-decoration:none;font-size:13px;font-family:var(--mono)">Personal Site ↗</a>
+      <a href="mailto:925023907@qq.com" style="color:var(--ink-2);text-decoration:none;font-size:13px;font-family:var(--mono)">Email ↗</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-links">
+      <a href="https://github.com/Freya-Qian">GitHub</a>
+      <a href="https://freya-qian.github.io">Personal Site</a>
+      <a href="mailto:925023907@qq.com">Email</a>
+    </div>
+    <div class="f-copy">© Freya · AI Product Portfolio · Built for interview conversations</div>
+  </div>
+</footer>
+
+<script>
+
+const tabs=[...document.querySelectorAll('.tab-btn')];
+const panels=[...document.querySelectorAll('.panel')];
+const nav=document.querySelector('.tabnav');
+nav.setAttribute('aria-label','作品集章节');
+document.querySelector('.tabnav-inner').setAttribute('role','tablist');
+tabs.forEach(btn=>{btn.id='tab-'+btn.dataset.tab;btn.setAttribute('role','tab');btn.setAttribute('aria-controls',btn.dataset.tab)});
+panels.forEach(panel=>{panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','tab-'+panel.id);panel.tabIndex=0});
+function activate(id,scroll=false){
+ if(!panels.some(p=>p.id===id))id='t1';
+ tabs.forEach(b=>{const active=b.dataset.tab===id;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});
+ panels.forEach(p=>p.classList.toggle('active',p.id===id));
+ if(scroll){const reduce=!document.body.classList.contains('motion-enabled');window.scrollTo({top:nav.getBoundingClientRect().top+window.scrollY,behavior:reduce?'instant':'smooth'});const active=tabs.find(b=>b.dataset.tab===id);const strip=active.parentElement;strip.scrollTo({left:active.offsetLeft-strip.offsetLeft-16,behavior:reduce?'instant':'smooth'})}
+}
+function go(id){if(location.hash!=='#'+id)history.pushState(null,'','#'+id);activate(id,true)}
+tabs.forEach((btn,index)=>{btn.addEventListener('click',()=>go(btn.dataset.tab));btn.addEventListener('keydown',e=>{let i=index;if(e.key==='ArrowRight')i=(index+1)%tabs.length;else if(e.key==='ArrowLeft')i=(index+tabs.length-1)%tabs.length;else if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else return;e.preventDefault();tabs[i].focus({preventScroll:true});go(tabs[i].dataset.tab)})});
+window.addEventListener('hashchange',()=>{if(!location.hash){activate('t1');window.scrollTo({top:0,behavior:'instant'})}else if(/^#t[1-8]$/.test(location.hash))activate(location.hash.slice(1),true)});
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+activate(location.hash.slice(1));
+if(/^#t[1-8]$/.test(location.hash))requestAnimationFrame(()=>activate(location.hash.slice(1),true));
+else if(!location.hash)requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));
+const cases={answer:{output:'宽 30 cm = 0.3 m，面积为 2 × 0.3 = 0.6 m²。<br>因此，最终答案是 60 m²。',layer:'L4 · 最终答案',reason:'中间计算成立，最终结论与计算结果不一致；不能因步骤正确就判整题正确。',action:'增加最终结论与推导结果、单位的一致性检查，保留同类错题作定向回归。',check:'同类单位换算题最终答案与过程一致；同时检查应答率和时延是否退化。'},ocr:{output:'识别后的题干：长 2 m，宽 30 m。<br>模型根据错误题干计算：2 × 30 = 60 m²。',layer:'L1 · 图像识别',reason:'假设 OCR 把 cm 识别为 m。下游运算在错误题干下成立，根因应追到识别层，而不是只给推理 Agent 调 Prompt。',action:'检查单位字符识别与图文一致性，对低置信单位要求用户确认；本例仅用文字模拟 OCR 错误。',check:'补充多种单位、清晰度与版式的图片测试，核验识别正确率、误拦截率及后续答案。'}};
+document.querySelectorAll('.case-btn').forEach(btn=>btn.addEventListener('click',()=>{const item=cases[btn.dataset.case];document.querySelectorAll('.case-btn').forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-pressed',String(b===btn))});document.getElementById('case-output').innerHTML=item.output;for(const field of ['layer','reason','action','check'])document.getElementById('case-'+field).textContent=item[field]}));
+let printDetails=[];
+window.addEventListener('beforeprint',()=>{printDetails=[...document.querySelectorAll('details')].map(d=>[d,d.open]);printDetails.forEach(([d])=>d.open=true)});
+window.addEventListener('afterprint',()=>printDetails.forEach(([d,open])=>d.open=open));
+document.getElementById('print-page').addEventListener('click',()=>window.print());
+
+// Content remains visible if JavaScript or the observer is unavailable.
+const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+const finePointer=matchMedia('(hover: hover) and (pointer: fine)');
+const motionButton=document.getElementById('motion-toggle');
+let manualMotionOff=false;
+try{manualMotionOff=localStorage.getItem('freya-portfolio-motion')==='off'}catch{}
+let revealObserver;
+const revealItems=[...document.querySelectorAll('.panel-head,.arch,.decision,.proj,.panel>.grid-3>.card,.scope-note,.demo-case,.method-layer')];
+function configureMotion(){
+ const enabled=!manualMotionOff&&!motionPreference.matches;
+ document.body.classList.toggle('motion-enabled',enabled);
+ motionButton.textContent=enabled?'动效：开':'动效：关';motionButton.setAttribute('aria-pressed',String(enabled));
+ if(revealObserver)revealObserver.disconnect();
+ if(enabled&&'IntersectionObserver' in window){
+  revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');revealObserver.unobserve(entry.target)}})},{threshold:.06});
+  revealItems.forEach(el=>{if(!el.classList.contains('revealed'))revealObserver.observe(el)});
+ }
+ if(!enabled)document.querySelectorAll('.portfolio-btn').forEach(el=>{el.style.removeProperty('--magnet-x');el.style.removeProperty('--magnet-y')});
+}
+document.querySelectorAll('.hero-tag,.hero h1,.hero-sub,.hero-meta,.hero-actions,.metrics').forEach((el,i)=>{el.classList.add('intro-item');el.style.setProperty('--arrival-delay',i*65+'ms')});
+revealItems.forEach(el=>{const siblings=[...el.parentElement.children];el.style.setProperty('--reveal-delay',Math.min(siblings.indexOf(el),3)*45+'ms')});
+motionButton.addEventListener('click',()=>{manualMotionOff=!manualMotionOff;try{localStorage.setItem('freya-portfolio-motion',manualMotionOff?'off':'on')}catch{}configureMotion()});
+motionPreference.addEventListener('change',configureMotion);
+configureMotion();
+document.querySelectorAll('.card,.proj,.decision,.node').forEach(el=>{el.addEventListener('pointermove',event=>{if(!document.body.classList.contains('motion-enabled')||!finePointer.matches)return;const rect=el.getBoundingClientRect();el.style.setProperty('--pointer-x',event.clientX-rect.left+'px');el.style.setProperty('--pointer-y',event.clientY-rect.top+'px')},{passive:true})});
+document.querySelectorAll('.portfolio-btn').forEach(el=>{el.addEventListener('pointermove',event=>{if(!document.body.classList.contains('motion-enabled')||!finePointer.matches)return;const rect=el.getBoundingClientRect();el.style.setProperty('--magnet-x',Math.max(-4,Math.min(4,(event.clientX-rect.left-rect.width/2)*.06))+'px');el.style.setProperty('--magnet-y',Math.max(-3,Math.min(3,(event.clientY-rect.top-rect.height/2)*.06))+'px')},{passive:true});el.addEventListener('pointerleave',()=>{el.style.removeProperty('--magnet-x');el.style.removeProperty('--magnet-y')})});
+let progressPending=false;
+function updateReadingProgress(){if(progressPending)return;progressPending=true;requestAnimationFrame(()=>{const height=document.documentElement.scrollHeight-innerHeight;const ratio=height>0?Math.max(0,Math.min(1,scrollY/height)):0;document.getElementById('reading-progress').style.transform='scaleX('+ratio+')';progressPending=false})}
+window.addEventListener('scroll',updateReadingProgress,{passive:true});window.addEventListener('resize',updateReadingProgress,{passive:true});window.addEventListener('hashchange',updateReadingProgress);document.addEventListener('toggle',updateReadingProgress,true);
+if('ResizeObserver' in window)new ResizeObserver(updateReadingProgress).observe(document.body);
+updateReadingProgress();
+
+</script>
+</body>
+</html>

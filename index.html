@@ -236,7 +236,7 @@
   .chips span{padding:6px 14px;background:var(--bg-2);border:1px solid var(--line-2);
     border-radius:8px}
   .chips span::before{content:"// ";color:var(--accent)}
-  .cta{margin-top:40px;display:flex;gap:12px;align-items:center}
+  .cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:16px 28px;
     background:var(--accent);color:#0a0a0c;font-size:14px;font-weight:600;border-radius:999px;
     transition:transform .2s, box-shadow .2s;border:none;position:relative;
@@ -410,7 +410,7 @@
   </div>
   <div class="loader-side loader-side-r">
     <div class="side-label">STATUS</div>
-    <div class="side-row">PROJECTS <span style="color:var(--accent)">04</span></div>
+    <div class="side-row">PROJECTS <span style="color:var(--accent)">05</span></div>
     <div class="side-row">MODE <span>EXPLORE</span></div>
     <div class="side-row">ESSAYS <span style="color:var(--accent)">02</span></div>
     <div class="side-row">INPUT <span>CURIOUS</span></div>
@@ -453,6 +453,7 @@
     </div>
     <div class="cta">
       <a class="btn magnetic" href="#work">看看我在做什么 ↓</a>
+      <a class="btn ghost magnetic" href="freya-portfolio.html">面试作品集 ↗</a>
       <a class="btn ghost magnetic" href="mailto:925023907@qq.com">联系我</a>
     </div>
     </div>
@@ -490,8 +491,18 @@
     <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Selected Work</span></div>
     <p class="sec-lead">项目实践，<b>把想法做成产品。</b></p>
 
-    <a class="row magnetic" href="#">
+    <a class="row magnetic" href="freya-portfolio.html" target="_blank" rel="noopener noreferrer">
       <div class="idx">/01</div>
+      <div>
+        <div class="cat">AI Education · Product Case</div>
+        <h3>元宝 · 拍题答疑</h3>
+        <p>从产品架构、分类路由到评测迭代，构建拍题答疑的质量闭环。</p>
+      </div>
+      <div class="status"><i class="ok"></i>CASE STUDY</div>
+      <div class="arrow">↗</div>
+    </a>
+    <a class="row magnetic" href="#">
+      <div class="idx">/02</div>
       <div>
         <div class="cat">AI Interactive Fiction</div>
         <h3>漫想</h3>
@@ -501,7 +512,7 @@
       <div class="arrow">↗</div>
     </a>
     <a class="row magnetic" href="#">
-      <div class="idx">/02</div>
+      <div class="idx">/03</div>
       <div>
         <div class="cat">AI Film Studio</div>
         <h3>只言片语</h3>
@@ -511,21 +522,21 @@
       <div class="arrow">↗</div>
     </a>
     <a class="row magnetic" href="https://github.com/Freya-Qian/AI-Avatar-Twin" target="_blank" rel="noopener noreferrer">
-      <div class="idx">/03</div>
+      <div class="idx">/04</div>
       <div>
-        <div class="cat">AI Avatar Twin</div>
-        <h3>数字人</h3>
+        <div class="cat">AI Avatar Workspace</div>
+        <h3>AI Avatar Twin</h3>
         <p>从一篇文章到一条口播视频，让分身以你的方式表达。</p>
       </div>
       <div class="status"><i class="info"></i>IN PROGRESS</div>
       <div class="arrow">↗</div>
     </a>
     <a class="row magnetic" href="https://github.com/Freya-Qian/ProdForge-AI" target="_blank" rel="noopener noreferrer">
-      <div class="idx">/04</div>
+      <div class="idx">/05</div>
       <div>
-        <div class="cat">ProdForge AI</div>
-        <h3>AI 产品工厂</h3>
-        <p>把重复流程搭成流水线，用 Agent 把 POC 推到生产。</p>
+        <div class="cat">AI Product Workspace</div>
+        <h3>ProdForge AI</h3>
+        <p>把模糊想法整理成可评审、可开发、可交接的项目资料包。</p>
       </div>
       <div class="status"><i class="ok"></i>BUILDING</div>
       <div class="arrow">↗</div>
@@ -554,7 +565,7 @@
   <section class="reveal" style="border-bottom:none">
     <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Live Signals</span></div>
     <div class="signals">
-      <div class="s"><div class="num" data-count="4">0</div><div class="lab">Projects</div></div>
+      <div class="s"><div class="num" data-count="5">0</div><div class="lab">Projects</div></div>
       <div class="s"><div class="num" data-count="6">0</div><div class="lab">Public Repos</div></div>
       <div class="s"><div class="num" data-count="17">0</div><div class="lab">Writing Channels</div></div>
       <div class="s"><div class="num">∞</div><div class="lab">Iterations Left</div></div>
@@ -582,7 +593,7 @@
     {t:'[ ok ] mounted /dev/creative', c:'ok'},
     {t:'[ ok ] loading fonts: sans · serif · mono', c:'ok'},
     {t:'[ ok ] connected github.com/Freya-Qian', c:'ok'},
-    {t:'[ ok ] loaded 04 projects · 02 essays', c:'ok'},
+    {t:'[ ok ] loaded 05 projects · 02 essays', c:'ok'},
     {t:'[ ok ] cursor · spotlight · tilt ready', c:'ok'},
     {t:'[ ok ] eval · route · ship', c:'ok'},
     {t:'> welcome, traveler.', c:'dim'},
