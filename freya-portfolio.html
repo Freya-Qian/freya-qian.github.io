@@ -402,6 +402,23 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 .node.expand-card .card-details p{font-size:12px;line-height:1.8}
 .node.expand-card .expand-hint{margin-top:16px}
 
+/* === 06 项目实践：演进线 / 数字卡 / 链路表（2026-10-09） === */
+.evo-line{display:flex;align-items:stretch;gap:10px;margin:0 0 18px;flex-wrap:wrap}
+.evo-step{flex:1 1 180px;border:1px solid var(--line-2);border-radius:8px;padding:14px 16px;background:var(--card)}
+.evo-step b{display:block;font-family:var(--serif);font-size:16px;color:var(--ink);margin:4px 0}
+.evo-step span:last-child{display:block;font-size:12px;color:var(--ink-2);line-height:1.7}
+.evo-step.hl{border-color:var(--accent);background:rgba(126,247,200,.04)}
+.evo-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--accent)}
+.evo-arrow{align-self:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}
+.kpi{border-top:1px solid var(--line-2);padding-top:10px}
+.kpi .kn{font-family:var(--mono);font-size:20px;color:var(--accent);line-height:1.2}
+.kpi .kl{font-family:"PingFang SC",var(--sans);font-size:11px;font-weight:400;color:var(--ink-2);line-height:1.6;margin-top:4px}
+.chain{width:100%;border-collapse:collapse;margin:4px 0 6px}
+.chain td{font-size:12.5px;line-height:1.85;color:var(--ink-2);padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.chain td:first-child{width:96px;font-family:var(--mono);font-size:11px;color:var(--accent);padding-right:12px;white-space:nowrap}
+@media(max-width:600px){.evo-line{flex-direction:column}.evo-step{flex:0 0 auto}.evo-arrow{align-self:flex-start;padding-left:8px}.kpi .kn{font-size:16px}.chain td:first-child{width:72px;white-space:normal}}
+@media print{.evo-step,.kpi{border-color:#bbb;background:white}.kpi .kn,.evo-tag,.chain td:first-child{color:#24634d!important}.chain td,.kpi .kl,.evo-step span:last-child{color:#444!important}}
 </style>
 </head>
 <body>
@@ -734,46 +751,118 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 <details><summary>案例分析：判定、归因与验证</summary><p>根据题干、解题过程与最终答案定位错误，明确判分依据，再提出改进动作与回归验证条件。本例为合成演示，用于展示分析方法；不代表公司真实样本或已验证的改进效果。</p></details></article>
 </section>
 
-<!-- ============ 06 其他项目 ============ -->
+<!-- ============ 06 项目实践 ============ -->
 <section class="panel" id="t6">
   <div class="panel-head">
     <div class="kicker">06 / SELECTED PROJECTS</div>
     <h2>AI 产品设计与项目实践</h2>
-    <p>围绕内容生产、交互叙事和产品工作流，展示四个项目中的产品设计与实践。点击展开，查看各自的重点。</p>
+    <p>四个项目按同一条链路讲：需求场景 → 数据与上下文 → 模型与 Prompt → 评测 → 交付 → 迭代。数字人产品线从 1.0 AI Avatar Twin 演进到 2.0 只言片语；漫想和 ProdForge 是我独立完成的 AI 产品。点击卡片展开链路细节。</p>
+  </div>
+
+  <h3 class="sec">数字人产品线 · 1.0 → 2.0</h3>
+  <div class="evo-line" role="list" aria-label="数字人产品线演进">
+    <div class="evo-step" role="listitem"><span class="evo-tag">腾讯内部 AI 黑客松 · 48h</span><b>1.0 POC</b><span>粘贴文章链接 → 选数字人形象 → 一键出口播视频</span></div>
+    <div class="evo-arrow" aria-hidden="true">→</div>
+    <div class="evo-step" role="listitem"><span class="evo-tag">V1.0</span><b>AI Avatar Twin</b><span>选题 → 带来源的口播稿 → 数字人视频 → 发布素材包</span></div>
+    <div class="evo-arrow" aria-hidden="true">验证成功 · 立项 →</div>
+    <div class="evo-step hl" role="listitem"><span class="evo-tag">V2.0</span><b>只言片语</b><span>剧本 → 角色 → 分镜 → 参考图 → 视频合成</span></div>
   </div>
 
   <div class="grid-2">
-    <details class="proj expand-card"><summary class="card-summary" aria-label="只言片语 · AI 短片创作工作台">
-      <div class="ptag">AIGC 内容生产 · 多 Agent 工作流</div>
-      <h4>只言片语 · AI 短片创作工作台</h4>
-      <p class="pdesc">围绕「一句创意」到短片的六阶段生产流程：剧本 → 角色/场景 → 分镜 → 参考图 → 视频 → 后期。Human-in-the-loop 每阶段停点确认，角色一致性以设定图为锚点贯穿全流程，VLM 自动质检参考图。</p>
-      <div class="pmeta">
-        <span>6 阶段 Pipeline</span><span>Human-in-the-loop</span><span>VLM 质检</span><span>模型可插拔</span><span>本地部署</span>
-      </div><span class="expand-hint">创作流程与产品取舍</span></summary><div class="card-details"><p>核心问题是让创作者保留控制权：剧本、角色设定、分镜逐阶段确认，局部不满意时只重做该阶段。设计重点包括角色锚点、确认停点与失败恢复。</p></div></details>
-
-    <details class="proj expand-card"><summary class="card-summary" aria-label="AI Avatar Twin · 数字人口播工作台">
-      <div class="ptag">AIGC 内容生产 · 数字人 POC → 工作台演进</div>
+    <details class="proj expand-card"><summary class="card-summary" aria-label="AI Avatar Twin · 数字人 1.0">
+      <div class="ptag">数字人 1.0 · 黑客松 POC → 口播工作台</div>
       <h4>AI Avatar Twin · 数字人口播工作台</h4>
-      <p class="pdesc">从腾讯内部黑客松 48 小时 POC 起步，探索「文章链接 → 数字人口播视频」；后续工作台围绕：选题发现 → 脚本生成（带来源标注）→ 数字人视频 → 发布素材包。单条目标 ≤30 分钟、≤5 步操作。</p>
+      <p class="pdesc">内容团队做一条口播视频要花大半天。1.0 在腾讯内部 AI 黑客松 48 小时内跑通「文章链接 → 口播稿 → 语音 → 照片驱动数字人 → MP4」，把五个技术环节封装成「粘贴链接 → 选形象 → 出片」三步；之后补全为选题、带来源脚本、数字人视频和发布素材包的完整工作台。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">48h</div><div class="kl">黑客松完成 1.0 POC 并 Demo 演示</div></div>
+        <div class="kpi"><div class="kn">3 → 0</div><div class="kl">5 条真实新闻样例中编造事实的条数（首轮 → 修复后）</div></div>
+        <div class="kpi"><div class="kn">124</div><div class="kl">项后端离线自动化测试全部通过</div></div>
+      </div>
       <div class="pmeta">
-        <span>48h POC</span><span>选题→脚本→视频</span><span>事实核查</span><span>设计目标 ≤30min/条</span><span>照片驱动</span>
-      </div><span class="expand-hint">数字人口播视觉样片</span></summary><div class="card-details"><video controls preload="none" playsinline src="assets/portfolio/avatar-visual-sample.mp4" aria-label="数字人口播视觉样片"></video><p class="asset-caption">独立生成的视觉样片，用于风格验证；不是工作台端到端生成的验收证据。30 分钟、5 步均为设计目标。</p><a class="text-link" href="https://github.com/Freya-Qian/AI-Avatar-Twin" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+        <span>48h POC</span><span>实时抓取 + 来源标注</span><span>防编造</span><span>Agent + 评估器闸门</span><span>照片驱动口型</span>
+      </div><span class="expand-hint">1.0 链路与验证短片</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>目标用户是内部内容团队；1.0 只解决一件事：贴一条链接，产出一条带来源的口播视频。设计目标为单条 ≤30 分钟、人工操作 ≤5 步。</td></tr>
+        <tr><td>数据与上下文</td><td>不建向量库：用户贴的链接或 RSS 实时抓取，清洗正文后取 6,000 字以内整篇进入上下文；脚本逐条带来源，来源少于 2 个时自动提示「单一来源」。</td></tr>
+        <tr><td>模型与 Prompt</td><td>文字 qwen-plus；配音 CosyVoice-v2；口型驱动即梦 OmniHuman 1.5 为主、万相 wan2.2-s2v 备用。Prompt 硬约束：不编造数字、日期、机构，不写第一人称「实测」，后端规则再兜底扫描。</td></tr>
+        <tr><td>Agent</td><td>自写 Agent 循环：模型每步输出「想法 + 工具 + 参数」，6 个工具（抓取、摘要、选题、事实核查、写脚本、自检），最多 20 步；收尾前强制过独立评估器，不过就带意见重写，最多 2 次。</td></tr>
+        <tr><td>评测</td><td>M1–M4 每个阶段过「离线测试 + 真实冒烟」两道闸门；5 条真实新闻逐条联网核查，首轮 3 条有编造事实，修复后 5 条全部可接受，定为脚本质量基线。</td></tr>
+        <tr><td>交付</td><td>选题 → 脚本（版本/回退）→ 选形象 → 9:16 视频 → 素材包（MP4、封面、标题、简介、SRT、来源清单）；TTS、数字人、风格化失败均有降级，保证始终拿到可用视频。</td></tr>
+        <tr><td>迭代</td><td>看了真实出片后把万相换成即梦（自带字幕和水印关不掉）；口型驱动按官方价约 1 元/秒，是初设成本的 10 倍，决定先用 API 验证需求。1.0 验证成功后立项 2.0。</td></tr>
+      </table>
+      <video controls preload="none" playsinline src="assets/portfolio/avatar-omnihuman-verify.mp4" aria-label="数字人口型驱动验证短片"></video>
+      <p class="asset-caption">M3 阶段真实冒烟产物：真实配音 + 照片，经即梦 OmniHuman 1.5 口型驱动生成的 5.48 秒验证短片。</p>
+      <a class="text-link" href="https://github.com/Freya-Qian/AI-Avatar-Twin" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
 
-    <details class="proj expand-card"><summary class="card-summary" aria-label="漫想 StoryForge · AI 交互叙事游戏">
-      <div class="ptag">个人项目 · AI Builder</div>
-      <h4>漫想 StoryForge · AI 交互叙事游戏</h4>
-      <p class="pdesc">基于大模型的发散思维互动故事游戏：用户输入一句话生成多幕剧情与配图，可选择选项或自由输入推进。多 Agent 协作（故事生成 / 角色一致性 / 配图 / 分支管理），独立完成产品设计与 MVP 开发，GitHub 开源。</p>
+    <details class="proj expand-card"><summary class="card-summary" aria-label="只言片语 · 数字人 2.0">
+      <div class="ptag">数字人 2.0 · AIGC 短片多 Agent 工作流</div>
+      <h4>只言片语 · AI 短片创作工作台</h4>
+      <p class="pdesc">1.0 验证「内容 → 数字人口播」可行后立项为数字人 2.0，服务内部内容团队：把单点口播升级为覆盖剧本创作、角色设定、分镜规划、参考图生成、视频合成的短片工作台。各环节由分工明确的 Agent 负责，逐阶段确认，单环节可重新生成；角色设定作为锚点贯穿剧本、分镜与参考图。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">5</div><div class="kl">个创作环节的多 Agent 工作流，逐阶段确认</div></div>
+        <div class="kpi"><div class="kn">≥7/10</div><div class="kl">参考图自动质检合格线，不合格重画，最多 3 版</div></div>
+        <div class="kpi"><div class="kn">40 段</div><div class="kl">单部作品完成的分镜与参考图（本地存档）</div></div>
+      </div>
       <div class="pmeta">
-        <span>多 Agent</span><span>Prompt Engineering</span><span>独立开发 MVP</span><span>GitHub 开源</span>
-      </div><span class="expand-hint">交互叙事产品界面</span></summary><div class="card-details"><a href="assets/portfolio/manxiang-play.png" target="_blank" rel="noopener"><img src="assets/portfolio/manxiang-play.png" alt="漫想实际游玩界面：第二幕故事、脑洞星图与六幕进度" loading="lazy" width="1440" height="900"></a><p class="asset-caption">项目本地留存的实际界面截图。核心设计：六幕节奏、世界观与伏笔记忆、选项或自由输入、分支回溯。点击可放大。</p></div></details>
+        <span>多 Agent 工作流</span><span>角色一致性锚点</span><span>VLM 质检</span><span>模型可编排</span><span>资产沉淀</span>
+      </div><span class="expand-hint">2.0 链路与质量标准</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>内容团队除了口播，还要做剧情类短片；2.0 让创作者在每个环节保留控制权：逐阶段确认，局部不满意只重做该环节。</td></tr>
+        <tr><td>数据与上下文</td><td>每个阶段产出结构化资产，作为下一阶段的输入：剧本 JSON → 角色 4 视图与场景全景图 → 分镜脚本 → 参考图。参考图按角色 / 场景 ID 精确取回设定图作锚点，不靠相似度检索，避免「认错人」。</td></tr>
+        <tr><td>模型与 Prompt</td><td>按环节编排模型：文字 qwen3-max、视觉质检 qwen3.5-plus、图像 wan2.7-image、视频 wan2.7-i2v（首帧模式）。剧本、角色、场景、分镜、风格分别维护 Prompt 模板与风格预设。</td></tr>
+        <tr><td>评测</td><td>剧本看台词与情节；参考图由视觉模型对照分镜打分，≥7/10 且无硬性错误（角色错、站位错、穿模、道具错）才通过；成片按完整度与一致性验收。</td></tr>
+        <tr><td>交付</td><td>剧本生成与参考图阶段已完成产品迭代与前端开发，本地已有作品存档；视频生成与后期链路持续开发中。</td></tr>
+        <tr><td>迭代</td><td>一部 40 段作品中，质检拦下 14 段参考图（3 段弃用、11 段降级使用），归为角色混淆、站位朝向、道具、穿模、场景、景别 6 类，下一轮对复杂多人镜头加站位硬约束；角色 4 视图、场景全景图、分镜脚本与风格预设沉淀为可复用资产。</td></tr>
+      </table></div></details>
+  </div>
+
+  <h3 class="sec">独立完成的 AI 产品</h3>
+  <div class="grid-2">
+    <details class="proj expand-card"><summary class="card-summary" aria-label="漫想 · AI 交互叙事游戏">
+      <div class="ptag">个人项目 · AI Builder</div>
+      <h4>漫想 · AI 交互叙事游戏</h4>
+      <p class="pdesc">传统互动故事依赖固定脚本、参与度低。漫想基于大模型实现「一句话生成多幕剧情与配图」：用户选择选项或自由输入推进，多 Agent 协作管理剧情推进、配图与分支，结局回应最初的脑洞。独立完成需求拆解、方案设计与可运行 MVP。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">10/10</div><div class="kl">局真实冒烟全部跑到结局</div></div>
+        <div class="kpi"><div class="kn">4.92/5</div><div class="kl">同批 10 局平均发散分</div></div>
+        <div class="kpi"><div class="kn">319</div><div class="kl">项后端自动化测试通过（前端 257 项）</div></div>
+      </div>
+      <div class="pmeta">
+        <span>多 Agent 协作</span><span>结构化剧情记忆</span><span>Prompt 输出规范</span><span>选项 + 自由输入</span><span>GitHub 开源</span>
+      </div><span class="expand-hint">交互叙事链路与界面</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>面向创意发散型用户和互动剧情玩家：输入一个脑洞，扩展成多幕互动故事，最后看到结局和脑洞演化回顾。</td></tr>
+        <tr><td>数据与上下文</td><td>不建向量库：每局 6 幕，用结构化记忆管理连贯性——已确认事实、关键选择、未解悬念、待回收 / 已回收伏笔，加角色、地点、分支等世界元素和最近 3 幕剧情；8 个题材 Skill 提供叙事范式、发散算子和套路黑名单。</td></tr>
+        <tr><td>模型与 Prompt</td><td>文字 qwen-plus（JSON 模式）；首幕配图 wanx2.1-t2i-turbo，后续幕以首幕为参考生成，保持同一角色形象。Prompt 按幕规定节奏，要求结局回收伏笔并回应脑洞。</td></tr>
+        <tr><td>多 Agent 协作</td><td>主控引擎编排扩写首幕、生成下一幕、生成结局、配图四个分工角色，分支、记忆和存档由引擎统一管理，保证多幕剧情前后一致。</td></tr>
+        <tr><td>评测</td><td>规则评估器：结局必须回应脑洞、至少回收 1 个伏笔；每幕 1–5 分发散度评分和套路检测，低分自动带指令重写。V2.1 真实冒烟 10 局 10/10 跑到结局，平均发散分 4.92/5。</td></tr>
+        <tr><td>交付</td><td>可本地运行的 MVP 已开源：Next.js 前端 + FastAPI 后端，支持存档、回放、导出与失败重试。</td></tr>
+        <tr><td>迭代</td><td>单局模型调用预算 ≤15 次（10 局共 61 次调用）；接入结局语义评估，用模型判断结局是否真正回应脑洞，作为人工样例判定的代理指标。</td></tr>
+      </table>
+      <a href="assets/portfolio/manxiang-play.png" target="_blank" rel="noopener"><img src="assets/portfolio/manxiang-play.png" alt="漫想实际游玩界面：第二幕故事、脑洞星图与六幕进度" loading="lazy" width="1440" height="900"></a><p class="asset-caption">项目本地运行的实际界面截图。点击可放大。</p>
+      <a class="text-link" href="https://github.com/Freya-Qian/Manxiang" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
 
     <details class="proj expand-card"><summary class="card-summary" aria-label="ProdForge AI · AI 产品孵化工作台">
-      <div class="ptag">辅助项目 · AI 产品工具</div>
+      <div class="ptag">个人项目 · AI 产品工具</div>
       <h4>ProdForge AI · AI 产品孵化工作台</h4>
-      <p class="pdesc">面向 PM、独立开发者和 AI 学习者：把一个模糊想法逐步整理成可评审、可开发、可交接的项目资料包。核心链路：想法 → 需求澄清 → 竞品证据 → 定位差异 → PRD → MVP → 研发任务 → 资料包。每阶段带审核点和来源引用。</p>
+      <p class="pdesc">面向 PM、独立开发者和 AI 学习者：把一个模糊想法逐步整理成可评审、可开发、可交接的资料包。链路：想法 → 需求澄清 → 竞品证据 → 定位差异 → PRD → 研发任务 → 资料包；每条结论都要能追到证据卡。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">6</div><div class="kl">个阶段 Agent 固定流水线，每阶段可审核</div></div>
+        <div class="kpi"><div class="kn">13,639</div><div class="kl">token：一个完整项目 6 个阶段任务的实测用量</div></div>
+        <div class="kpi"><div class="kn">74/74</div><div class="kl">项后端离线测试通过；M1 真实冒烟 3/3</div></div>
+      </div>
       <div class="pmeta">
-        <span>结构化流程</span><span>证据关联</span><span>MVP 边界</span><span>研发交接</span>
-      </div><span class="expand-hint">证据关联与阶段审核</span></summary><div class="card-details"><p>资料不足时保留待验证假设，区分证据与推断；阶段审核后再进入下一步。人工修改需要被保留，避免下一轮生成覆盖已确认决定。</p><a class="text-link" href="https://github.com/Freya-Qian/ProdForge-AI" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+        <span>证据卡</span><span>引用审计</span><span>阶段审核</span><span>成本护栏</span><span>研发交接</span>
+      </div><span class="expand-hint">证据链路与引用审计</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>想法到 PRD 之间最容易出问题的是「结论没有出处」：竞品写错、定位拍脑袋。产品要求每条结论都能追溯。</td></tr>
+        <tr><td>数据与上下文</td><td>不建向量库：竞品由用户自选，最多 3 个；贴网址抓取并清洗正文（≤6,000 字），生成结构化证据卡（类型、结论、启发、原文摘录、置信度、来源链接必填），按编号整体注入定位与 PRD 生成。</td></tr>
+        <tr><td>模型与 Prompt</td><td>qwen-plus；按 8 个维度做需求澄清（目标用户、场景、痛点、边界、成功指标、非目标、外部数据源、领域知识来源）；6 个阶段 Agent 各有独立 Prompt 和输出结构。</td></tr>
+        <tr><td>评测</td><td>引用审计：输出中不存在的证据编号直接剔除，结论型章节没有证据就进入「无证据结论清单」；M1 真实冒烟 3/3 跑通，产品经理按 5 个维度给样例打分，无不可接受项。</td></tr>
+        <tr><td>交付</td><td>本地优先的 Web 单机 MVP：FastAPI + SQLite + Next.js，资料包可导出带走。</td></tr>
+        <tr><td>迭代</td><td>token 用量逐任务落库，单项目 10 元预算护栏；8 问生成实测 15–35 秒，超过 ≤15 秒目标，列为下一步体验优化。</td></tr>
+      </table>
+      <a class="text-link" href="https://github.com/Freya-Qian/ProdForge-AI" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
   </div>
 </section>
 
@@ -868,7 +957,7 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
     <div class="card">
       <span class="tag">AI Builder</span>
       <h4>产品设计与开发实践</h4>
-      <p>· 独立完成 AI 交互叙事游戏 MVP 并开源<br>· GitHub: Freya-Qian<br>· 个人站: freya-qian.github.io</p>
+      <p>· 独立完成 AI 交互叙事游戏 MVP，并在 GitHub 开源 AI Skill 工具链<br>· GitHub: Freya-Qian<br>· 个人站: freya-qian.github.io</p>
     </div>
   </div>
 
