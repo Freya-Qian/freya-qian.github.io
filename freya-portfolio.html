@@ -441,8 +441,8 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 #t6 .layered-arch .arch-col-label{line-height:1.9;margin:0;color:var(--accent)}
 .layer-nodes{display:flex;flex-wrap:wrap;gap:10px;min-width:0}
 #t6 .layer-nodes .node{flex:1 1 210px;margin:0;min-width:0;padding:14px}#t6 .layer-nodes .nt{font:13px var(--sans);line-height:1.8;margin:0}
-#t6 .panorama-table{overflow-x:auto}#t6 .panorama-table table{min-width:0;table-layout:fixed}
-#t6 .panorama-table th:first-child{width:20%}#t6 .panorama-table td,#t6 .panorama-table th{overflow-wrap:anywhere}
+#t6 .panorama-table,#t2 .panorama-table{overflow-x:auto}#t6 .panorama-table table,#t2 .panorama-table table{min-width:0;table-layout:fixed}
+#t6 .panorama-table th:first-child,#t2 .panorama-table th:first-child{width:20%}#t6 .panorama-table td,#t6 .panorama-table th,#t2 .panorama-table td,#t2 .panorama-table th{overflow-wrap:anywhere}
 #t6 .current-plan p+p{margin-top:14px}.chain-lead{font-size:13px;color:var(--ink-2);margin:22px 0 16px}
 .chain-steps{list-style:none}.chain-steps li{border-top:1px solid var(--line-2);padding:18px 0}.chain-steps li:last-child{padding-bottom:0}
 .step-num{font:10px var(--mono);color:var(--accent);letter-spacing:.1em;margin-bottom:7px}.chain-steps h5{font-size:14px;margin-bottom:7px}
@@ -453,7 +453,7 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 .avatar-team .pm-card{grid-column:1/-1;border-color:var(--accent);background:linear-gradient(135deg,rgba(126,247,200,.05),var(--card))}.pm-card p+p{margin-top:12px}
 .avatar-demo{margin-top:36px}.avatar-demo .portfolio-btn{display:inline-block}.avatar-demo video{display:block;width:100%;max-height:380px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;margin:24px 0 12px}.avatar-demo .asset-caption{color:var(--ink-2)}
 @media(max-width:900px){.panorama{grid-template-columns:1fr}.panorama-arrow{transform:rotate(90deg)}#t6 .layered-arch .arch-row{grid-template-columns:1fr;gap:12px}}
-@media(max-width:640px){#t6 .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#t6 .metric{padding:42px 14px 18px}#t6 .metric .num{font-size:20px}#t6 .panorama-table{padding:14px 10px}#t6 .panorama-table th:first-child{width:24%}#t6 .panorama-table td,#t6 .panorama-table th{font-size:11px;padding:10px 5px}#t6 .sec{align-items:baseline}}
+@media(max-width:640px){#t6 .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#t6 .metric{padding:42px 14px 18px}#t6 .metric .num{font-size:20px}#t6 .panorama-table,#t2 .panorama-table{padding:14px 10px}#t6 .panorama-table th:first-child,#t2 .panorama-table th:first-child{width:24%}#t6 .panorama-table td,#t6 .panorama-table th,#t2 .panorama-table td,#t2 .panorama-table th{font-size:11px;padding:10px 5px}#t6 .sec{align-items:baseline}}
 @media(max-width:360px){#t6 .metrics{grid-template-columns:1fr}}
 @media print{#t6 .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}#t6 .metric,.panorama-core,.avatar-team .pm-card{background:white;border-color:#bbb}.metric-src{color:#444;border-color:#bbb}.panorama{grid-template-columns:1fr}.panorama-arrow{transform:rotate(90deg)}#t6 .layered-arch .arch-row{grid-template-columns:180px minmax(0,1fr)}.avatar-timeline li::before{box-shadow:none}.avatar-timeline li{break-inside:avoid}}
 
@@ -639,6 +639,32 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
     </div>
   </div>
 
+<h3 class="sec" id="question-retrieval">题库检索增强 · 离线构建与在线查询</h3>
+<p class="chain-lead">长尾难题和以图为核心的题，先查题库里的原题和标准答案，再决定直接采用、作为参考，还是交给模型直解。检索与模型侧由算法团队落地，我负责方案、阈值策略和评测口径。</p>
+<div class="grid-2 retrieval-chains">
+<div class="card"><h4>🧱 离线构建</h4><ol class="chain-steps">
+<li><div class="step-num">STEP 01</div><h5>入库单元</h5><p>一道题一条记录，不切块（题目本身就是最小语义单元，切开会丢条件）。</p></li>
+<li><div class="step-num">STEP 02</div><h5>字段</h5><p>规范化题干（OCR 文本，公式统一成 LaTeX）、学科、题型、知识点、标准答案与解析、来源。</p></li>
+<li><div class="step-num">STEP 03</div><h5>向量化</h5><p>对题干 + 关键条件做 embedding；学科、题型作为元数据，用于过滤。</p></li>
+<li><div class="step-num">STEP 04</div><h5>更新</h5><p>线上错题与 Badcase 经核验后回流，补进题库和评测集。</p></li>
+</ol></div>
+<div class="card"><h4>🔍 在线查询</h4><ol class="chain-steps">
+<li><div class="step-num">STEP 01</div><h5>构造 query</h5><p>识别文本 + 题面特征（学科、题型、关键条件）。</p></li>
+<li><div class="step-num">STEP 02</div><h5>召回</h5><p>按学科 / 题型过滤后，召回候选原题。</p></li>
+<li><div class="step-num">STEP 03</div><h5>相似度校验</h5><p>候选与题干逐项比对，置信度高于阈值才作为标准答案输出（用阈值校验代替重排，重点防「相似题误用」）。</p></li>
+<li><div class="step-num">STEP 04</div><h5>降级</h5><p>命中但置信度不够 → 不直接采用，作为参考输入交给模型直解；检索失败 → 回退模型直解。</p></li>
+</ol></div>
+</div>
+<h3 class="sec">检索设计取舍</h3>
+<div class="card panorama-table"><table>
+<thead><tr><th scope="col">设计点</th><th scope="col">选择</th><th scope="col">为什么</th></tr></thead>
+<tbody>
+<tr><td>切块</td><td>一题一条，不切</td><td>条件被切开，最容易出现「看起来像、其实不是」的假命中</td></tr>
+<tr><td>触发</td><td>按路由结果条件触发，不是每题都查</td><td>控制时延和成本</td></tr>
+<tr><td>采用</td><td>阈值以上才当标准答案，以下只当参考</td><td>防假命中直接给到用户</td></tr>
+<tr><td>评测</td><td>检索质量和解题正确性分开评</td><td>避免检索命中率掩盖答案错误</td></tr>
+</tbody></table></div>
+
   <h3 class="sec">工具调用与降级兜底</h3>
   <div class="card">
     <table>
@@ -652,6 +678,19 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
       </tbody>
     </table>
   </div>
+<h3 class="sec" id="question-selection">选型决策速查表</h3>
+<div class="card panorama-table"><table>
+<thead><tr><th scope="col">维度</th><th scope="col">选择</th></tr></thead>
+<tbody>
+<tr><td>产品定位</td><td>K12 / 非 K12 全学科拍照答疑，输出完整解题过程与答案，不只给结果</td></tr>
+<tr><td>输入路由</td><td>7 维题目分类，分发到不同解题策略</td></tr>
+<tr><td>解题路径</td><td>模型直解（常见题，求速度）+ 题库检索（长尾 / 难题，求准确）</td></tr>
+<tr><td>Agent 编排</td><td>分类路由做调度入口；识别、理解、推理、质检四个 Agent 协作</td></tr>
+<tr><td>工具调用</td><td>检索按条件触发 → 置信度判断 → 失败自动降级兜底</td></tr>
+<tr><td>输出规范</td><td>「识别 — 理解 — 分步解答 — 答案」统一结构，学科解题 Skill + Prompt 模板</td></tr>
+<tr><td>评测</td><td>安全、意图、正确性、完整性、体验五层标准；多源交叉验证参考答案；双人交叉抽检</td></tr>
+<tr><td>归因</td><td>图像识别、题目理解、解题生成、最终答案四层 Badcase 归因</td></tr>
+</tbody></table></div>
 </section>
 
 <!-- ============ 03 关键决策 ============ -->
@@ -787,6 +826,22 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 <div class="case-layout"><div class="question-sheet"><span class="sheet-label">题面 / 合成文字输入</span><h4>长方形的面积</h4><p>长方形长 2 m，宽 30 cm。<br>面积是多少平方米？</p><div class="rectangle-diagram"><span>2 m</span><span>30 cm</span></div><p class="reference">参考解：30 cm = 0.3 m<br>2 × 0.3 = <b>0.6 m²</b></p></div>
 <div class="case-output" aria-live="polite"><span class="sheet-label">假设错误输出</span><p id="case-output">宽 30 cm = 0.3 m，面积为 2 × 0.3 = 0.6 m²。<br>因此，最终答案是 60 m²。</p><div class="verdict"><span>正确性判定</span><b>错误</b><span id="case-layer">L4 · 最终答案</span></div><div class="case-steps"><div><b>判分依据</b><p id="case-reason">中间计算成立，最终结论与计算结果不一致；不能因步骤正确就判整题正确。</p></div><div><b>迭代动作</b><p id="case-action">增加最终结论与推导结果、单位的一致性检查，保留同类错题作定向回归。</p></div><div><b>复核条件（待实际测试）</b><p id="case-check">同类单位换算题最终答案与过程一致；同时检查应答率和时延是否退化。</p></div></div></div></div>
 <details><summary>案例分析：判定、归因与验证</summary><p>根据题干、解题过程与最终答案定位错误，明确判分依据，再提出改进动作与回归验证条件。本例为合成演示，用于展示分析方法；不代表公司真实样本或已验证的改进效果。</p></details></article>
+<h3 class="sec" id="question-timeline">演进时间线</h3>
+<ol class="avatar-timeline">
+<li><h4>v1.0 方案定稿</h4><p>产品边界定义（什么算题、题干不完整到何种程度不可解）；分类路由 + 「模型直解 + 题库检索」双路径；五层评测标准建立。</p></li>
+<li><h4>评测闭环运转</h4><p>四层 Badcase 归因，每 2–3 周输出效果报告、定迭代优先级；线上错题回流评测集。</p></li>
+<li><h4>v2.0</h4><p>分类升级为 7 维；多 Agent 架构与工具调用正式化；「快速解答 → AI 精讲」分层讲解，错题本与长期记忆。</p></li>
+<li><h4>结果</h4><p>解题准确率由 72% 提升至 90%。</p></li>
+</ol>
+<h3 class="sec" id="question-team">团队分工与 PM 职责</h3>
+<div class="grid-2 avatar-team">
+<div class="card pm-card"><h4>PM · Freya（产品 Owner）</h4><p>产品定位与边界、分类路由与解题策略、多 Agent 架构与工具调用策略、解题 Skill 与输出规范、五层评测标准与上线评估、四层归因与迭代优先级、跨团队目标对齐。</p></div>
+<div class="card"><h4>算法</h4><p>模型优化、检索与工具链路落地。</p></div>
+<div class="card"><h4>标注</h4><p>按评测标准执行标注，双人交叉抽检。</p></div>
+<div class="card"><h4>设计</h4><p>答案展示规范、精讲与板书交互。</p></div>
+<div class="card"><h4>业务</h4><p>目标与上线节奏对齐。</p></div>
+</div>
+<p class="chain-lead">节奏：每 2–3 周一份效果报告 → 定优先级 → 算法定向优化 → 回归测试 → 版本上线评估。</p>
 </section>
 
 <!-- ============ 06 项目实践 ============ -->
