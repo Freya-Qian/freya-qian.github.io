@@ -421,43 +421,6 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 .chain td:first-child{width:96px;font-family:var(--mono);font-size:11px;color:var(--accent);padding-right:12px;white-space:nowrap}
 @media(max-width:600px){.evo-line{flex-direction:column}.evo-step{flex:0 0 auto}.evo-arrow{align-self:flex-start;padding-left:8px}.kpi .kn{font-size:16px}.chain td:first-child{width:72px;white-space:normal}}
 @media print{.evo-step,.kpi{border-color:#bbb;background:white}.kpi .kn,.evo-tag,.chain td:first-child{color:#24634d!important}.chain td,.kpi .kl,.evo-step span:last-child{color:#444!important}}
-
-/* Digital human system panorama; shared by project chapters. */
-:is(#t6,#t9,#t10){overflow-wrap:anywhere}
-:is(#t6,#t9,#t10) .hero-meta{font-family:var(--sans);font-size:12px;line-height:2}
-:is(#t6,#t9,#t10) .metrics{gap:12px;border:0;margin:0 0 42px;grid-template-columns:repeat(3,minmax(0,1fr))}
-:is(#t6,#t9,#t10) .metric{padding:44px 20px 22px;border:1px solid var(--line-2);border-radius:8px;background:var(--card);min-width:0}
-:is(#t6,#t9,#t10) .metric .num{font-size:24px;color:var(--accent);line-height:1.3}
-:is(#t6,#t9,#t10) .metric .label{font-size:12px;line-height:1.8}
-.metric-src{position:absolute;right:12px;top:12px;font:10px var(--sans);color:var(--ink-2);border:1px solid var(--line-2);border-radius:4px;padding:2px 6px}
-:is(#t6,#t9,#t10) .section-index{font:11px var(--mono);color:var(--accent);flex-shrink:0}
-.panorama{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1.35fr) 20px minmax(0,1fr);gap:12px;align-items:stretch}
-.panorama-col{min-width:0}.panorama-col h4{color:var(--accent);font-family:var(--mono);margin-bottom:20px}
-.panorama-col ul{list-style:none}.panorama-col li{font-size:13px;color:var(--ink-2);line-height:1.9;padding:14px 0;border-top:1px solid var(--line-2)}
-.panorama-col li:first-child{padding-top:0;border-top:0}.panorama-core{border-color:var(--accent);background:linear-gradient(135deg,rgba(126,247,200,.05),var(--card))}
-.panorama-arrow{align-self:center;color:var(--accent);font:18px var(--mono);text-align:center}
-:is(#t6,#t9,#t10) .layered-arch .arch-row{grid-template-columns:180px minmax(0,1fr);gap:24px;margin:0;padding:20px 0;border-bottom:1px solid var(--line-2)}
-:is(#t6,#t9,#t10) .layered-arch .arch-row:first-child{padding-top:0}:is(#t6,#t9,#t10) .layered-arch .arch-row:last-child{padding-bottom:0;border:0}
-:is(#t6,#t9,#t10) .layered-arch .arch-col-label{line-height:1.9;margin:0;color:var(--accent)}
-.layer-nodes{display:flex;flex-wrap:wrap;gap:10px;min-width:0}
-:is(#t6,#t9,#t10) .layer-nodes .node{flex:1 1 210px;margin:0;min-width:0;padding:14px}:is(#t6,#t9,#t10) .layer-nodes .nt{font:13px var(--sans);line-height:1.8;margin:0}
-:is(#t6,#t9,#t10) .panorama-table,#t2 .panorama-table{overflow-x:auto}:is(#t6,#t9,#t10) .panorama-table table,#t2 .panorama-table table{min-width:0;table-layout:fixed}
-:is(#t6,#t9,#t10) .panorama-table th:first-child,#t2 .panorama-table th:first-child{width:20%}:is(#t6,#t9,#t10) .panorama-table td,:is(#t6,#t9,#t10) .panorama-table th,#t2 .panorama-table td,#t2 .panorama-table th{overflow-wrap:anywhere}
-:is(#t6,#t9,#t10) .current-plan p+p{margin-top:14px}.chain-lead{font-size:13px;color:var(--ink-2);margin:22px 0 16px}
-.chain-steps{list-style:none}.chain-steps li{border-top:1px solid var(--line-2);padding:18px 0}.chain-steps li:last-child{padding-bottom:0}
-.step-num{font:10px var(--mono);color:var(--accent);letter-spacing:.1em;margin-bottom:7px}.chain-steps h5{font-size:14px;margin-bottom:7px}
-.avatar-timeline{list-style:none;padding-left:22px;margin-left:5px;border-left:1px solid var(--line-2)}
-.avatar-timeline li{position:relative;padding:0 0 28px 10px}.avatar-timeline li:last-child{padding-bottom:0}
-.avatar-timeline li::before{content:'';position:absolute;width:9px;height:9px;left:-27px;top:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--bg)}
-.avatar-timeline h4{font-size:15px;margin-bottom:8px}.avatar-timeline p{font-size:14px;line-height:1.9;color:var(--ink-2)}
-.avatar-team .pm-card{grid-column:1/-1;border-color:var(--accent);background:linear-gradient(135deg,rgba(126,247,200,.05),var(--card))}.pm-card p+p{margin-top:12px}
-.avatar-demo{margin-top:36px}.avatar-demo .portfolio-btn{display:inline-block}.avatar-demo video{display:block;width:100%;max-height:380px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;margin:24px 0 12px}.avatar-demo .asset-caption{color:var(--ink-2)}
-.product-demo{margin-top:36px}.product-demo .portfolio-btn{display:inline-block}.product-demo a.demo-media{display:block;margin:24px 0 12px}.product-demo img{display:block;width:100%;max-width:100%;height:auto;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px}.product-demo .asset-caption{color:var(--ink-2)}
-@media(max-width:900px){.panorama{grid-template-columns:1fr}.panorama-arrow{transform:rotate(90deg)}:is(#t6,#t9,#t10) .layered-arch .arch-row{grid-template-columns:1fr;gap:12px}}
-@media(max-width:640px){:is(#t6,#t9,#t10) .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}:is(#t6,#t9,#t10) .metric{padding:42px 14px 18px}:is(#t6,#t9,#t10) .metric .num{font-size:20px}:is(#t6,#t9,#t10) .panorama-table,#t2 .panorama-table{padding:14px 10px}:is(#t6,#t9,#t10) .panorama-table th:first-child,#t2 .panorama-table th:first-child{width:24%}:is(#t6,#t9,#t10) .panorama-table td,:is(#t6,#t9,#t10) .panorama-table th,#t2 .panorama-table td,#t2 .panorama-table th{font-size:11px;padding:10px 5px}:is(#t6,#t9,#t10) .sec{align-items:baseline}}
-@media(max-width:360px){:is(#t6,#t9,#t10) .metrics{grid-template-columns:1fr}}
-@media print{:is(#t6,#t9,#t10) .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}:is(#t6,#t9,#t10) .metric,.panorama-core,.avatar-team .pm-card{background:white;border-color:#bbb}.metric-src{color:#444;border-color:#bbb}.panorama{grid-template-columns:1fr}.panorama-arrow{transform:rotate(90deg)}:is(#t6,#t9,#t10) .layered-arch .arch-row{grid-template-columns:180px minmax(0,1fr)}.avatar-timeline li::before{box-shadow:none}.avatar-timeline li{break-inside:avoid}}
-
 </style>
 </head>
 <body>
@@ -517,11 +480,9 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
     <button class="tab-btn" data-tab="t3"><span class="tn">03</span>关键决策</button>
     <button class="tab-btn" data-tab="t4"><span class="tn">04</span>评测体系</button>
     <button class="tab-btn" data-tab="t5"><span class="tn">05</span>归因飞轮</button>
-    <button class="tab-btn" data-tab="t6"><span class="tn">06</span>数字人 1.0→2.0</button>
-    <button class="tab-btn" data-tab="t9"><span class="tn">07</span>漫想</button>
-    <button class="tab-btn" data-tab="t10"><span class="tn">08</span>产品工厂</button>
-    <button class="tab-btn" data-tab="t7"><span class="tn">09</span>AI 方法论</button>
-    <button class="tab-btn" data-tab="t8"><span class="tn">10</span>关于我</button>
+    <button class="tab-btn" data-tab="t6"><span class="tn">06</span>项目实践</button>
+    <button class="tab-btn" data-tab="t7"><span class="tn">07</span>AI 方法论</button>
+    <button class="tab-btn" data-tab="t8"><span class="tn">08</span>关于我</button>
   </div>
 </nav>
 
@@ -642,32 +603,6 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
     </div>
   </div>
 
-<h3 class="sec" id="question-retrieval">题库检索增强 · 离线构建与在线查询</h3>
-<p class="chain-lead">长尾难题和以图为核心的题，先查题库里的原题和标准答案，再决定直接采用、作为参考，还是交给模型直解。检索与模型侧由算法团队落地，我负责方案、阈值策略和评测口径。</p>
-<div class="grid-2 retrieval-chains">
-<div class="card"><h4>🧱 离线构建</h4><ol class="chain-steps">
-<li><div class="step-num">STEP 01</div><h5>入库单元</h5><p>一道题一条记录，不切块（题目本身就是最小语义单元，切开会丢条件）。</p></li>
-<li><div class="step-num">STEP 02</div><h5>字段</h5><p>规范化题干（OCR 文本，公式统一成 LaTeX）、学科、题型、知识点、标准答案与解析、来源。</p></li>
-<li><div class="step-num">STEP 03</div><h5>向量化</h5><p>对题干 + 关键条件做 embedding；学科、题型作为元数据，用于过滤。</p></li>
-<li><div class="step-num">STEP 04</div><h5>更新</h5><p>线上错题与 Badcase 经核验后回流，补进题库和评测集。</p></li>
-</ol></div>
-<div class="card"><h4>🔍 在线查询</h4><ol class="chain-steps">
-<li><div class="step-num">STEP 01</div><h5>构造 query</h5><p>识别文本 + 题面特征（学科、题型、关键条件）。</p></li>
-<li><div class="step-num">STEP 02</div><h5>召回</h5><p>按学科 / 题型过滤后，召回候选原题。</p></li>
-<li><div class="step-num">STEP 03</div><h5>相似度校验</h5><p>候选与题干逐项比对，置信度高于阈值才作为标准答案输出（用阈值校验代替重排，重点防「相似题误用」）。</p></li>
-<li><div class="step-num">STEP 04</div><h5>降级</h5><p>命中但置信度不够 → 不直接采用，作为参考输入交给模型直解；检索失败 → 回退模型直解。</p></li>
-</ol></div>
-</div>
-<h3 class="sec">检索设计取舍</h3>
-<div class="card panorama-table"><table>
-<thead><tr><th scope="col">设计点</th><th scope="col">选择</th><th scope="col">为什么</th></tr></thead>
-<tbody>
-<tr><td>切块</td><td>一题一条，不切</td><td>条件被切开，最容易出现「看起来像、其实不是」的假命中</td></tr>
-<tr><td>触发</td><td>按路由结果条件触发，不是每题都查</td><td>控制时延和成本</td></tr>
-<tr><td>采用</td><td>阈值以上才当标准答案，以下只当参考</td><td>防假命中直接给到用户</td></tr>
-<tr><td>评测</td><td>检索质量和解题正确性分开评</td><td>避免检索命中率掩盖答案错误</td></tr>
-</tbody></table></div>
-
   <h3 class="sec">工具调用与降级兜底</h3>
   <div class="card">
     <table>
@@ -681,19 +616,6 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
       </tbody>
     </table>
   </div>
-<h3 class="sec" id="question-selection">选型决策速查表</h3>
-<div class="card panorama-table"><table>
-<thead><tr><th scope="col">维度</th><th scope="col">选择</th></tr></thead>
-<tbody>
-<tr><td>产品定位</td><td>K12 / 非 K12 全学科拍照答疑，输出完整解题过程与答案，不只给结果</td></tr>
-<tr><td>输入路由</td><td>7 维题目分类，分发到不同解题策略</td></tr>
-<tr><td>解题路径</td><td>模型直解（常见题，求速度）+ 题库检索（长尾 / 难题，求准确）</td></tr>
-<tr><td>Agent 编排</td><td>分类路由做调度入口；识别、理解、推理、质检四个 Agent 协作</td></tr>
-<tr><td>工具调用</td><td>检索按条件触发 → 置信度判断 → 失败自动降级兜底</td></tr>
-<tr><td>输出规范</td><td>「识别 — 理解 — 分步解答 — 答案」统一结构，学科解题 Skill + Prompt 模板</td></tr>
-<tr><td>评测</td><td>安全、意图、正确性、完整性、体验五层标准；多源交叉验证参考答案；双人交叉抽检</td></tr>
-<tr><td>归因</td><td>图像识别、题目理解、解题生成、最终答案四层 Badcase 归因</td></tr>
-</tbody></table></div>
 </section>
 
 <!-- ============ 03 关键决策 ============ -->
@@ -829,322 +751,127 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
 <div class="case-layout"><div class="question-sheet"><span class="sheet-label">题面 / 合成文字输入</span><h4>长方形的面积</h4><p>长方形长 2 m，宽 30 cm。<br>面积是多少平方米？</p><div class="rectangle-diagram"><span>2 m</span><span>30 cm</span></div><p class="reference">参考解：30 cm = 0.3 m<br>2 × 0.3 = <b>0.6 m²</b></p></div>
 <div class="case-output" aria-live="polite"><span class="sheet-label">假设错误输出</span><p id="case-output">宽 30 cm = 0.3 m，面积为 2 × 0.3 = 0.6 m²。<br>因此，最终答案是 60 m²。</p><div class="verdict"><span>正确性判定</span><b>错误</b><span id="case-layer">L4 · 最终答案</span></div><div class="case-steps"><div><b>判分依据</b><p id="case-reason">中间计算成立，最终结论与计算结果不一致；不能因步骤正确就判整题正确。</p></div><div><b>迭代动作</b><p id="case-action">增加最终结论与推导结果、单位的一致性检查，保留同类错题作定向回归。</p></div><div><b>复核条件（待实际测试）</b><p id="case-check">同类单位换算题最终答案与过程一致；同时检查应答率和时延是否退化。</p></div></div></div></div>
 <details><summary>案例分析：判定、归因与验证</summary><p>根据题干、解题过程与最终答案定位错误，明确判分依据，再提出改进动作与回归验证条件。本例为合成演示，用于展示分析方法；不代表公司真实样本或已验证的改进效果。</p></details></article>
-<h3 class="sec" id="question-timeline">演进时间线</h3>
-<ol class="avatar-timeline">
-<li><h4>v1.0 方案定稿</h4><p>产品边界定义（什么算题、题干不完整到何种程度不可解）；分类路由 + 「模型直解 + 题库检索」双路径；五层评测标准建立。</p></li>
-<li><h4>评测闭环运转</h4><p>四层 Badcase 归因，每 2–3 周输出效果报告、定迭代优先级；线上错题回流评测集。</p></li>
-<li><h4>v2.0</h4><p>分类升级为 7 维；多 Agent 架构与工具调用正式化；「快速解答 → AI 精讲」分层讲解，错题本与长期记忆。</p></li>
-<li><h4>结果</h4><p>解题准确率由 72% 提升至 90%。</p></li>
-</ol>
-<h3 class="sec" id="question-team">团队分工与 PM 职责</h3>
-<div class="grid-2 avatar-team">
-<div class="card pm-card"><h4>PM · Freya（产品 Owner）</h4><p>产品定位与边界、分类路由与解题策略、多 Agent 架构与工具调用策略、解题 Skill 与输出规范、五层评测标准与上线评估、四层归因与迭代优先级、跨团队目标对齐。</p></div>
-<div class="card"><h4>算法</h4><p>模型优化、检索与工具链路落地。</p></div>
-<div class="card"><h4>标注</h4><p>按评测标准执行标注，双人交叉抽检。</p></div>
-<div class="card"><h4>设计</h4><p>答案展示规范、精讲与板书交互。</p></div>
-<div class="card"><h4>业务</h4><p>目标与上线节奏对齐。</p></div>
-</div>
-<p class="chain-lead">节奏：每 2–3 周一份效果报告 → 定优先级 → 算法定向优化 → 回归测试 → 版本上线评估。</p>
 </section>
 
 <!-- ============ 06 项目实践 ============ -->
 <section class="panel" id="t6">
-<div class="panel-head"><div class="kicker">06 / DIGITAL HUMAN 1.0 → 2.0</div><h2>数字人产品线 · 系统架构全景图</h2><p>从「文章链接 → 数字人口播视频」的 48 小时 POC，到覆盖剧本、角色、分镜、参考图、视频生成的 AIGC 短片创作工作台。</p></div>
-<div class="hero-meta">Owner · Freya（AI PM）· 1.0 方案选型与交互设计 · 2.0 产品方案与多 Agent 工作流规划 · 起点：腾讯内部 AI 黑客松<br>
-栈 · 1.0：网页抓取 + qwen-plus + CosyVoice 语音合成 + 即梦 OmniHuman 口型驱动（万相 S2V 备用）· 2.0：qwen3-max 剧本/分镜 + 通义 VLM 质检 + 万相图像/图生视频</div>
-<div class="metrics">
-<div class="metric"><span class="metric-src">简历</span><div class="num">48 小时</div><div class="label">完成 1.0 POC 并 Demo 演示</div></div>
-<div class="metric"><span class="metric-src">简历</span><div class="num">5 个环节</div><div class="label">1.0 技术链路：抓取 · 脚本 · 语音 · 数字人驱动 · 视频合成</div></div>
-<div class="metric"><span class="metric-src">简历</span><div class="num">3 步</div><div class="label">粘贴链接 → 选形象 → 出片</div></div>
-<div class="metric"><span class="metric-src">简历</span><div class="num">5 个 Agent</div><div class="label">2.0 创作工作流：剧本 · 角色 · 分镜 · 参考图 · 视频</div></div>
-<div class="metric"><span class="metric-src">简历</span><div class="num">4 视图</div><div class="label">角色设定资产 + 场景全景图，可跨项目复用</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">≥7/10</div><div class="label">参考图质检放行线，最多重做 3 版</div></div>
-</div>
-<h3 class="sec" id="avatar-1"><span class="section-index">06.1</span>一张图看懂全景</h3>
-<div class="panorama">
-<div class="card panorama-col"><h4>输入</h4><ul><li>1.0：一条文章链接 / RSS 订阅</li><li>1.0：数字人形象照片 + 角色模板</li><li>2.0：一句创意 / 故事梗概</li><li>2.0：风格 Prompt 预设</li></ul></div>
-<div class="panorama-arrow" aria-hidden="true">→</div>
-<div class="card panorama-col panorama-core"><h4>技术底座</h4><ul><li>内容抓取与清洗 → 带来源的口播稿生成 → 语音合成 → 口型驱动 → 成片合成（1.0）</li><li>剧本 Agent → 角色 Agent → 分镜 Agent → 参考图 Agent → 视频 Agent（2.0，逐步确认，可单环节重生成）</li><li>角色一致性锚点：角色设定贯穿剧本、分镜、参考图</li></ul></div>
-<div class="panorama-arrow" aria-hidden="true">→</div>
-<div class="card panorama-col"><h4>输出闭环</h4><ul><li>数字人口播视频 MP4（1.0）</li><li>剧本、角色 4 视图、场景全景图、分镜脚本、参考图、视频片段（2.0）</li><li>资产沉淀进资产库 → 下一个项目直接复用</li></ul></div>
-</div>
-<h3 class="sec" id="avatar-2"><span class="section-index">06.2</span>核心产品决策</h3>
-<div class="grid-2 decision-grid">
-<details class="decision expand-card"><summary class="card-summary" aria-label="48 小时内为什么用 API 组合，不自研模型？"><div class="decision-id">D01</div><h3 class="dq">48 小时内为什么用 API 组合，不自研模型？</h3><p class="da">五个环节逐一比较开源方案和第三方 API 的开发周期与可行性，选最快跑通核心链路的组合。POC 要回答的是「值不值得做」，不是「能不能自研」。</p><span class="expand-hint">取舍</span></summary><div class="card-details"><p>代价是按量计费和供应商依赖；需求验证成立后再评估自建或私有化。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么把五个技术环节封装成三步？"><div class="decision-id">D02</div><h3 class="dq">为什么把五个技术环节封装成三步？</h3><p class="da">内容团队要的是出片，不是调参数。抓取、写稿、配音、驱动、合成都放到后台，前台只留「粘贴链接 → 选形象 → 出片」。</p><span class="expand-hint">取舍</span></summary><div class="card-details"><p>高级参数（音色、语速、风格）收进二级面板，默认值保证第一次就能出片。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="1.0 为什么不建知识库，而是实时抓取单篇？"><div class="decision-id">D03</div><h3 class="dq">1.0 为什么不建知识库，而是实时抓取单篇？</h3><p class="da">口播的素材就是用户给的那一篇文章，实时抓取保证内容最新、来源唯一可追溯；建库的收益要等到多篇聚合时才出现。</p><span class="expand-hint">取舍</span></summary><div class="card-details"><p>稿件逐条标来源，只有一个来源时提示「单一来源」，提醒编辑核实。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="口型驱动为什么设计主备两家？"><div class="decision-id">D04</div><h3 class="dq">口型驱动为什么设计主备两家？</h3><p class="da">口型驱动是链路里最贵、最不稳定的一环，单一供应商出问题整条链路就停。主用效果优先的方案，备用保证可用。</p><span class="expand-hint">取舍</span></summary><div class="card-details"><p>主备切换对用户透明；评测按同一套口型同步和画面质量标准比较两家。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="2.0 为什么拆成五个 Agent，并且每步都要确认？"><div class="decision-id">D05</div><h3 class="dq">2.0 为什么拆成五个 Agent，并且每步都要确认？</h3><p class="da">短片创作是长链路，一步错步步错。拆成剧本、角色、分镜、参考图、视频五个分工明确的 Agent，每个阶段输入输出固定，用户确认后再往下走，不满意只重生成这一环。</p><span class="expand-hint">取舍</span></summary><div class="card-details"><p>比一键全自动慢，但返工成本最低；后续对稳定的环节开放「自动连续执行」。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="角色一致性为什么用 ID 锚点，不用相似度检索？"><div class="decision-id">D06</div><h3 class="dq">角色一致性为什么用 ID 锚点，不用相似度检索？</h3><p class="da">同一个角色在不同镜头里「认错人」是短片最致命的问题。分镜里直接引用角色、场景 ID，精确取回设定图做参考，结果可预期。</p><span class="expand-hint">取舍</span></summary><div class="card-details"><p>相似度检索留给跨项目找素材，不用在同一项目内锁定角色。</p></div></details>
-</div>
-<h3 class="sec" id="avatar-3"><span class="section-index">06.3</span>分层系统架构</h3>
-<div class="arch layered-arch">
-<div class="arch-row"><div class="arch-col-label">应用编排层 · ORCHESTRATION</div><div class="layer-nodes">
-<div class="node"><div class="nt">1.0 链路编排（抓取 → 写稿 → 配音 → 驱动 → 合成）</div></div>
-<div class="node"><div class="nt">2.0 五阶段工作流 + 阶段停点</div></div>
-<div class="node"><div class="nt">单环节重生成</div></div>
-<div class="node hl"><div class="nt">角色一致性锚点</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">生成服务层 · MODELS</div><div class="layer-nodes">
-<div class="node"><div class="nt">文本：qwen-plus（1.0 口播稿）、qwen3-max（2.0 剧本 / 分镜）</div></div>
-<div class="node"><div class="nt">语音：CosyVoice</div></div>
-<div class="node"><div class="nt">数字人：即梦 OmniHuman（主）/ 万相 S2V（备）</div></div>
-<div class="node"><div class="nt">图像与视频：万相图像生成、图生视频（首帧驱动）</div></div>
-<div class="node"><div class="nt">质检：通义 VLM 视觉打分</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">数据与资产层 · ASSETS</div><div class="layer-nodes">
-<div class="node"><div class="nt">文章正文与来源</div></div>
-<div class="node"><div class="nt">剧本 JSON</div></div>
-<div class="node"><div class="nt">角色设定卡 + 4 视图</div></div>
-<div class="node"><div class="nt">场景全景图</div></div>
-<div class="node"><div class="nt">分镜脚本</div></div>
-<div class="node"><div class="nt">风格 Prompt 预设</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">质量与评测层 · QUALITY</div><div class="layer-nodes">
-<div class="node"><div class="nt">来源引用检查</div></div>
-<div class="node"><div class="nt">禁编规则扫描</div></div>
-<div class="node"><div class="nt">收尾评估器（不过关重写）</div></div>
-<div class="node hl"><div class="nt">参考图质检（≥7/10 放行）</div></div>
-<div class="node"><div class="nt">成片质量评审</div></div>
-</div></div>
-</div>
-<h3 class="sec" id="avatar-4"><span class="section-index">06.4</span>选型决策速查表</h3>
-<div class="card panorama-table"><table>
-<thead><tr><th scope="col">维度</th><th scope="col">选择</th><th scope="col">理由</th></tr></thead>
-<tbody>
-<tr><td>链路形态</td><td>1.0 固定流水线；2.0 五阶段 Agent 工作流 + 阶段停点</td><td>1.0 求最快跑通；2.0 求每步可控、可返工</td></tr>
-<tr><td>文本模型</td><td>qwen-plus / qwen3-max</td><td>中文写作质量好，结构化 JSON 输出稳定</td></tr>
-<tr><td>语音合成</td><td>CosyVoice</td><td>中文音色自然，接入成本低</td></tr>
-<tr><td>口型驱动</td><td>即梦 OmniHuman 为主，万相 S2V 备用</td><td>效果优先 + 可用性兜底</td></tr>
-<tr><td>图像 / 视频</td><td>万相图像生成 + 图生视频（首帧驱动）</td><td>以参考图做首帧，把角色一致性落到画面上</td></tr>
-<tr><td>上下文方案</td><td>1.0 单篇实时抓取（正文上限 6,000 字）；2.0 结构化资产 + ID 精确取回</td><td>当前素材规模小，精确比相似更重要</td></tr>
-<tr><td>切块策略（规模化方案）</td><td>文章按段落 300–500 字、重叠 10–20%；角色 / 场景 / 分镜一条一条存，不切</td><td>文字按语义段落检索，资产保持完整</td></tr>
-<tr><td>检索方式（规模化方案）</td><td>向量 Top-20 + 关键词 Top-20，RRF 合并 → 重排取 Top-5，相关度阈值过滤</td><td>兼顾语义召回和专有名词命中</td></tr>
-<tr><td>质检</td><td>视觉模型打分 + 人工确认</td><td>自动拦明显问题，人工把审美关</td></tr>
-</tbody></table></div>
-<h3 class="sec" id="avatar-5"><span class="section-index">06.5</span>数据 / 检索双链路</h3>
-<div class="card current-plan"><h4>当前方案（已落地的设计）</h4><p>1.0 在线链路：文章链接 → 抓取并清洗正文（去导航、广告、脚注）→ 单篇正文上限 6,000 字，整篇进上下文 → 口播稿逐条标注来源 → 来源只有一个时提示「单一来源」。</p><p>2.0 资产链路：剧本 JSON → 角色设定卡（结构化字段 + 4 视图）和场景全景图 → 分镜脚本按场次拆镜头，引用角色 / 场景 ID → 参考图生成时按 ID 精确取回设定图做锚点。</p></div>
-<p class="chain-lead">规模化方案：多篇聚合 / 跨项目资产复用时上向量库</p><div class="grid-2 retrieval-chains">
-<div class="card"><h4>🧱 离线构建（INDEXING）</h4><ol class="chain-steps">
-<li><div class="step-num">STEP 01</div><h5>解析</h5><p>网页正文抽取；资产库读取结构化设定卡。</p></li>
-<li><div class="step-num">STEP 02</div><h5>差异化切块</h5><p>文章按自然段落，300–500 字，重叠 10–20%；角色卡、场景卡、分镜一条一条存，不切。</p></li>
-<li><div class="step-num">STEP 03</div><h5>向量化</h5><p>文本用中文 embedding（如 bge-m3 / 百炼 text-embedding）；设定图用图像向量（CLIP 类）。</p></li>
-<li><div class="step-num">STEP 04</div><h5>入库</h5><p>pgvector 或 Milvus，HNSW 索引；元数据记来源 URL、发布时间、作者、角色名、风格标签、项目 ID。</p></li>
-</ol></div>
-<div class="card"><h4>🔍 在线查询（QUERY）</h4><ol class="chain-steps">
-<li><div class="step-num">STEP 01</div><h5>Query 构造</h5><p>口播主题 / 分镜描述 + 角色名 + 风格。</p></li>
-<li><div class="step-num">STEP 02</div><h5>混合检索</h5><p>向量 Top-20 + 关键词 Top-20，RRF 合并，按项目、风格、时间做元数据过滤。</p></li>
-<li><div class="step-num">STEP 03</div><h5>重排</h5><p>取 Top-5，相关度低于阈值不进上下文。</p></li>
-<li><div class="step-num">STEP 04</div><h5>生成</h5><p>强制标注来源；资产类结果由用户选定后再作为锚点。</p></li>
-</ol></div>
-</div>
-<h3 class="sec" id="avatar-6"><span class="section-index">06.6</span>质量治理手段</h3>
-<div class="grid-3">
-<div class="card "><h4>来源引用</h4><p>口播稿每条事实带来源链接，单一来源给出提示。</p></div>
-<div class="card "><h4>禁编规则</h4><p>不编造数字、日期、机构，规则扫描兜底。</p></div>
-<div class="card "><h4>收尾评估器</h4><p>成稿前过一遍事实和口播可读性检查，不过关就带着问题重写。</p></div>
-<div class="card "><h4>角色一致性锚点</h4><p>角色设定贯穿剧本、分镜、参考图。</p></div>
-<div class="card "><h4>参考图质检</h4><p>视觉模型按角色匹配度、构图、画面瑕疵打分，≥7/10 放行，最多重做 3 版，仍不过就交给人工。</p></div>
-<div class="card "><h4>阶段停点</h4><p>每个阶段用户确认后再往下走，不满意只重生成这一环。</p></div>
-</div>
-<h3 class="sec" id="avatar-7"><span class="section-index">06.7</span>评测体系</h3>
-<div class="grid-3">
-<div class="card "><h4>1.0 口播稿</h4><p>事实准确（逐条对照来源核查）、来源覆盖、口播可读性（句长、口语化）。</p></div>
-<div class="card "><h4>1.0 成片</h4><p>口型同步、音画一致、画面瑕疵、完整出片。</p></div>
-<div class="card "><h4>2.0 剧本</h4><p>台词与情节评估（结构完整、人物动机、节奏）。</p></div>
-<div class="card "><h4>2.0 参考图</h4><p>与角色设定的匹配度（脸、发型、服装、配色）+ 构图与画面质量。</p></div>
-<div class="card "><h4>2.0 成片</h4><p>镜头连贯、角色一致、动作自然。</p></div>
-<div class="card"><p>方法：固定样例集回归，每次改 Prompt 或换模型重跑；人工评审给出可接受 / 不可接受，并归因到环节。</p></div></div>
-<h3 class="sec" id="avatar-8"><span class="section-index">06.8</span>数据指标（指标口径）</h3>
-<div class="card panorama-table"><table>
-<thead><tr><th scope="col">类别</th><th scope="col">指标</th><th scope="col">口径</th></tr></thead>
-<tbody>
-<tr><td>提效（北极星）</td><td>单条视频制作时长</td><td>对比人工制作「大半天」的基线，按「粘贴链接到拿到成片」计时</td></tr>
-<tr><td>质量</td><td>一次通过率</td><td>各阶段产物无需重生成即被用户确认的比例</td></tr>
-<tr><td>质量</td><td>事实准确率</td><td>口播稿事实与来源一致的比例</td></tr>
-<tr><td>效率</td><td>单环节重生成次数</td><td>每个阶段平均重做几次</td></tr>
-<tr><td>复用</td><td>资产复用率</td><td>新项目里直接复用已有角色 / 场景 / 风格预设的比例</td></tr>
-</tbody></table></div>
-<h3 class="sec" id="avatar-9"><span class="section-index">06.9</span>演进时间线</h3>
-<ol class="avatar-timeline">
-<li><h4>黑客松 · 发现问题</h4><p>内容团队一条口播视频要花大半天。</p></li>
-<li><h4>48 小时 · V1.0 POC</h4><p>五个环节选型完成，跑通「链接 → 口播视频」并 Demo 演示。</p></li>
-<li><h4>V1.0 · AI Avatar Twin</h4><p>补齐来源引用、禁编规则、收尾评估器，以及口型驱动主备方案。</p></li>
-<li><h4>验证成功 · 立项 2.0</h4><p>从单点口播升级为 AIGC 短片创作工作台。</p></li>
-<li><h4>V2.0 · 只言片语</h4><p>剧本生成与参考图阶段完成产品迭代与前端开发，已有作品存档。</p></li>
-<li><h4>持续开发</h4><p>视频生成与后期链路持续开发中。</p></li>
-</ol>
-<h3 class="sec" id="avatar-10"><span class="section-index">06.10</span>团队分工与 PM 职责</h3>
-<div class="grid-2 avatar-team">
-<div class="card pm-card"><h4>PM · Freya</h4><p>1.0：五个环节的技术方案选型、交互流程设计、POC Demo。</p><p>2.0：从 0 到 1 的产品方案、多 Agent 工作流规划、各阶段输入输出定义、角色一致性机制、质量标准与验收规范、资产沉淀方案。</p></div>
-<div class="card "><h4>算法</h4><p>模型接入与调优、生成链路联调。</p></div>
-<div class="card "><h4>设计</h4><p>创作工作台视觉与交互、角色和风格预设。</p></div>
-<div class="card "><h4>内容团队（用户）</h4><p>提供真实选题，参与成片评审。</p></div>
-</div>
-<div class="avatar-demo"><a class="portfolio-btn" href="https://github.com/Freya-Qian/AI-Avatar-Twin" target="_blank" rel="noopener noreferrer">AI Avatar Twin · GitHub ↗</a><video controls preload="none" playsinline src="assets/portfolio/avatar-omnihuman-verify.mp4" aria-label="1.0 口型驱动效果"></video><p class="asset-caption">1.0 口型驱动效果：照片 + 合成语音生成的数字人口播片段</p></div>
+  <div class="panel-head">
+    <div class="kicker">06 / SELECTED PROJECTS</div>
+    <h2>AI 产品设计与项目实践</h2>
+    <p>四个项目按同一条链路讲：需求场景 → 数据与上下文 → 模型与 Prompt → 评测 → 交付 → 迭代。数字人产品线从 1.0 AI Avatar Twin 演进到 2.0 只言片语；漫想和 ProdForge 是我独立完成的 AI 产品。点击卡片展开链路细节。</p>
+  </div>
+
+  <h3 class="sec">数字人产品线 · 1.0 → 2.0</h3>
+  <div class="evo-line" role="list" aria-label="数字人产品线演进">
+    <div class="evo-step" role="listitem"><span class="evo-tag">腾讯内部 AI 黑客松 · 48h</span><b>1.0 POC</b><span>粘贴文章链接 → 选数字人形象 → 一键出口播视频</span></div>
+    <div class="evo-arrow" aria-hidden="true">→</div>
+    <div class="evo-step" role="listitem"><span class="evo-tag">V1.0</span><b>AI Avatar Twin</b><span>选题 → 带来源的口播稿 → 数字人视频 → 发布素材包</span></div>
+    <div class="evo-arrow" aria-hidden="true">验证成功 · 立项 →</div>
+    <div class="evo-step hl" role="listitem"><span class="evo-tag">V2.0</span><b>只言片语</b><span>剧本 → 角色 → 分镜 → 参考图 → 视频合成</span></div>
+  </div>
+
+  <div class="grid-2">
+    <details class="proj expand-card"><summary class="card-summary" aria-label="AI Avatar Twin · 数字人 1.0">
+      <div class="ptag">数字人 1.0 · 黑客松 POC → 口播工作台</div>
+      <h4>AI Avatar Twin · 数字人口播工作台</h4>
+      <p class="pdesc">内容团队做一条口播视频要花大半天。1.0 在腾讯内部 AI 黑客松 48 小时内跑通「文章链接 → 口播稿 → 语音 → 照片驱动数字人 → MP4」，把五个技术环节封装成「粘贴链接 → 选形象 → 出片」三步；之后补全为选题、带来源脚本、数字人视频和发布素材包的完整工作台。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">48h</div><div class="kl">黑客松完成 1.0 POC 并 Demo 演示</div></div>
+        <div class="kpi"><div class="kn">3 → 0</div><div class="kl">5 条真实新闻样例中编造事实的条数（首轮 → 修复后）</div></div>
+        <div class="kpi"><div class="kn">124</div><div class="kl">项后端离线自动化测试全部通过</div></div>
+      </div>
+      <div class="pmeta">
+        <span>48h POC</span><span>实时抓取 + 来源标注</span><span>防编造</span><span>Agent + 评估器闸门</span><span>照片驱动口型</span>
+      </div><span class="expand-hint">1.0 链路与验证短片</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>目标用户是内部内容团队；1.0 只解决一件事：贴一条链接，产出一条带来源的口播视频。设计目标为单条 ≤30 分钟、人工操作 ≤5 步。</td></tr>
+        <tr><td>数据与上下文</td><td>不建向量库：用户贴的链接或 RSS 实时抓取，清洗正文后取 6,000 字以内整篇进入上下文；脚本逐条带来源，来源少于 2 个时自动提示「单一来源」。</td></tr>
+        <tr><td>模型与 Prompt</td><td>文字 qwen-plus；配音 CosyVoice-v2；口型驱动即梦 OmniHuman 1.5 为主、万相 wan2.2-s2v 备用。Prompt 硬约束：不编造数字、日期、机构，不写第一人称「实测」，后端规则再兜底扫描。</td></tr>
+        <tr><td>Agent</td><td>自写 Agent 循环：模型每步输出「想法 + 工具 + 参数」，6 个工具（抓取、摘要、选题、事实核查、写脚本、自检），最多 20 步；收尾前强制过独立评估器，不过就带意见重写，最多 2 次。</td></tr>
+        <tr><td>评测</td><td>M1–M4 每个阶段过「离线测试 + 真实冒烟」两道闸门；5 条真实新闻逐条联网核查，首轮 3 条有编造事实，修复后 5 条全部可接受，定为脚本质量基线。</td></tr>
+        <tr><td>交付</td><td>选题 → 脚本（版本/回退）→ 选形象 → 9:16 视频 → 素材包（MP4、封面、标题、简介、SRT、来源清单）；TTS、数字人、风格化失败均有降级，保证始终拿到可用视频。</td></tr>
+        <tr><td>迭代</td><td>看了真实出片后把万相换成即梦（自带字幕和水印关不掉）；口型驱动按官方价约 1 元/秒，是初设成本的 10 倍，决定先用 API 验证需求。1.0 验证成功后立项 2.0。</td></tr>
+      </table>
+      <video controls preload="none" playsinline src="assets/portfolio/avatar-omnihuman-verify.mp4" aria-label="数字人口型驱动验证短片"></video>
+      <p class="asset-caption">M3 阶段真实冒烟产物：真实配音 + 照片，经即梦 OmniHuman 1.5 口型驱动生成的 5.48 秒验证短片。</p>
+      <a class="text-link" href="https://github.com/Freya-Qian/AI-Avatar-Twin" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+
+    <details class="proj expand-card"><summary class="card-summary" aria-label="只言片语 · 数字人 2.0">
+      <div class="ptag">数字人 2.0 · AIGC 短片多 Agent 工作流</div>
+      <h4>只言片语 · AI 短片创作工作台</h4>
+      <p class="pdesc">1.0 验证「内容 → 数字人口播」可行后立项为数字人 2.0，服务内部内容团队：把单点口播升级为覆盖剧本创作、角色设定、分镜规划、参考图生成、视频合成的短片工作台。各环节由分工明确的 Agent 负责，逐阶段确认，单环节可重新生成；角色设定作为锚点贯穿剧本、分镜与参考图。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">5</div><div class="kl">个创作环节的多 Agent 工作流，逐阶段确认</div></div>
+        <div class="kpi"><div class="kn">≥7/10</div><div class="kl">参考图自动质检合格线，不合格重画，最多 3 版</div></div>
+        <div class="kpi"><div class="kn">40 段</div><div class="kl">单部作品完成的分镜与参考图（本地存档）</div></div>
+      </div>
+      <div class="pmeta">
+        <span>多 Agent 工作流</span><span>角色一致性锚点</span><span>VLM 质检</span><span>模型可编排</span><span>资产沉淀</span>
+      </div><span class="expand-hint">2.0 链路与质量标准</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>内容团队除了口播，还要做剧情类短片；2.0 让创作者在每个环节保留控制权：逐阶段确认，局部不满意只重做该环节。</td></tr>
+        <tr><td>数据与上下文</td><td>每个阶段产出结构化资产，作为下一阶段的输入：剧本 JSON → 角色 4 视图与场景全景图 → 分镜脚本 → 参考图。参考图按角色 / 场景 ID 精确取回设定图作锚点，不靠相似度检索，避免「认错人」。</td></tr>
+        <tr><td>模型与 Prompt</td><td>按环节编排模型：文字 qwen3-max、视觉质检 qwen3.5-plus、图像 wan2.7-image、视频 wan2.7-i2v（首帧模式）。剧本、角色、场景、分镜、风格分别维护 Prompt 模板与风格预设。</td></tr>
+        <tr><td>评测</td><td>剧本看台词与情节；参考图由视觉模型对照分镜打分，≥7/10 且无硬性错误（角色错、站位错、穿模、道具错）才通过；成片按完整度与一致性验收。</td></tr>
+        <tr><td>交付</td><td>剧本生成与参考图阶段已完成产品迭代与前端开发，本地已有作品存档；视频生成与后期链路持续开发中。</td></tr>
+        <tr><td>迭代</td><td>一部 40 段作品中，质检拦下 14 段参考图（3 段弃用、11 段降级使用），归为角色混淆、站位朝向、道具、穿模、场景、景别 6 类，下一轮对复杂多人镜头加站位硬约束；角色 4 视图、场景全景图、分镜脚本与风格预设沉淀为可复用资产。</td></tr>
+      </table></div></details>
+  </div>
+
+  <h3 class="sec">独立完成的 AI 产品</h3>
+  <div class="grid-2">
+    <details class="proj expand-card"><summary class="card-summary" aria-label="漫想 · AI 交互叙事游戏">
+      <div class="ptag">个人项目 · AI Builder</div>
+      <h4>漫想 · AI 交互叙事游戏</h4>
+      <p class="pdesc">传统互动故事依赖固定脚本、参与度低。漫想基于大模型实现「一句话生成多幕剧情与配图」：用户选择选项或自由输入推进，多 Agent 协作管理剧情推进、配图与分支，结局回应最初的脑洞。独立完成需求拆解、方案设计与可运行 MVP。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">10/10</div><div class="kl">局真实冒烟全部跑到结局</div></div>
+        <div class="kpi"><div class="kn">4.92/5</div><div class="kl">同批 10 局平均发散分</div></div>
+        <div class="kpi"><div class="kn">319</div><div class="kl">项后端自动化测试通过（前端 257 项）</div></div>
+      </div>
+      <div class="pmeta">
+        <span>多 Agent 协作</span><span>结构化剧情记忆</span><span>Prompt 输出规范</span><span>选项 + 自由输入</span><span>GitHub 开源</span>
+      </div><span class="expand-hint">交互叙事链路与界面</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>面向创意发散型用户和互动剧情玩家：输入一个脑洞，扩展成多幕互动故事，最后看到结局和脑洞演化回顾。</td></tr>
+        <tr><td>数据与上下文</td><td>不建向量库：每局 6 幕，用结构化记忆管理连贯性——已确认事实、关键选择、未解悬念、待回收 / 已回收伏笔，加角色、地点、分支等世界元素和最近 3 幕剧情；8 个题材 Skill 提供叙事范式、发散算子和套路黑名单。</td></tr>
+        <tr><td>模型与 Prompt</td><td>文字 qwen-plus（JSON 模式）；首幕配图 wanx2.1-t2i-turbo，后续幕以首幕为参考生成，保持同一角色形象。Prompt 按幕规定节奏，要求结局回收伏笔并回应脑洞。</td></tr>
+        <tr><td>多 Agent 协作</td><td>主控引擎编排扩写首幕、生成下一幕、生成结局、配图四个分工角色，分支、记忆和存档由引擎统一管理，保证多幕剧情前后一致。</td></tr>
+        <tr><td>评测</td><td>规则评估器：结局必须回应脑洞、至少回收 1 个伏笔；每幕 1–5 分发散度评分和套路检测，低分自动带指令重写。V2.1 真实冒烟 10 局 10/10 跑到结局，平均发散分 4.92/5。</td></tr>
+        <tr><td>交付</td><td>可本地运行的 MVP 已开源：Next.js 前端 + FastAPI 后端，支持存档、回放、导出与失败重试。</td></tr>
+        <tr><td>迭代</td><td>单局模型调用预算 ≤15 次（10 局共 61 次调用）；接入结局语义评估，用模型判断结局是否真正回应脑洞，作为人工样例判定的代理指标。</td></tr>
+      </table>
+      <a href="assets/portfolio/manxiang-play.png" target="_blank" rel="noopener"><img src="assets/portfolio/manxiang-play.png" alt="漫想实际游玩界面：第二幕故事、脑洞星图与六幕进度" loading="lazy" width="1440" height="900"></a><p class="asset-caption">项目本地运行的实际界面截图。点击可放大。</p>
+      <a class="text-link" href="https://github.com/Freya-Qian/Manxiang" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+
+    <details class="proj expand-card"><summary class="card-summary" aria-label="ProdForge AI · AI 产品孵化工作台">
+      <div class="ptag">个人项目 · AI 产品工具</div>
+      <h4>ProdForge AI · AI 产品孵化工作台</h4>
+      <p class="pdesc">面向 PM、独立开发者和 AI 学习者：把一个模糊想法逐步整理成可评审、可开发、可交接的资料包。链路：想法 → 需求澄清 → 竞品证据 → 定位差异 → PRD → 研发任务 → 资料包；每条结论都要能追到证据卡。</p>
+      <div class="kpis">
+        <div class="kpi"><div class="kn">6</div><div class="kl">个阶段 Agent 固定流水线，每阶段可审核</div></div>
+        <div class="kpi"><div class="kn">13,639</div><div class="kl">token：一个完整项目 6 个阶段任务的实测用量</div></div>
+        <div class="kpi"><div class="kn">74/74</div><div class="kl">项后端离线测试通过；M1 真实冒烟 3/3</div></div>
+      </div>
+      <div class="pmeta">
+        <span>证据卡</span><span>引用审计</span><span>阶段审核</span><span>成本护栏</span><span>研发交接</span>
+      </div><span class="expand-hint">证据链路与引用审计</span></summary><div class="card-details">
+      <table class="chain">
+        <tr><td>需求场景</td><td>想法到 PRD 之间最容易出问题的是「结论没有出处」：竞品写错、定位拍脑袋。产品要求每条结论都能追溯。</td></tr>
+        <tr><td>数据与上下文</td><td>不建向量库：竞品由用户自选，最多 3 个；贴网址抓取并清洗正文（≤6,000 字），生成结构化证据卡（类型、结论、启发、原文摘录、置信度、来源链接必填），按编号整体注入定位与 PRD 生成。</td></tr>
+        <tr><td>模型与 Prompt</td><td>qwen-plus；按 8 个维度做需求澄清（目标用户、场景、痛点、边界、成功指标、非目标、外部数据源、领域知识来源）；6 个阶段 Agent 各有独立 Prompt 和输出结构。</td></tr>
+        <tr><td>评测</td><td>引用审计：输出中不存在的证据编号直接剔除，结论型章节没有证据就进入「无证据结论清单」；M1 真实冒烟 3/3 跑通，产品经理按 5 个维度给样例打分，无不可接受项。</td></tr>
+        <tr><td>交付</td><td>本地优先的 Web 单机 MVP：FastAPI + SQLite + Next.js，资料包可导出带走。</td></tr>
+        <tr><td>迭代</td><td>token 用量逐任务落库，单项目 10 元预算护栏；8 问生成实测 15–35 秒，超过 ≤15 秒目标，列为下一步体验优化。</td></tr>
+      </table>
+      <a class="text-link" href="https://github.com/Freya-Qian/ProdForge-AI" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+  </div>
 </section>
 
-<section class="panel" id="t9">
-<div class="panel-head"><div class="kicker">07 / MANXIANG · AI INTERACTIVE FICTION</div><h2>漫想 · AI 交互叙事游戏全景图</h2><p>针对传统互动故事依赖固定脚本、参与度低的问题，做「一句话生成多幕剧情与配图」的发散思维互动故事游戏。</p></div>
-<div class="hero-meta">Owner · Freya（AI PM）· 个人项目 · 独立完成需求拆解与方案设计<br>
-栈 · FastAPI + Next.js · qwen-plus（结构化 JSON 输出）· 通义万相文生图 / 参考图生图</div>
-<div class="metrics">
-<div class="metric"><span class="metric-src">简历</span><div class="num">1 句话</div><div class="label">生成多幕剧情与配图</div></div>
-<div class="metric"><span class="metric-src">简历</span><div class="num">2 条</div><div class="label">交互路径：选项选择 + 自由输入</div></div>
-<div class="metric"><span class="metric-src">简历</span><div class="num">3 条</div><div class="label">核心链路：剧情生成 · 配图生成 · 分支管理</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">6 幕</div><div class="label">标准一局（可选 3 / 6 / 9 幕）</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">8 个</div><div class="label">题材 Skill：叙事范式 + 发散算子 + 套路黑名单</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">3 幕窗口</div><div class="label">最近 3 幕原文 + 结构化记忆</div></div>
-</div>
-<h3 class="sec"><span class="section-index">07.1</span>一张图看懂全景</h3>
-<div class="panorama">
-<div class="card panorama-col"><h4>输入</h4><ul><li>一句脑洞；题材、幕数；之后每幕的选项或自由输入。</li></ul></div>
-<div class="panorama-arrow" aria-hidden="true">→</div>
-<div class="card panorama-col panorama-core"><h4>底座</h4><ul><li>主控引擎编排扩写首幕、生成下一幕、生成结局、配图四个分工角色；结构化记忆；题材 Skill；分支与存档。</li></ul></div>
-<div class="panorama-arrow" aria-hidden="true">→</div>
-<div class="card panorama-col"><h4>输出</h4><ul><li>多幕剧情 + 每幕配图 → 结局 → 存档续玩、二创续写。</li></ul></div>
-</div>
-<h3 class="sec"><span class="section-index">07.2</span>核心产品决策</h3>
-<div class="grid-2 decision-grid">
-<details class="decision expand-card"><summary class="card-summary" aria-label="多 Agent 为什么由主控引擎统一编排？"><div class="decision-id">D01</div><h3 class="dq">多 Agent 为什么由主控引擎统一编排？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">剧情前后一致比每个角色自由发挥更重要。扩写首幕、下一幕、结局、配图四个角色分工明确，分支、记忆和存档由引擎统一管理，避免各说各话。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么用结构化记忆，不做全文摘要压缩？"><div class="decision-id">D02</div><h3 class="dq">为什么用结构化记忆，不做全文摘要压缩？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">摘要会丢伏笔。每幕把已确认事实、关键选择、未解悬念、待回收和已回收伏笔写进记忆，窗口只带最近 3 幕原文，连贯性和成本兼顾。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么同时给选项和自由输入？"><div class="decision-id">D03</div><h3 class="dq">为什么同时给选项和自由输入？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">选项降低门槛，自由输入保留脑洞；自由输入先过内容安全检查，再由引擎并入剧情。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="怎么让剧情不落俗套？"><div class="decision-id">D04</div><h3 class="dq">怎么让剧情不落俗套？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">每个题材 Skill 带发散算子和套路黑名单，生成后做套路检测，命中就带着指令重写。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="内容安全为什么只拦危险指导？"><div class="decision-id">D05</div><h3 class="dq">内容安全为什么只拦危险指导？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">叙事游戏需要冲突和反派，一刀切会让故事变平；安全线放在现实危害上，题材上保留张力。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么给每局设模型调用上限？"><div class="decision-id">D06</div><h3 class="dq">为什么给每局设模型调用上限？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">防异常循环、控制成本，让一局在可控的调用次数内完成。</p></div></details>
-</div>
-<h3 class="sec"><span class="section-index">07.3</span>分层系统架构</h3>
-<div class="arch layered-arch">
-<div class="arch-row"><div class="arch-col-label">应用编排层</div><div class="layer-nodes">
-<div class="node hl"><div class="nt">主控引擎</div></div>
-<div class="node"><div class="nt">扩写首幕</div></div>
-<div class="node"><div class="nt">生成下一幕</div></div>
-<div class="node"><div class="nt">生成结局</div></div>
-<div class="node"><div class="nt">配图</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">记忆与上下文层</div><div class="layer-nodes">
-<div class="node hl"><div class="nt">结构化记忆（已确认事实 / 关键选择 / 未解悬念 / 伏笔）</div></div>
-<div class="node"><div class="nt">世界元素（角色、地点、分支）</div></div>
-<div class="node"><div class="nt">最近 3 幕窗口</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">知识与资产层</div><div class="layer-nodes">
-<div class="node"><div class="nt">8 个题材 Skill</div></div>
-<div class="node"><div class="nt">世界观模板</div></div>
-<div class="node"><div class="nt">存档</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">质量层</div><div class="layer-nodes">
-<div class="node"><div class="nt">JSON 结构校验</div></div>
-<div class="node"><div class="nt">套路检测与重写</div></div>
-<div class="node"><div class="nt">结局收束检查</div></div>
-<div class="node"><div class="nt">内容安全</div></div>
-</div></div>
-</div>
-<h3 class="sec"><span class="section-index">07.4</span>选型速查表</h3>
-<div class="card panorama-table"><table><thead><tr><th scope="col">维度</th><th scope="col">选择</th></tr></thead><tbody><tr><td>编排</td><td>主控引擎 + 四个分工角色，工具注册表按需调度</td></tr><tr><td>模型</td><td>qwen-plus，结构化 JSON 输出；配图用万相文生图，续幕用参考图保持角色一致</td></tr><tr><td>上下文</td><td>结构化记忆 + 最近 3 幕原文</td></tr><tr><td>知识</td><td>8 个题材 Skill（JSON）</td></tr><tr><td>切块策略（规模化方案）</td><td>一幕摘要一条、一条事实 / 伏笔一条，不按字数切</td></tr><tr><td>检索方式（规模化方案）</td><td>按当前幕意图检索 Top-5 相关事实与伏笔，未回收伏笔优先</td></tr></tbody></table></div>
-<h3 class="sec"><span class="section-index">07.5</span>数据 / 检索链路</h3>
-<div class="card current-plan"><h4>当前方案</h4><p>不建向量库。一局 6 幕规模下，结构化记忆全量注入比相似度检索更稳。离线部分是题材 Skill 和世界观模板；在线部分是每幕生成后写记忆，下一幕读记忆 + 最近 3 幕原文。</p></div>
-<p class="chain-lead">规模化方案（长篇连载 / 跨局续写）</p><div class="grid-2">
-<div class="card"><h4>🧱 离线</h4><ol class="chain-steps"><li><p>每幕生成后，把摘要、事实卡、伏笔卡分别作为独立记录写入向量库（bge-m3 等中文 embedding，pgvector），元数据记局 ID、幕号、类型、回收状态。</p></li></ol></div>
-<div class="card"><h4>🔍 在线</h4><ol class="chain-steps"><li><p>用当前选择 + 下一幕目标构造 query，向量 Top-20 → 元数据过滤（本局 / 前作、未回收优先）→ 重排取 Top-5 注入；关键事实仍走结构化记忆全量注入。</p></li></ol></div>
-</div>
-<h3 class="sec"><span class="section-index">07.6</span>质量治理与评测</h3>
-<div class="grid-3">
-<div class="card "><h4>治理</h4><p>JSON 结构校验与重试；套路黑名单检测与重写；结局收束检查；配图沿用参考图保持角色一致；单局调用上限。</p></div>
-<div class="card "><h4>评测维度</h4><p>剧情连贯、回应脑洞、新意（不落套路）、结局完成、配图与剧情一致。</p></div>
-<div class="card "><h4>方法</h4><p>固定脑洞样例集回归 + 模型评审打分 + 人工抽查。</p></div>
-<div class="card "><h4>指标口径</h4><p>结局完成率、首幕等待时长、自由输入占比、平均游玩幕数、续玩率。</p></div>
-</div>
-<h3 class="sec"><span class="section-index">07.7</span>演进时间线</h3>
-<ol class="avatar-timeline">
-<li><h4>V1</h4><p>一句话生成多幕剧情与配图，跑通剧情生成、配图生成、分支管理三条核心链路。</p></li>
-<li><h4>V2.1</h4><p>发散引擎（题材 Skill + 发散算子 + 套路检测）和 6 幕完整闭环。</p></li>
-<li><h4>V2.2</h4><p>3 / 6 / 9 幕、世界观模板、每日命题等玩法补全，推进中。</p></li>
-</ol>
-<h3 class="sec"><span class="section-index">07.8</span>分工</h3>
-<div class="grid-2 avatar-team"><div class="card pm-card"><p>个人项目。Freya 负责需求拆解、方案设计、Prompt 与输出规范、交互设计、评测设计，完成可运行 MVP 并开源。</p></div></div>
-<div class="product-demo"><a class="portfolio-btn" href="https://github.com/Freya-Qian/Manxiang" target="_blank" rel="noopener noreferrer">漫想 · GitHub ↗</a><a class="demo-media" href="assets/portfolio/manxiang-midnight-whale.png" target="_blank" rel="noopener"><img src="assets/portfolio/manxiang-midnight-whale.png" alt="漫想旧版实际界面：午夜鲸航，星遥与陆照的双人对白场景" loading="lazy" decoding="async" width="1384" height="933" style="aspect-ratio:1384/933"></a><p class="asset-caption">漫想旧版实际界面：「午夜鲸航」双人对白场景，展示人物比例与奇幻车站画风。点击可放大。</p></div>
-</section>
-
-<section class="panel" id="t10">
-<div class="panel-head"><div class="kicker">08 / PRODFORGE AI</div><h2>AI 产品工厂 · 从一句想法到可交接资料包</h2><p>做产品时，从想法到 PRD 最容易出问题的是「结论没有出处」。AI 产品工厂把澄清、竞品证据、定位、PRD、研发任务串成一条可审核的流水线，每条结论都能追到证据卡。</p></div>
-<div class="hero-meta">Owner · Freya（产品负责人）· 个人项目<br>
-栈 · FastAPI + SQLite + Next.js · qwen-plus（OpenAI 兼容接口，可在设置页切换模型）</div>
-<div class="metrics">
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">8 维</div><div class="label">需求澄清（目标用户 / 场景 / 痛点 / 边界 / 成功指标 / 非目标 / 外部数据源 / 领域知识）</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">6 个</div><div class="label">阶段 Agent（澄清 · 摘要 · 证据卡 · 定位 · PRD · 研发任务）</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">≤3 个</div><div class="label">竞品由用户自选</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">6 要素</div><div class="label">证据卡（类型 · 结论 · 启发 · 原文摘录 · 置信度 · 来源链接）</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">4 级</div><div class="label">置信度（已确认 / 合理推断 / 用户补充 / 待核查）</div></div>
-<div class="metric"><span class="metric-src">设计参数</span><div class="num">3 类</div><div class="label">结论章节强制引用证据（产品定位 · 竞品分析 · 版本规划）</div></div>
-</div>
-<h3 class="sec"><span class="section-index">08.1</span>一张图看懂全景</h3>
-<div class="panorama">
-<div class="card panorama-col"><h4>输入</h4><ul><li>一句产品想法；8 维澄清回答；用户选的竞品网址。</li></ul></div>
-<div class="panorama-arrow" aria-hidden="true">→</div>
-<div class="card panorama-col panorama-core"><h4>底座</h4><ul><li>6 个阶段 Agent 固定流水线 + 阶段状态机；证据卡库；引用审计。</li></ul></div>
-<div class="panorama-arrow" aria-hidden="true">→</div>
-<div class="card panorama-col"><h4>输出</h4><ul><li>需求摘要、定位与差异点、PRD、研发任务、可导出资料包；无证据结论清单。</li></ul></div>
-</div>
-<h3 class="sec"><span class="section-index">08.2</span>核心产品决策</h3>
-<div class="grid-2 decision-grid">
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么用固定流水线，不做自由编排？"><div class="decision-id">D01</div><h3 class="dq">为什么用固定流水线，不做自由编排？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">产品文档的阶段有天然依赖：没澄清就写不了摘要，没证据就不该写定位。固定流水线让每一步都能停下来审核。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么用证据卡，不直接上向量知识库？"><div class="decision-id">D02</div><h3 class="dq">为什么用证据卡，不直接上向量知识库？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">竞品最多 3 个，证据几十条以内，按编号整体注入比相似度召回更可控，而且每条结论都能精确指回某一张卡。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么竞品由用户自选，不内置种子竞品？"><div class="decision-id">D03</div><h3 class="dq">为什么竞品由用户自选，不内置种子竞品？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">内置竞品和用户的想法常常不相关，还会把没有出处的描述带进 PRD。把选择权交给用户，模型推荐的竞品一律标「合理推断」。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="为什么做引用审计，不只靠 Prompt 约束？"><div class="decision-id">D04</div><h3 class="dq">为什么做引用审计，不只靠 Prompt 约束？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">Prompt 只能要求，审计才能保证。编号不存在就剔除；结论型章节没有证据就进「无证据结论清单」。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="上游改了怎么办？"><div class="decision-id">D05</div><h3 class="dq">上游改了怎么办？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">上游阶段被修改时，下游产物自动失效、提示重生成，避免旧结论覆盖新决定。</p></div></details>
-<details class="decision expand-card"><summary class="card-summary" aria-label="质量和速度冲突时先保哪个？"><div class="decision-id">D06</div><h3 class="dq">质量和速度冲突时先保哪个？</h3><span class="expand-hint">PM 判断</span></summary><div class="card-details"><p class="da">先保质量：8 维澄清问题要贴合具体想法，生成慢一点可以接受；体验上改为异步任务和进度提示。</p></div></details>
-</div>
-<h3 class="sec"><span class="section-index">08.3</span>分层系统架构</h3>
-<div class="arch layered-arch">
-<div class="arch-row"><div class="arch-col-label">编排层</div><div class="layer-nodes">
-<div class="node hl"><div class="nt">6 阶段流水线</div></div>
-<div class="node"><div class="nt">阶段状态机</div></div>
-<div class="node"><div class="nt">异步任务队列</div></div>
-<div class="node"><div class="nt">下游失效</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">生成层</div><div class="layer-nodes">
-<div class="node"><div class="nt">澄清、摘要、证据卡、竞品推荐、定位、PRD、研发任务，各一套强制 JSON 输出的 Prompt</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">数据层</div><div class="layer-nodes">
-<div class="node"><div class="nt">项目、问答、证据卡、PRD、任务、用量记录（SQLite）</div></div>
-</div></div>
-<div class="arch-row"><div class="arch-col-label">质量层</div><div class="layer-nodes">
-<div class="node hl"><div class="nt">引用审计</div></div>
-<div class="node"><div class="nt">无证据结论清单</div></div>
-<div class="node"><div class="nt">单项目预算护栏</div></div>
-</div></div>
-</div>
-<h3 class="sec"><span class="section-index">08.4</span>选型速查表</h3>
-<div class="card panorama-table"><table><thead><tr><th scope="col">维度</th><th scope="col">选择</th></tr></thead><tbody><tr><td>编排</td><td>固定阶段流水线 + 状态机，没有用通用 Agent 框架</td></tr><tr><td>模型</td><td>qwen-plus，强制 JSON 输出；接口兼容，可热切换</td></tr><tr><td>证据获取</td><td>用户贴网址 → 抓取清洗 → 正文上限 6,000 字 → 生成证据卡</td></tr><tr><td>检索单元</td><td>证据卡（不切网页原文）</td></tr><tr><td>注入方式</td><td>按编号整体注入，输出必须引用编号</td></tr><tr><td>切块策略（规模化方案）</td><td>证据卡一条一存；原始网页按标题层级切 300–500 字，重叠 10–20%</td></tr><tr><td>检索方式（规模化方案）</td><td>需求摘要 + 当前章节作 query，向量 Top-20 → 类型 / 置信度过滤 → 重排取 5–8 张</td></tr></tbody></table></div>
-<h3 class="sec"><span class="section-index">08.5</span>数据 / 检索链路</h3>
-<div class="card current-plan"><h4>当前方案</h4><p>用户自选竞品 → 校验公网地址后抓取 → 清洗导航、脚本、页脚 → 模型抽成结构化证据卡（来源链接必填）→ 存库 → 生成定位和 PRD 时按编号注入 → 引用审计。</p></div>
-<p class="chain-lead">规模化方案（跨项目沉淀竞品知识库）</p><div class="grid-2">
-<div class="card"><h4>🧱 离线</h4><ol class="chain-steps"><li><p>一张证据卡一条记录，embedding 文本为「结论 + 启发 + 原文摘录」，元数据记竞品名、证据类型、置信度、来源、抓取时间；原始网页另存，用于追溯。</p></li></ol></div>
-<div class="card"><h4>🔍 在线</h4><ol class="chain-steps"><li><p>需求摘要 + 当前章节作 query → 向量 Top-20 → 优先「已确认」证据 → 重排取 5–8 张注入 → 仍要求引用编号，审计照旧。</p></li></ol></div>
-</div>
-<div class="card "><h4>评测</h4><p>章节应引用证据的召回率、引用有效率、无证据结论占比。</p></div>
-<h3 class="sec"><span class="section-index">08.6</span>质量治理与评测</h3>
-<div class="grid-3">
-<div class="card "><h4>治理</h4><p>引用编号存在性校验；只保留真实引用；结论章节无证据进清单；置信度分级，用户确认后才升级为「已确认」；预算护栏防异常循环。</p></div>
-<div class="card "><h4>评测</h4><p>固定一组产品想法作为回归集，每次改 Prompt 都重跑；产品经理按 5 个维度给样例打分，判定可接受 / 不可接受。</p></div>
-<div class="card "><h4>指标口径</h4><p>澄清完成率、竞品证据添加率、PRD 生成完成率、资料包导出率、研发任务采纳率、引用有效率。</p></div>
-</div>
-<h3 class="sec"><span class="section-index">08.7</span>演进时间线</h3>
-<ol class="avatar-timeline">
-<li><h4>V0.3</h4><p>PRD 初版与流程设计。</p></li>
-<li><h4>V1.1</h4><p>竞品通用化，改为用户自选 + 证据卡。</p></li>
-<li><h4>M1–M4</h4><p>澄清与摘要 → 竞品证据与定位 → PRD 与研发任务 → 审计、预算护栏与资料包导出。</p></li>
-<li><h4>正式前端</h4><p>Next.js 工作台，配真实界面演示。</p></li>
-</ol>
-<h3 class="sec"><span class="section-index">08.8</span>分工</h3>
-<div class="grid-2 avatar-team"><div class="card pm-card"><p>个人项目。Freya 任产品负责人，负责问题定义、流程与状态机设计、Prompt 与证据规范、评测与验收标准，完成可运行 MVP。</p></div></div>
-<div class="product-demo"><a class="portfolio-btn" href="https://github.com/Freya-Qian/ProdForge-AI" target="_blank" rel="noopener noreferrer">ProdForge AI · GitHub ↗</a><a class="demo-media" href="assets/portfolio/prodforge-demo.gif" target="_blank" rel="noopener"><img src="assets/portfolio/prodforge-demo.gif" alt="ProdForge AI 实际界面：输入想法、创建项目、需求澄清工作台、项目列表和使用指南" loading="lazy" decoding="async" width="960" height="712" style="aspect-ratio:960/712"></a><p class="asset-caption">ProdForge AI 实际界面：从输入想法、创建项目到需求澄清工作台，六个阶段逐步推进。点击可放大。</p></div>
-</section>
-
-<!-- ============ 09 AI 方法论 ============ -->
+<!-- ============ 07 AI 方法论 ============ -->
 <section class="panel" id="t7">
   <div class="panel-head">
-    <div class="kicker">09 / AI PM METHODOLOGY</div>
+    <div class="kicker">07 / AI PM METHODOLOGY</div>
     <h2>AI 产品设计与质量管理方法</h2>
     <p>结合拍题答疑与个人项目实践，从数据、工作流、任务边界和评测四个角度组织产品设计与质量管理。</p>
   </div>
@@ -1210,10 +937,10 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
   </div>
 </section>
 
-<!-- ============ 10 关于我 ============ -->
+<!-- ============ 08 关于我 ============ -->
 <section class="panel" id="t8">
   <div class="panel-head">
-    <div class="kicker">10 / ABOUT</div>
+    <div class="kicker">08 / ABOUT</div>
     <h2>Freya · AI Product Manager</h2>
     <p>6 年 B 端产品经验 + 1.5 年 AI 产品 0-1 全链路。既懂传统产品「需求-设计-交付」方法论，又经历了大模型产品从「能生成」到「可用可控」的落地全过程。</p>
   </div>
@@ -1278,10 +1005,10 @@ function activate(id,scroll=false){
 }
 function go(id){if(location.hash!=='#'+id)history.pushState(null,'','#'+id);activate(id,true)}
 tabs.forEach((btn,index)=>{btn.addEventListener('click',()=>go(btn.dataset.tab));btn.addEventListener('keydown',e=>{let i=index;if(e.key==='ArrowRight')i=(index+1)%tabs.length;else if(e.key==='ArrowLeft')i=(index+tabs.length-1)%tabs.length;else if(e.key==='Home')i=0;else if(e.key==='End')i=tabs.length-1;else return;e.preventDefault();tabs[i].focus({preventScroll:true});go(tabs[i].dataset.tab)})});
-window.addEventListener('hashchange',()=>{if(!location.hash){activate('t1');window.scrollTo({top:0,behavior:'instant'})}else if(panels.some(p=>'#'+p.id===location.hash))activate(location.hash.slice(1),true)});
+window.addEventListener('hashchange',()=>{if(!location.hash){activate('t1');window.scrollTo({top:0,behavior:'instant'})}else if(/^#t[1-8]$/.test(location.hash))activate(location.hash.slice(1),true)});
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 activate(location.hash.slice(1));
-if(panels.some(p=>'#'+p.id===location.hash))requestAnimationFrame(()=>activate(location.hash.slice(1),true));
+if(/^#t[1-8]$/.test(location.hash))requestAnimationFrame(()=>activate(location.hash.slice(1),true));
 else if(!location.hash)requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));
 const cases={answer:{output:'宽 30 cm = 0.3 m，面积为 2 × 0.3 = 0.6 m²。<br>因此，最终答案是 60 m²。',layer:'L4 · 最终答案',reason:'中间计算成立，最终结论与计算结果不一致；不能因步骤正确就判整题正确。',action:'增加最终结论与推导结果、单位的一致性检查，保留同类错题作定向回归。',check:'同类单位换算题最终答案与过程一致；同时检查应答率和时延是否退化。'},ocr:{output:'识别后的题干：长 2 m，宽 30 m。<br>模型根据错误题干计算：2 × 30 = 60 m²。',layer:'L1 · 图像识别',reason:'假设 OCR 把 cm 识别为 m。下游运算在错误题干下成立，根因应追到识别层，而不是只给推理 Agent 调 Prompt。',action:'检查单位字符识别与图文一致性，对低置信单位要求用户确认；本例仅用文字模拟 OCR 错误。',check:'补充多种单位、清晰度与版式的图片测试，核验识别正确率、误拦截率及后续答案。'}};
 document.querySelectorAll('.case-btn').forEach(btn=>btn.addEventListener('click',()=>{const item=cases[btn.dataset.case];document.querySelectorAll('.case-btn').forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-pressed',String(b===btn))});document.getElementById('case-output').innerHTML=item.output;for(const field of ['layer','reason','action','check'])document.getElementById('case-'+field).textContent=item[field]}));
