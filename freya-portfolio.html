@@ -777,35 +777,19 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
       <p class="pdesc">内容团队做一条口播视频要花大半天。1.0 在腾讯内部 AI 黑客松 48 小时内跑通「文章链接 → 口播稿 → 语音 → 照片驱动数字人 → MP4」，把五个技术环节封装成「粘贴链接 → 选形象 → 出片」三步；之后补全为选题、带来源脚本、数字人视频和发布素材包的完整工作台。</p>
       <div class="pmeta">
         <span>48h POC</span><span>实时抓取 + 来源标注</span><span>防编造</span><span>Agent + 评估器闸门</span><span>照片驱动口型</span>
-      </div><span class="expand-hint">1.0 链路与验证短片</span></summary><div class="card-details">
-      <table class="chain">
-        <tr><td>需求场景</td><td>目标用户是内部内容团队；1.0 只解决一件事：贴一条链接，产出一条带来源的口播视频。设计目标为单条 ≤30 分钟、人工操作 ≤5 步。</td></tr>
-        <tr><td>数据与上下文</td><td>不建向量库：用户贴的链接或 RSS 实时抓取，清洗正文后取 6,000 字以内整篇进入上下文；脚本逐条带来源，来源少于 2 个时自动提示「单一来源」。</td></tr>
-        <tr><td>模型与 Prompt</td><td>文字 qwen-plus；配音 CosyVoice-v2；口型驱动即梦 OmniHuman 1.5 为主、万相 wan2.2-s2v 备用。Prompt 硬约束：不编造数字、日期、机构，不写第一人称「实测」，后端规则再兜底扫描。</td></tr>
-        <tr><td>Agent</td><td>自写 Agent 循环：模型每步输出「想法 + 工具 + 参数」，6 个工具（抓取、摘要、选题、事实核查、写脚本、自检），最多 20 步；收尾前强制过独立评估器，不过就带意见重写，最多 2 次。</td></tr>
-        <tr><td>评测</td><td>M1–M4 每个阶段过「离线测试 + 真实冒烟」两道闸门；5 条真实新闻逐条联网核查，首轮 3 条有编造事实，修复后 5 条全部可接受，定为脚本质量基线。</td></tr>
-        <tr><td>交付</td><td>选题 → 脚本（版本/回退）→ 选形象 → 9:16 视频 → 素材包（MP4、封面、标题、简介、SRT、来源清单）；TTS、数字人、风格化失败均有降级，保证始终拿到可用视频。</td></tr>
-        <tr><td>迭代</td><td>看了真实出片后把万相换成即梦（自带字幕和水印关不掉）；口型驱动按官方价约 1 元/秒，是初设成本的 10 倍，决定先用 API 验证需求。1.0 验证成功后立项 2.0。</td></tr>
-      </table>
+      </div><span class="expand-hint">1.0 口型驱动验证短片</span></summary><div class="card-details">
+      
       <video controls preload="none" playsinline src="assets/portfolio/avatar-omnihuman-verify.mp4" aria-label="数字人口型驱动验证短片"></video>
       <p class="asset-caption">M3 阶段真实冒烟产物：真实配音 + 照片，经即梦 OmniHuman 1.5 口型驱动生成的 5.48 秒验证短片。</p>
-      <a class="text-link" href="https://github.com/Freya-Qian/AI-Avatar-Twin-showcase" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+      </div></details>
 
-    <details class="proj expand-card"><summary class="card-summary" aria-label="只言片语 · 数字人 2.0">
+    <article class="proj"><div class="card-summary" aria-label="只言片语 · 数字人 2.0">
       <div class="ptag">数字人 2.0 · AIGC 短片多 Agent 工作流</div>
       <h4>只言片语 · AI 短片创作工作台</h4>
       <p class="pdesc">1.0 验证「内容 → 数字人口播」可行后立项为数字人 2.0，服务内部内容团队：把单点口播升级为覆盖剧本创作、角色设定、分镜规划、参考图生成、视频合成的短片工作台。各环节由分工明确的 Agent 负责，逐阶段确认，单环节可重新生成；角色设定作为锚点贯穿剧本、分镜与参考图。</p>
       <div class="pmeta">
         <span>多 Agent 工作流</span><span>角色一致性锚点</span><span>VLM 质检</span><span>模型可编排</span><span>资产沉淀</span>
-      </div><span class="expand-hint">2.0 链路与质量标准</span></summary><div class="card-details">
-      <table class="chain">
-        <tr><td>需求场景</td><td>内容团队除了口播，还要做剧情类短片；2.0 让创作者在每个环节保留控制权：逐阶段确认，局部不满意只重做该环节。</td></tr>
-        <tr><td>数据与上下文</td><td>每个阶段产出结构化资产，作为下一阶段的输入：剧本 JSON → 角色 4 视图与场景全景图 → 分镜脚本 → 参考图。参考图按角色 / 场景 ID 精确取回设定图作锚点，不靠相似度检索，避免「认错人」。</td></tr>
-        <tr><td>模型与 Prompt</td><td>按环节编排模型：文字 qwen3-max、视觉质检 qwen3.5-plus、图像 wan2.7-image、视频 wan2.7-i2v（首帧模式）。剧本、角色、场景、分镜、风格分别维护 Prompt 模板与风格预设。</td></tr>
-        <tr><td>评测</td><td>剧本看台词与情节；参考图由视觉模型对照分镜打分，≥7/10 且无硬性错误（角色错、站位错、穿模、道具错）才通过；成片按完整度与一致性验收。</td></tr>
-        <tr><td>交付</td><td>剧本生成与参考图阶段已完成产品迭代与前端开发，本地已有作品存档；视频生成与后期链路持续开发中。</td></tr>
-        <tr><td>迭代</td><td>一部 40 段作品中，质检拦下 14 段参考图（3 段弃用、11 段降级使用），归为角色混淆、站位朝向、道具、穿模、场景、景别 6 类，下一轮对复杂多人镜头加站位硬约束；角色 4 视图、场景全景图、分镜脚本与风格预设沉淀为可复用资产。</td></tr>
-      </table></div></details>
+      </div></div></article>
   </div>
 
   <h3 class="sec">独立完成的 AI 产品</h3>
@@ -827,7 +811,7 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
         <tr><td>迭代</td><td>单局模型调用预算 ≤15 次（10 局共 61 次调用）；接入结局语义评估，用模型判断结局是否真正回应脑洞，作为人工样例判定的代理指标。</td></tr>
       </table>
       <a href="assets/portfolio/manxiang-selected-scene.png" target="_blank" rel="noopener"><img src="assets/portfolio/manxiang-selected-scene.png" alt="漫想实际游玩界面：午夜鲸航，星遥与陆照双人对话场景" loading="lazy" width="1384" height="933"></a><p class="asset-caption">项目本地运行的实际界面截图。点击可放大。</p>
-      <a class="text-link" href="https://github.com/Freya-Qian/Manxiang-showcase" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+      </div></details>
 
     <details class="proj expand-card"><summary class="card-summary" aria-label="ProdForge AI · AI 产品孵化工作台">
       <div class="ptag">个人项目 · AI 产品工具</div>
@@ -844,7 +828,7 @@ body.motion-enabled .expand-card[open]>.card-details{animation:portfolio-arrive 
         <tr><td>交付</td><td>本地优先的 Web 单机 MVP：FastAPI + SQLite + Next.js，资料包可导出带走。</td></tr>
         <tr><td>迭代</td><td>token 用量逐任务落库，单项目 10 元预算护栏；8 问生成实测 15–35 秒，超过 ≤15 秒目标，列为下一步体验优化。</td></tr>
       </table>
-      <a class="text-link" href="https://github.com/Freya-Qian/ProdForge-AI-showcase" target="_blank" rel="noopener noreferrer">查看项目源码 ↗</a></div></details>
+      </div></details>
   </div>
 </section>
 
